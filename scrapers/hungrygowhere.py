@@ -1,6 +1,5 @@
 """HungryGoWhere scraper — fetches articles via WordPress AJAX JSON API."""
 
-import os
 import time
 from datetime import datetime
 
@@ -16,6 +15,27 @@ CUISINE_TERMS = [
     "local", "japanese", "korean", "chinese", "italian",
     "desserts", "thai", "indian", "western", "halal",
 ]
+
+# Tags that produce non-Singapore or non-recommendation content
+SKIP_TAGS = {
+    "Travel",       # Non-Singapore content
+    "How to Make",  # Recipe articles, not restaurant recommendations
+    "Johor Bahru",  # Not Singapore
+    "Pizza Hut",    # Brand promotional
+    "GrabMart",     # Delivery promo, not a restaurant
+    "Valentine's Day",   # Dated seasonal deals
+    "Chinese New Year",  # Dated seasonal deals
+    "Ramadan",      # Dated seasonal deals
+}
+
+
+def _is_relevant(title: str, tag: str) -> bool:
+    """Return False for articles that don't belong in a restaurant feed."""
+    if title.startswith("[Closed]"):
+        return False
+    if tag in SKIP_TAGS:
+        return False
+    return True
 
 # How many pages to fetch per cuisine on first run vs incremental
 FIRST_RUN_PAGES = 3
@@ -91,6 +111,9 @@ def scrape(db: dict) -> list[dict]:
                 permalink = p.get("permalink", "")
                 author = p.get("author", "")
                 date_str = _parse_date(p.get("post_date", ""))
+
+                if not _is_relevant(title, tag):
+                    continue
 
                 # Build text from available metadata
                 text_parts = [title]

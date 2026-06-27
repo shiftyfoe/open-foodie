@@ -261,6 +261,27 @@ JS = """
 """
 
 
+_HGW_SKIP_TAGS = {
+    "Travel", "How to Make", "Johor Bahru", "Pizza Hut", "GrabMart",
+    "Valentine's Day", "Chinese New Year", "Ramadan",
+}
+
+
+def _is_relevant(post: dict) -> bool:
+    """Filter out non-restaurant-recommendation content."""
+    title = post.get("source_title", "")
+    if title.startswith("[Closed]"):
+        return False
+    if post.get("source") == "hungrygowhere":
+        text = post.get("text", "")
+        for line in text.splitlines():
+            if line.startswith("Tag:"):
+                tag = line.removeprefix("Tag:").strip()
+                if tag in _HGW_SKIP_TAGS:
+                    return False
+    return True
+
+
 def generate() -> None:
     if not DATA_FILE.exists():
         print("No data/posts.json found — run scraper.py first.")
@@ -272,6 +293,8 @@ def generate() -> None:
     grouped: dict[str, list] = defaultdict(list)
     for post in posts:
         if not post.get("text") and not post.get("has_media"):
+            continue
+        if not _is_relevant(post):
             continue
         dt = datetime.fromisoformat(post["date"])
         key = dt.strftime("%Y-%m")
@@ -304,7 +327,7 @@ def generate() -> None:
     <header class="site-header">
       <h1>🍜 SG Foodie Digest</h1>
       <p>Best food spots from Singapore — Telegram, Burpple & HungryGoWhere, updated daily.</p>
-      <p class="updated">Last updated: {updated} — {len(posts)} posts across {len(grouped)} months</p>
+      <p class="updated">Last updated: {updated} — {sum(len(v) for v in grouped.values())} posts across {len(grouped)} months</p>
     </header>
 
     {empty_msg}
@@ -317,7 +340,8 @@ def generate() -> None:
 
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_FILE.write_text(html)
-    print(f"Generated {OUTPUT_FILE} — {len(posts)} posts across {len(months)} months")
+    displayed = sum(len(v) for v in grouped.values())
+    print(f"Generated {OUTPUT_FILE} — {displayed} posts displayed ({len(posts)} total) across {len(months)} months")
 
 
 if __name__ == "__main__":
