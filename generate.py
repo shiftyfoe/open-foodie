@@ -18,12 +18,14 @@ SOURCE_LABELS = {
     "telegram": "Telegram",
     "burpple": "Burpple",
     "hungrygowhere": "HGW",
+    "instagram": "Instagram",
 }
 
 SOURCE_COLORS = {
     "telegram": "#0088cc",
     "burpple": "#e8490f",
     "hungrygowhere": "#28a745",
+    "instagram": "#E1306C",
 }
 
 

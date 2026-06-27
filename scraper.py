@@ -7,7 +7,7 @@ merges results into data/posts.json.
 """
 
 from scrapers import load_db, save_db
-from scrapers import telegram, hungrygowhere, burpple
+from scrapers import telegram, hungrygowhere, burpple, instagram
 
 
 def main() -> None:
@@ -18,6 +18,7 @@ def main() -> None:
         ("Telegram", telegram),
         ("HungryGoWhere", hungrygowhere),
         ("Burpple", burpple),
+        ("Instagram", instagram),
     ]
 
     for name, scraper in scrapers:
