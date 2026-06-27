@@ -50,7 +50,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/posts.json data/dedup.json docs/index.html
+          git add data/posts.json docs/index.html
+          test -f data/dedup.json && git add data/dedup.json || true
           git diff --staged --quiet && echo "Nothing new to commit" && exit 0
           git commit -m "chore: daily scrape $(date -u +%Y-%m-%d)"
           # Pull with autostash to handle concurrent workflow runs
