@@ -1,4 +1,4 @@
-name: Test gallery-dl with Working Proxies
+name: Test curl_cffi + Proxy Profile Scraping
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  test-gallery-dl:
+  test-scraping:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,14 +20,16 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install requests gallery-dl
+        run: pip install requests curl_cffi
 
-      - name: Find working IG proxies
-        id: proxies
+      - name: Test profile page scraping with proxy
         run: |
           python3 -c "
-          import requests, random, json
+          import requests, json, re, random
+          from curl_cffi import requests as cffi_requests
 
+          # Find working proxy
+          print('=== Finding working IG proxy ===')
           resp = requests.get(
               'https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&proxy_format=protocolipport&format=text&protocol=http&timeout=5000',
               timeout=15
@@ -35,52 +37,101 @@ jobs:
           raw = [l.strip() for l in resp.text.strip().splitlines() if l.strip()]
           random.shuffle(raw)
 
-          ig_working = []
-          for proxy in raw[:200]:  # test up to 200
+          proxy = None
+          for p in raw[:200]:
               try:
                   r = requests.get(
                       'https://www.instagram.com/instagram/',
-                      proxies={'http': proxy, 'https': proxy},
+                      proxies={'http': p, 'https': p},
                       timeout=10,
                       headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'},
                       allow_redirects=True,
                   )
                   if r.status_code == 200 and '/accounts/login' not in r.url:
-                      ig_working.append(proxy)
-                      print(f'✓ {proxy}')
-                      if len(ig_working) >= 3:
-                          break
+                      proxy = p
+                      print(f'✓ Found working proxy: {p}')
+                      break
               except:
                   pass
 
-          print(f'Found {len(ig_working)} working IG proxies')
-          # Write to GITHUB_OUTPUT
-          with open('$GITHUB_OUTPUT', 'a') as f:
-              f.write(f'proxies={json.dumps(ig_working)}')
+          if not proxy:
+              print('✗ No working proxy found')
+              exit(1)
+
+          # Test 1: Fetch profile page with curl_cffi + proxy
+          print()
+          print('=== Test 1: Profile page with curl_cffi + proxy ===')
+          try:
+              resp = cffi_requests.get(
+                  'https://www.instagram.com/danielfooddiary/',
+                  impersonate='chrome',
+                  timeout=15,
+                  proxies={'https': proxy, 'http': proxy},
+                  allow_redirects=True,
+              )
+              print(f'  Status: {resp.status_code}')
+              print(f'  Final URL: {resp.url}')
+              has_login = '/accounts/login' in resp.url
+              print(f'  Redirected to login: {has_login}')
+              print(f'  Body length: {len(resp.text)}')
+
+              if not has_login:
+                  # Try to extract profile data from HTML
+                  # Instagram embeds data in <script type=\"application/ld+json\"> or similar
+                  text = resp.text
+
+                  # Look for edge_owner_to_timeline_media
+                  if 'edge_owner_to_timeline_media' in text:
+                      print('  ✓ Found edge_owner_to_timeline_media!')
+                      # Try to extract JSON data
+                      match = re.search(r'\"edge_owner_to_timeline_media\":\s*(\{.*?\})\s*,\s*\"edge_followed_by\"', text)
+                      if match:
+                          try:
+                              data = json.loads(match.group(1))
+                              edges = data.get('edges', [])
+                              print(f'  Found {len(edges)} posts')
+                              for edge in edges[:3]:
+                                  node = edge.get('node', {})
+                                  caption = node.get('edge_media_to_caption', {}).get('edges', [{}])
+                                  cap_text = caption[0].get('node', {}).get('text', '')[:100] if caption else ''
+                                  print(f'    - {node.get(\"shortcode\", \"?\")} | {cap_text}')
+                          except:
+                              pass
+                  elif '__a=1' in text or 'ProfilePage' in text:
+                      print('  ✓ Found profile page data')
+                  else:
+                      print('  ✗ No profile data in page')
+                      # Show what we got
+                      print(f'  First 500 chars: {text[:500]}')
+              else:
+                  print('  ✗ Redirected to login — proxy not working for profile page')
+          except Exception as e:
+              print(f'  Error: {e}')
+
+          # Test 2: Try the embed endpoint (sometimes works without auth)
+          print()
+          print('=== Test 2: Post embed endpoint ===')
+          try:
+              resp = cffi_requests.get(
+                  'https://www.instagram.com/p/DZ9wTjEhbFk/embed/',
+                  impersonate='chrome',
+                  timeout=15,
+                  proxies={'https': proxy, 'http': proxy},
+                  allow_redirects=True,
+              )
+              print(f'  Status: {resp.status_code}')
+              print(f'  Final URL: {resp.url}')
+              has_login = '/accounts/login' in resp.url
+              print(f'  Redirected to login: {has_login}')
+              print(f'  Body length: {len(resp.text)}')
+              if not has_login and resp.status_code == 200:
+                  # Check for caption data
+                  if 'caption' in resp.text.lower():
+                      print('  ✓ Found caption data in embed!')
+                  else:
+                      print('  ✗ No caption data')
+              else:
+                  print('  ✗ Failed')
+          except Exception as e:
+              print(f'  Error: {e}')
           "
-
-      - name: Test gallery-dl with working proxy
-        run: |
-          echo "=== Testing gallery-dl with proxy ==="
-          PROXIES='${{ steps.proxies.outputs.proxies }}'
-          echo "Working proxies: $PROXIES"
-
-          # Extract first proxy
-          PROXY=$(echo "$PROXIES" | python3 -c "import sys,json; print(json.load(sys.stdin)[0])" 2>/dev/null)
-          echo "Using proxy: $PROXY"
-
-          if [ -z "$PROXY" ]; then
-            echo "No working proxy found, skipping gallery-dl test"
-            exit 0
-          fi
-
-          # Test gallery-dl with proxy
-          echo ""
-          echo "=== gallery-dl with proxy ==="
-          HTTPS_PROXY="$PROXY" HTTP_PROXY="$PROXY" gallery-dl -v -g "https://www.instagram.com/danielfooddiary/reel/DZ9wTjEhbFk/" 2>&1 | tail -20
-          echo "EXIT: $?"
-
-          echo ""
-          echo "=== gallery-dl print metadata ==="
-          HTTPS_PROXY="$PROXY" HTTP_PROXY="$PROXY" gallery-dl --print json -g "https://www.instagram.com/danielfooddiary/reel/DZ9wTjEhbFk/" 2>&1 | head -5
-          echo "EXIT: $?"
