@@ -75,8 +75,8 @@ def _parse_reviews(markdown: str, source_url: str) -> list[dict]:
                 i += 1
                 continue
 
-            # Skip if it's a user avatar image (contains /users/ in URL)
-            if "/users/" in link_url:
+            # Skip user avatar images and user profile links
+            if "/users/" in link_url or "/@" in link_url:
                 i += 1
                 continue
 
@@ -131,12 +131,14 @@ def _parse_reviews(markdown: str, source_url: str) -> list[dict]:
             if review_url_match:
                 review_url = f"https://www.burpple.com/f/{review_url_match.group(2)}"
 
-            # Use venue URL if no review URL found
+            # Use venue URL if no review URL found (skip user profiles)
             if not review_url:
-                if "/venues/" in link_url or "/foods/" in link_url:
+                if "/users/" not in link_url and "/@" not in link_url:
                     review_url = link_url
-                else:
-                    review_url = link_url
+
+            if not review_url:
+                i += 1
+                continue
 
             # Build text content
             text_parts = [restaurant_name]
