@@ -1,4 +1,4 @@
-name: Test curl_cffi Instagram
+name: Test Instagram Proxies Thoroughly
 
 on:
   workflow_dispatch:
@@ -7,106 +7,90 @@ permissions:
   contents: read
 
 jobs:
-  test-curl-cffi:
+  test-proxies:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version: "3.12"
 
-      - name: Install curl_cffi and requests
-        run: pip install curl_cffi requests
+      - name: Install dependencies
+        run: pip install requests curl_cffi
 
-      - name: Test curl_cffi vs requests on Instagram
+      - name: Test ALL proxies against Instagram
         run: |
           python3 -c "
-          import json
-
-          # Test 1: Regular requests (baseline)
-          print('=== Test 1: Regular requests ===')
           import requests
-          try:
-              resp = requests.get(
-                  'https://www.instagram.com/danielfooddiary/',
-                  headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'},
-                  timeout=15,
-                  allow_redirects=True,
-              )
-              print(f'  Status: {resp.status_code}')
-              print(f'  Final URL: {resp.url}')
-              has_login = '/accounts/login' in resp.url
-              print(f'  Redirected to login: {has_login}')
-              print(f'  Body length: {len(resp.text)}')
-              # Check for profile data
-              if 'edge_owner_to_timeline_media' in resp.text:
-                  print('  ✓ Found profile data!')
-              elif 'ProfilePage' in resp.text:
-                  print('  ✓ Found profile page data')
-              else:
-                  print('  ✗ No profile data found')
-          except Exception as e:
-              print(f'  Error: {e}')
+          import random
+
+          # Fetch proxies
+          print('=== Fetching proxies ===')
+          resp = requests.get(
+              'https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&proxy_format=protocolipport&format=text&protocol=http&timeout=5000',
+              timeout=15
+          )
+          raw = [l.strip() for l in resp.text.strip().splitlines() if l.strip()]
+          print(f'Got {len(raw)} raw proxies')
+
+          # Shuffle and test ALL of them
+          proxies = raw[:]
+          random.shuffle(proxies)
+
+          ig_working = []
+          httpbin_working = []
+          tested = 0
+
+          for proxy in proxies:
+              tested += 1
+              p = {'http': proxy, 'https': proxy}
+              headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'}
+
+              # Quick httpbin test
+              try:
+                  r = requests.get('https://httpbin.org/ip', proxies=p, timeout=5)
+                  if r.status_code == 200:
+                      httpbin_working.append(proxy)
+              except:
+                  pass
+
+              # Instagram test
+              try:
+                  r = requests.get(
+                      'https://www.instagram.com/instagram/',
+                      proxies=p,
+                      timeout=10,
+                      headers=headers,
+                      allow_redirects=True,
+                  )
+                  if r.status_code == 200 and '/accounts/login' not in r.url:
+                      ig_working.append(proxy)
+                      print(f'  ✓ IG WORKING: {proxy} (tested {tested}/{len(proxies)})')
+              except:
+                  pass
+
+              # Progress every 50
+              if tested % 50 == 0:
+                  print(f'  ... tested {tested}/{len(proxies)}, IG working: {len(ig_working)}, httpbin working: {len(httpbin_working)}')
+
+              # Early exit if we find enough
+              if len(ig_working) >= 5:
+                  print(f'  Found 5 IG proxies, stopping early')
+                  break
 
           print()
-
-          # Test 2: curl_cffi with Chrome impersonation
-          print('=== Test 2: curl_cffi (Chrome impersonation) ===')
-          from curl_cffi import requests as cffi_requests
-          try:
-              resp = cffi_requests.get(
-                  'https://www.instagram.com/danielfooddiary/',
-                  impersonate='chrome',
-                  timeout=15,
-                  allow_redirects=True,
-              )
-              print(f'  Status: {resp.status_code}')
-              print(f'  Final URL: {resp.url}')
-              has_login = '/accounts/login' in resp.url
-              print(f'  Redirected to login: {has_login}')
-              print(f'  Body length: {len(resp.text)}')
-              if 'edge_owner_to_timeline_media' in resp.text:
-                  print('  ✓ Found profile data!')
-              elif 'ProfilePage' in resp.text:
-                  print('  ✓ Found profile page data')
-              else:
-                  print('  ✗ No profile data found')
-              # Show a snippet of what we got
-              print(f'  First 300 chars: {resp.text[:300]}')
-          except Exception as e:
-              print(f'  Error: {e}')
-
-          print()
-
-          # Test 3: curl_cffi on the API endpoint (what gallery-dl uses)
-          print('=== Test 3: curl_cffi on Instagram API ===')
-          try:
-              resp = cffi_requests.get(
-                  'https://www.instagram.com/api/v1/users/web_profile_info/?username=danielfooddiary',
-                  impersonate='chrome',
-                  timeout=15,
-                  allow_redirects=True,
-                  headers={'X-IG-App-ID': '936619743392459'},
-              )
-              print(f'  Status: {resp.status_code}')
-              print(f'  Final URL: {resp.url}')
-              has_login = '/accounts/login' in resp.url
-              print(f'  Redirected to login: {has_login}')
-              if resp.status_code == 200 and not has_login:
-                  try:
-                      data = resp.json()
-                      user = data.get('data', {}).get('user', {})
-                      if user:
-                          print(f'  ✓ Got user data! Username: {user.get(\"username\")}')
-                          print(f'    Followers: {user.get(\"edge_followed_by\", {}).get(\"count\")}')
-                          print(f'    Posts: {user.get(\"edge_owner_to_timeline_media\", {}).get(\"count\")}')
-                      else:
-                          print('  ✗ No user data in response')
-                  except:
-                      print(f'  Response not JSON: {resp.text[:200]}')
-              else:
-                  print(f'  ✗ Failed: {resp.text[:200]}')
-          except Exception as e:
-              print(f'  Error: {e}')
+          print(f'=== RESULTS ===')
+          print(f'Total tested: {tested}')
+          print(f'httpbin working: {len(httpbin_working)}')
+          print(f'Instagram working: {len(ig_working)}')
+          if ig_working:
+              print(f'Working IG proxies:')
+              for p in ig_working:
+                  print(f'  {p}')
+          else:
+              print('No proxies worked for Instagram')
           "
