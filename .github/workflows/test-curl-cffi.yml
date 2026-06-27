@@ -1,4 +1,4 @@
-name: Test curl_cffi + Proxy Profile Scraping
+name: Test Instagram Embed Scraping
 
 on:
   workflow_dispatch:
@@ -7,131 +7,97 @@ permissions:
   contents: read
 
 jobs:
-  test-scraping:
+  test-embed:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install requests curl_cffi
+        run: pip install curl_cffi requests
 
-      - name: Test profile page scraping with proxy
+      - name: Test embed endpoint data extraction
         run: |
           python3 -c "
-          import requests, json, re, random
+          import json, re
           from curl_cffi import requests as cffi_requests
 
-          # Find working proxy
-          print('=== Finding working IG proxy ===')
-          resp = requests.get(
-              'https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&proxy_format=protocolipport&format=text&protocol=http&timeout=5000',
-              timeout=15
-          )
-          raw = [l.strip() for l in resp.text.strip().splitlines() if l.strip()]
-          random.shuffle(raw)
+          print('=== Testing Instagram Embed Endpoint ===')
+          print()
 
-          proxy = None
-          for p in raw[:200]:
+          # Test multiple post embeds
+          shortcodes = ['DZ9wTjEhbFk']  # danielfooddiary reel
+
+          for shortcode in shortcodes:
+              url = f'https://www.instagram.com/p/{shortcode}/embed/'
+              print(f'--- {shortcode} ---')
               try:
-                  r = requests.get(
-                      'https://www.instagram.com/instagram/',
-                      proxies={'http': p, 'https': p},
-                      timeout=10,
-                      headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'},
+                  resp = cffi_requests.get(
+                      url,
+                      impersonate='chrome',
+                      timeout=15,
                       allow_redirects=True,
                   )
-                  if r.status_code == 200 and '/accounts/login' not in r.url:
-                      proxy = p
-                      print(f'✓ Found working proxy: {p}')
-                      break
-              except:
-                  pass
+                  print(f'  Status: {resp.status_code}')
+                  print(f'  Redirected to login: {\"/accounts/login\" in resp.url}')
+                  print(f'  Body length: {len(resp.text)}')
 
-          if not proxy:
-              print('✗ No working proxy found')
-              exit(1)
+                  if resp.status_code == 200 and '/accounts/login' not in resp.url:
+                      text = resp.text
 
-          # Test 1: Fetch profile page with curl_cffi + proxy
-          print()
-          print('=== Test 1: Profile page with curl_cffi + proxy ===')
-          try:
-              resp = cffi_requests.get(
-                  'https://www.instagram.com/danielfooddiary/',
-                  impersonate='chrome',
-                  timeout=15,
-                  proxies={'https': proxy, 'http': proxy},
-                  allow_redirects=True,
-              )
-              print(f'  Status: {resp.status_code}')
-              print(f'  Final URL: {resp.url}')
-              has_login = '/accounts/login' in resp.url
-              print(f'  Redirected to login: {has_login}')
-              print(f'  Body length: {len(resp.text)}')
+                      # Extract caption from embed HTML
+                      # The embed has a specific structure with data in script tags and meta tags
 
-              if not has_login:
-                  # Try to extract profile data from HTML
-                  # Instagram embeds data in <script type=\"application/ld+json\"> or similar
-                  text = resp.text
+                      # Method 1: Look for caption in the HTML
+                      caption_match = re.search(r'<div class=\"Caption\">.*?<span>(.*?)</span>', text, re.DOTALL)
+                      if caption_match:
+                          caption = re.sub(r'<[^>]+>', '', caption_match.group(1)).strip()
+                          print(f'  Caption: {caption[:200]}')
 
-                  # Look for edge_owner_to_timeline_media
-                  if 'edge_owner_to_timeline_media' in text:
-                      print('  ✓ Found edge_owner_to_timeline_media!')
-                      # Try to extract JSON data
-                      match = re.search(r'\"edge_owner_to_timeline_media\":\s*(\{.*?\})\s*,\s*\"edge_followed_by\"', text)
-                      if match:
+                      # Method 2: Look for JSON-LD or structured data
+                      ld_match = re.search(r'<script type=\"application/ld\+json\">(.*?)</script>', text, re.DOTALL)
+                      if ld_match:
                           try:
-                              data = json.loads(match.group(1))
-                              edges = data.get('edges', [])
-                              print(f'  Found {len(edges)} posts')
-                              for edge in edges[:3]:
-                                  node = edge.get('node', {})
-                                  caption = node.get('edge_media_to_caption', {}).get('edges', [{}])
-                                  cap_text = caption[0].get('node', {}).get('text', '')[:100] if caption else ''
-                                  print(f'    - {node.get(\"shortcode\", \"?\")} | {cap_text}')
+                              ld_data = json.loads(ld_match.group(1))
+                              print(f'  JSON-LD: {json.dumps(ld_data, indent=2)[:500]}')
                           except:
                               pass
-                  elif '__a=1' in text or 'ProfilePage' in text:
-                      print('  ✓ Found profile page data')
-                  else:
-                      print('  ✗ No profile data in page')
-                      # Show what we got
-                      print(f'  First 500 chars: {text[:500]}')
-              else:
-                  print('  ✗ Redirected to login — proxy not working for profile page')
-          except Exception as e:
-              print(f'  Error: {e}')
 
-          # Test 2: Try the embed endpoint (sometimes works without auth)
-          print()
-          print('=== Test 2: Post embed endpoint ===')
-          try:
-              resp = cffi_requests.get(
-                  'https://www.instagram.com/p/DZ9wTjEhbFk/embed/',
-                  impersonate='chrome',
-                  timeout=15,
-                  proxies={'https': proxy, 'http': proxy},
-                  allow_redirects=True,
-              )
-              print(f'  Status: {resp.status_code}')
-              print(f'  Final URL: {resp.url}')
-              has_login = '/accounts/login' in resp.url
-              print(f'  Redirected to login: {has_login}')
-              print(f'  Body length: {len(resp.text)}')
-              if not has_login and resp.status_code == 200:
-                  # Check for caption data
-                  if 'caption' in resp.text.lower():
-                      print('  ✓ Found caption data in embed!')
-                  else:
-                      print('  ✗ No caption data')
-              else:
-                  print('  ✗ Failed')
-          except Exception as e:
-              print(f'  Error: {e}')
+                      # Method 3: Look for embedded JSON data
+                      # Instagram embeds post data in window._sharedData or similar
+                      shared_match = re.search(r'\"caption\":\s*\{\"text\":\s*\"(.*?)\"', text)
+                      if shared_match:
+                          print(f'  Caption from JSON: {shared_match.group(1)[:200]}')
+
+                      # Method 4: Look for any text that looks like a caption
+                      # The embed page has meta tags
+                      meta_desc = re.search(r'<meta property=\"og:description\" content=\"(.*?)\"', text)
+                      if meta_desc:
+                          print(f'  OG Description: {meta_desc.group(1)[:200]}')
+
+                      # Method 5: Look for date/time info
+                      date_match = re.search(r'\"taken_at\":\s*(\d+)', text)
+                      if date_match:
+                          from datetime import datetime, timezone
+                          dt = datetime.fromtimestamp(int(date_match.group(1)), tz=timezone.utc)
+                          print(f'  Date: {dt.isoformat()}')
+
+                      # Method 6: Look for owner/username
+                      owner_match = re.search(r'\"username\":\s*\"([^\"]+)\"', text)
+                      if owner_match:
+                          print(f'  Username: {owner_match.group(1)}')
+
+                      # Show all script content that might have data
+                      scripts = re.findall(r'<script[^>]*>(.*?)</script>', text, re.DOTALL)
+                      for i, script in enumerate(scripts):
+                          if len(script) > 100 and ('caption' in script or 'username' in script or 'shortcode' in script):
+                              print(f'  Script {i} ({len(script)} chars): {script[:300]}...')
+                              break
+
+              except Exception as e:
+                  print(f'  Error: {e}')
+              print()
           "
