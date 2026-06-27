@@ -1,4 +1,4 @@
-name: Test Instagram Proxies Thoroughly
+name: Test gallery-dl with Working Proxies
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  test-proxies:
+  test-gallery-dl:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,77 +20,67 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install requests curl_cffi
+        run: pip install requests gallery-dl
 
-      - name: Test ALL proxies against Instagram
+      - name: Find working IG proxies
+        id: proxies
         run: |
           python3 -c "
-          import requests
-          import random
+          import requests, random, json
 
-          # Fetch proxies
-          print('=== Fetching proxies ===')
           resp = requests.get(
               'https://api.proxyscrape.com/v4/free-proxy-list/get?request=display_proxies&proxy_format=protocolipport&format=text&protocol=http&timeout=5000',
               timeout=15
           )
           raw = [l.strip() for l in resp.text.strip().splitlines() if l.strip()]
-          print(f'Got {len(raw)} raw proxies')
-
-          # Shuffle and test ALL of them
-          proxies = raw[:]
-          random.shuffle(proxies)
+          random.shuffle(raw)
 
           ig_working = []
-          httpbin_working = []
-          tested = 0
-
-          for proxy in proxies:
-              tested += 1
-              p = {'http': proxy, 'https': proxy}
-              headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'}
-
-              # Quick httpbin test
-              try:
-                  r = requests.get('https://httpbin.org/ip', proxies=p, timeout=5)
-                  if r.status_code == 200:
-                      httpbin_working.append(proxy)
-              except:
-                  pass
-
-              # Instagram test
+          for proxy in raw[:200]:  # test up to 200
               try:
                   r = requests.get(
                       'https://www.instagram.com/instagram/',
-                      proxies=p,
+                      proxies={'http': proxy, 'https': proxy},
                       timeout=10,
-                      headers=headers,
+                      headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'},
                       allow_redirects=True,
                   )
                   if r.status_code == 200 and '/accounts/login' not in r.url:
                       ig_working.append(proxy)
-                      print(f'  ✓ IG WORKING: {proxy} (tested {tested}/{len(proxies)})')
+                      print(f'✓ {proxy}')
+                      if len(ig_working) >= 3:
+                          break
               except:
                   pass
 
-              # Progress every 50
-              if tested % 50 == 0:
-                  print(f'  ... tested {tested}/{len(proxies)}, IG working: {len(ig_working)}, httpbin working: {len(httpbin_working)}')
-
-              # Early exit if we find enough
-              if len(ig_working) >= 5:
-                  print(f'  Found 5 IG proxies, stopping early')
-                  break
-
-          print()
-          print(f'=== RESULTS ===')
-          print(f'Total tested: {tested}')
-          print(f'httpbin working: {len(httpbin_working)}')
-          print(f'Instagram working: {len(ig_working)}')
-          if ig_working:
-              print(f'Working IG proxies:')
-              for p in ig_working:
-                  print(f'  {p}')
-          else:
-              print('No proxies worked for Instagram')
+          print(f'Found {len(ig_working)} working IG proxies')
+          # Write to GITHUB_OUTPUT
+          with open('$GITHUB_OUTPUT', 'a') as f:
+              f.write(f'proxies={json.dumps(ig_working)}')
           "
+
+      - name: Test gallery-dl with working proxy
+        run: |
+          echo "=== Testing gallery-dl with proxy ==="
+          PROXIES='${{ steps.proxies.outputs.proxies }}'
+          echo "Working proxies: $PROXIES"
+
+          # Extract first proxy
+          PROXY=$(echo "$PROXIES" | python3 -c "import sys,json; print(json.load(sys.stdin)[0])" 2>/dev/null)
+          echo "Using proxy: $PROXY"
+
+          if [ -z "$PROXY" ]; then
+            echo "No working proxy found, skipping gallery-dl test"
+            exit 0
+          fi
+
+          # Test gallery-dl with proxy
+          echo ""
+          echo "=== gallery-dl with proxy ==="
+          HTTPS_PROXY="$PROXY" HTTP_PROXY="$PROXY" gallery-dl -v -g "https://www.instagram.com/danielfooddiary/reel/DZ9wTjEhbFk/" 2>&1 | tail -20
+          echo "EXIT: $?"
+
+          echo ""
+          echo "=== gallery-dl print metadata ==="
+          HTTPS_PROXY="$PROXY" HTTP_PROXY="$PROXY" gallery-dl --print json -g "https://www.instagram.com/danielfooddiary/reel/DZ9wTjEhbFk/" 2>&1 | head -5
+          echo "EXIT: $?"
