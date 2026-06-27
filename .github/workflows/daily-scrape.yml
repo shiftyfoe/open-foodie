@@ -36,6 +36,11 @@ jobs:
           INITIAL_LIMIT: ${{ github.event.inputs.initial_limit || '100' }}
         run: python scraper.py
 
+      - name: LLM dedup — extract & deduplicate restaurants
+        env:
+          XIAOMI_API_KEY: ${{ secrets.XIAOMI_API_KEY }}
+        run: python dedup.py
+
       - name: Generate static site
         run: python generate.py
 
@@ -43,7 +48,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/posts.json docs/index.html
+          git add data/posts.json data/dedup.json docs/index.html
           git diff --staged --quiet && echo "Nothing new to commit" && exit 0
           git commit -m "chore: daily scrape $(date -u +%Y-%m-%d)"
           git push
