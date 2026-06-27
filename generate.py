@@ -14,6 +14,18 @@ MONTH_NAMES = [
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ]
 
+SOURCE_LABELS = {
+    "telegram": "Telegram",
+    "burpple": "Burpple",
+    "hungrygowhere": "HGW",
+}
+
+SOURCE_COLORS = {
+    "telegram": "#0088cc",
+    "burpple": "#e8490f",
+    "hungrygowhere": "#28a745",
+}
+
 
 def month_label(key: str) -> str:
     year, month = key.split("-")
@@ -40,20 +52,33 @@ def render_post(post: dict) -> str:
     dt = datetime.fromisoformat(post["date"])
     day_str = dt.strftime("%-d %b")
     text = escape(truncate(post["text"])) if post["text"] else ""
-    channel = escape(post["channel"])
-    channel_title = escape(post.get("channel_title", post["channel"]))
-    url = escape(post["telegram_url"])
+    source = post.get("source", "telegram")
+    source_label = SOURCE_LABELS.get(source, source)
+    source_color = SOURCE_COLORS.get(source, "#6b6b6b")
+    source_title = escape(post.get("source_title", source_label))
+    url = escape(post.get("source_url", ""))
     media_badge = '<span class="media-badge">📷</span>' if post.get("has_media") else ""
+
+    # Source-specific link text
+    if source == "telegram":
+        link_text = "View on Telegram →"
+    elif source == "burpple":
+        link_text = "View on Burpple →"
+    elif source == "hungrygowhere":
+        link_text = "View on HGW →"
+    else:
+        link_text = "View source →"
 
     return f"""
     <article class="post-card">
       <div class="post-meta">
-        <a class="channel-tag" href="https://t.me/{channel}" target="_blank" rel="noopener">@{channel_title}</a>
+        <a class="source-tag" href="{url}" target="_blank" rel="noopener" style="background:{source_color}15;color:{source_color}">{source_label}</a>
+        <span class="source-title">{source_title}</span>
         <span class="post-date">{day_str}</span>
         {media_badge}
       </div>
       {"<p class='post-text'>" + text + "</p>" if text else ""}
-      <a class="view-link" href="{url}" target="_blank" rel="noopener">View on Telegram →</a>
+      <a class="view-link" href="{url}" target="_blank" rel="noopener">{link_text}</a>
     </article>"""
 
 
@@ -180,16 +205,15 @@ CSS = """
     gap: 8px;
     flex-wrap: wrap;
   }
-  .channel-tag {
+  .source-tag {
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--accent);
-    background: var(--accent-light);
     padding: 2px 8px;
     border-radius: 100px;
     text-decoration: none;
   }
-  .channel-tag:hover { text-decoration: underline; }
+  .source-tag:hover { text-decoration: underline; }
+  .source-title { font-size: 0.8rem; font-weight: 500; color: var(--text); }
   .post-date { font-size: 0.75rem; color: var(--muted); margin-left: auto; }
   .media-badge { font-size: 0.75rem; }
   .post-text {
@@ -257,28 +281,28 @@ def generate() -> None:
     nav_html = render_nav(months)
     sections_html = "\n".join(render_month_section(m, grouped[m]) for m in months)
 
-    empty_msg = '<p class="empty">No posts scraped yet. Run the scraper to populate this page.</p>' if not months else ""
+    empty_msg = '<p class="empty">No posts scraped yet. Run <code>python scraper.py</code> to populate this page.</p>' if not months else ""
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SG Foodie Digest — Best Spots from Telegram</title>
-  <meta name="description" content="Daily digest of Singapore food recommendations from Telegram foodie channels, grouped by month.">
+  <title>SG Foodie Digest — Best Spots from SG Food Sources</title>
+  <meta name="description" content="Daily digest of Singapore food recommendations from Telegram, Burpple, and HungryGoWhere, grouped by month.">
   <style>{CSS}</style>
 </head>
 <body>
   <aside class="sidebar">
-    <div class="logo">🍜 SG Foodie<span>Telegram Digest</span></div>
+    <div class="logo">🍜 SG Foodie<span>Food Digest</span></div>
     {nav_html}
   </aside>
 
   <main class="main">
     <header class="site-header">
       <h1>🍜 SG Foodie Digest</h1>
-      <p>Best food spots from Singapore Telegram channels, updated daily.</p>
-      <p class="updated">Last updated: {updated} — {len(posts)} posts from {len(grouped)} months</p>
+      <p>Best food spots from Singapore — Telegram, Burpple & HungryGoWhere, updated daily.</p>
+      <p class="updated">Last updated: {updated} — {len(posts)} posts across {len(grouped)} months</p>
     </header>
 
     {empty_msg}

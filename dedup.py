@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-LLM-powered restaurant deduplication across Telegram foodie channels.
+LLM-powered restaurant deduplication across all food data sources.
 
-Reads data/posts.json, uses Xiaomi MiMo API (OpenAI-compatible) to extract
-restaurant mentions, deduplicates by normalized name, and outputs data/dedup.json
-with restaurants ranked by mention count.
+Reads data/posts.json (Telegram, HungryGoWhere, Burpple), uses Xiaomi MiMo API
+(OpenAI-compatible) to extract restaurant mentions, deduplicates by normalized
+name, and outputs data/dedup.json with restaurants ranked by mention count.
 """
 
 import json
@@ -26,7 +26,7 @@ MIMO_MODEL = "mimo-v2.5"
 BATCH_SIZE = 10
 
 SYSTEM_PROMPT = """\
-You are a Singapore foodie expert. Extract restaurant mentions from Telegram posts.
+You are a Singapore foodie expert. Extract restaurant mentions from food posts, reviews, and articles.
 
 For each post, identify all restaurant/food stall/café mentions. Return a JSON array of objects:
 [
@@ -47,6 +47,7 @@ Rules:
 - price_range: "$", "$$", "$$$", "$$$$", or "unknown"
 - Return ONLY valid JSON, no markdown fences, no commentary
 - Be precise: "328 Katong Laksa" is a restaurant, "laksa" alone is not
+- Sources may be Telegram posts, Burpple reviews, or HungryGoWhere articles
 """
 
 
@@ -62,7 +63,9 @@ def build_user_prompt(posts: list[dict]) -> str:
     """Format posts for the LLM prompt."""
     lines = []
     for i, post in enumerate(posts, 1):
-        lines.append(f"--- Post {i} (channel: @{post['channel']}, date: {post['date']}) ---")
+        source = post.get("source", "unknown")
+        source_title = post.get("source_title", post.get("channel", ""))
+        lines.append(f"--- Post {i} (source: {source}, title: {source_title}, date: {post['date']}) ---")
         lines.append(post["text"][:1500])  # cap length to stay within context
         lines.append("")
     return "\n".join(lines)
@@ -115,8 +118,8 @@ def normalize_name(name: str) -> str:
 
 
 def deduplicate(all_extractions: list[dict], posts: list[dict]) -> dict:
-    """Group extractions by normalized name, merge cross-channel mentions."""
-    post_map = {(p["channel"], p["id"]): p for p in posts}
+    """Group extractions by normalized name, merge cross-source mentions."""
+    post_map = {p["id"]: p for p in posts}
 
     # Group by normalized name
     groups: dict[str, list[dict]] = {}
@@ -130,25 +133,26 @@ def deduplicate(all_extractions: list[dict], posts: list[dict]) -> dict:
     for norm_name, exts in groups.items():
         # Merge: pick the most detailed name (longest original)
         best = max(exts, key=lambda e: len(e["name"]))
-        channels = list({e.get("_channel", "") for e in exts if e.get("_channel")})
+        sources = list({e.get("_source", "") for e in exts if e.get("_source")})
         source_posts = []
         for ext in exts:
             post_ref = ext.get("_post_ref")
             if post_ref and post_ref in post_map:
                 p = post_map[post_ref]
                 source_posts.append({
-                    "channel": p["channel"],
-                    "telegram_url": p["telegram_url"],
+                    "source": p.get("source", "unknown"),
+                    "source_url": p.get("source_url", ""),
+                    "source_title": p.get("source_title", ""),
                     "date": p["date"],
                     "excerpt": ext.get("excerpt", "")[:200],
                 })
 
-        # Dedupe source posts by telegram_url
+        # Dedupe source posts by source_url
         seen_urls = set()
         unique_sources = []
         for sp in source_posts:
-            if sp["telegram_url"] not in seen_urls:
-                seen_urls.add(sp["telegram_url"])
+            if sp["source_url"] not in seen_urls:
+                seen_urls.add(sp["source_url"])
                 unique_sources.append(sp)
 
         # Sort by date descending
@@ -161,7 +165,7 @@ def deduplicate(all_extractions: list[dict], posts: list[dict]) -> dict:
             "location": best.get("location", ""),
             "price_range": best.get("price_range", "unknown"),
             "mention_count": len(unique_sources),
-            "channels": channels,
+            "sources": sources,
             "sentiment": best.get("sentiment", "neutral"),
             "latest_date": unique_sources[0]["date"] if unique_sources else "",
             "source_posts": unique_sources,
@@ -200,11 +204,13 @@ def main() -> None:
         # Tag each extraction with source post info for dedup
         for ext in extractions:
             # Find which post this excerpt came from (approximate)
-            ext["_channel"] = batch[0]["channel"]  # fallback
+            ext["_source"] = batch[0].get("source", "unknown")
+            ext["_source_title"] = batch[0].get("source_title", "")
             for post in batch:
                 if ext.get("excerpt", "") and ext["excerpt"][:30] in post["text"]:
-                    ext["_channel"] = post["channel"]
-                    ext["_post_ref"] = (post["channel"], post["id"])
+                    ext["_source"] = post.get("source", "unknown")
+                    ext["_source_title"] = post.get("source_title", "")
+                    ext["_post_ref"] = post["id"]  # unified post ID
                     break
 
         all_extractions.extend(extractions)
