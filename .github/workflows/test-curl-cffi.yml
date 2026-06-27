@@ -1,0 +1,112 @@
+name: Test curl_cffi Instagram
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-curl-cffi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Install curl_cffi
+        run: pip install curl_cffi
+
+      - name: Test curl_cffi vs requests on Instagram
+        run: |
+          python3 -c "
+          import json
+
+          # Test 1: Regular requests (baseline)
+          print('=== Test 1: Regular requests ===')
+          import requests
+          try:
+              resp = requests.get(
+                  'https://www.instagram.com/danielfooddiary/',
+                  headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'},
+                  timeout=15,
+                  allow_redirects=True,
+              )
+              print(f'  Status: {resp.status_code}')
+              print(f'  Final URL: {resp.url}')
+              has_login = '/accounts/login' in resp.url
+              print(f'  Redirected to login: {has_login}')
+              print(f'  Body length: {len(resp.text)}')
+              # Check for profile data
+              if 'edge_owner_to_timeline_media' in resp.text:
+                  print('  ✓ Found profile data!')
+              elif 'ProfilePage' in resp.text:
+                  print('  ✓ Found profile page data')
+              else:
+                  print('  ✗ No profile data found')
+          except Exception as e:
+              print(f'  Error: {e}')
+
+          print()
+
+          # Test 2: curl_cffi with Chrome impersonation
+          print('=== Test 2: curl_cffi (Chrome impersonation) ===')
+          from curl_cffi import requests as cffi_requests
+          try:
+              resp = cffi_requests.get(
+                  'https://www.instagram.com/danielfooddiary/',
+                  impersonate='chrome',
+                  timeout=15,
+                  allow_redirects=True,
+              )
+              print(f'  Status: {resp.status_code}')
+              print(f'  Final URL: {resp.url}')
+              has_login = '/accounts/login' in resp.url
+              print(f'  Redirected to login: {has_login}')
+              print(f'  Body length: {len(resp.text)}')
+              if 'edge_owner_to_timeline_media' in resp.text:
+                  print('  ✓ Found profile data!')
+              elif 'ProfilePage' in resp.text:
+                  print('  ✓ Found profile page data')
+              else:
+                  print('  ✗ No profile data found')
+              # Show a snippet of what we got
+              print(f'  First 300 chars: {resp.text[:300]}')
+          except Exception as e:
+              print(f'  Error: {e}')
+
+          print()
+
+          # Test 3: curl_cffi on the API endpoint (what gallery-dl uses)
+          print('=== Test 3: curl_cffi on Instagram API ===')
+          try:
+              resp = cffi_requests.get(
+                  'https://www.instagram.com/api/v1/users/web_profile_info/?username=danielfooddiary',
+                  impersonate='chrome',
+                  timeout=15,
+                  allow_redirects=True,
+                  headers={'X-IG-App-ID': '936619743392459'},
+              )
+              print(f'  Status: {resp.status_code}')
+              print(f'  Final URL: {resp.url}')
+              has_login = '/accounts/login' in resp.url
+              print(f'  Redirected to login: {has_login}')
+              if resp.status_code == 200 and not has_login:
+                  try:
+                      data = resp.json()
+                      user = data.get('data', {}).get('user', {})
+                      if user:
+                          print(f'  ✓ Got user data! Username: {user.get(\"username\")}')
+                          print(f'    Followers: {user.get(\"edge_followed_by\", {}).get(\"count\")}')
+                          print(f'    Posts: {user.get(\"edge_owner_to_timeline_media\", {}).get(\"count\")}')
+                      else:
+                          print('  ✗ No user data in response')
+                  except:
+                      print(f'  Response not JSON: {resp.text[:200]}')
+              else:
+                  print(f'  ✗ Failed: {resp.text[:200]}')
+          except Exception as e:
+              print(f'  Error: {e}')
+          "
