@@ -1,0 +1,44 @@
+name: Test gallery-dl Instagram
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: "Instagram username to test"
+        required: false
+        default: "danielfooddiary"
+
+permissions:
+  contents: read
+
+jobs:
+  test-instagram:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Install gallery-dl
+        run: pip install gallery-dl
+
+      - name: Test without login — fetch profile metadata
+        run: |
+          echo "=== Testing gallery-dl WITHOUT login ==="
+          gallery-dl --version
+          echo ""
+
+          # Just print URLs, don't download files
+          echo "Fetching post URLs from profile: ${{ github.event.inputs.username }}"
+          gallery-dl -g "https://www.instagram.com/${{ github.event.inputs.username }}/" 2>&1 || true
+
+      - name: Test without login — get info as JSON
+        run: |
+          echo "=== Testing JSON output ==="
+          # Use --print to get structured data without downloading
+          gallery-dl --print json -g "https://www.instagram.com/${{ github.event.inputs.username }}/" 2>&1 | head -20 || true
