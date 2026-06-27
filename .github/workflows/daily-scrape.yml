@@ -41,7 +41,7 @@ jobs:
       - name: LLM dedup — extract & deduplicate restaurants
         env:
           XIAOMI_API_KEY: ${{ secrets.XIAOMI_API_KEY }}
-        run: python dedup.py
+        run: python dedup.py || echo "⚠ Dedup failed (LLM issue), continuing..."
 
       - name: Generate static site
         run: python generate.py
