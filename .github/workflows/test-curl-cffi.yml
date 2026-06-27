@@ -1,4 +1,4 @@
-name: Test Instagram Embed Scraping
+name: Test Playwright Instagram Embed
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  test-embed:
+  test-playwright:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,88 +16,85 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
-        run: pip install curl_cffi requests
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          playwright install chromium --with-deps
 
-      - name: Test embed endpoint data extraction
+      - name: Scrape Instagram embed with Playwright
         run: |
           python3 -c "
-          import json, re
-          from curl_cffi import requests as cffi_requests
+          import json
+          from playwright.sync_api import sync_playwright
 
-          print('=== Testing Instagram Embed Endpoint ===')
-          print()
+          print('=== Playwright Instagram Embed Test ===')
 
-          # Test multiple post embeds
-          shortcodes = ['DZ9wTjEhbFk']  # danielfooddiary reel
+          with sync_playwright() as p:
+              browser = p.chromium.launch(headless=True)
+              page = browser.new_page()
 
-          for shortcode in shortcodes:
-              url = f'https://www.instagram.com/p/{shortcode}/embed/'
-              print(f'--- {shortcode} ---')
+              # Navigate to embed page
+              print('Loading embed page...')
+              page.goto('https://www.instagram.com/p/DZ9wTjEhbFk/embed/', wait_until='networkidle', timeout=30000)
+
+              # Wait for content to load
+              page.wait_for_timeout(3000)
+
+              # Get the page content after JS execution
+              content = page.content()
+              print(f'Page length: {len(content)}')
+
+              # Try to extract post data
+              # Look for caption text
               try:
-                  resp = cffi_requests.get(
-                      url,
-                      impersonate='chrome',
-                      timeout=15,
-                      allow_redirects=True,
-                  )
-                  print(f'  Status: {resp.status_code}')
-                  print(f'  Redirected to login: {\"/accounts/login\" in resp.url}')
-                  print(f'  Body length: {len(resp.text)}')
-
-                  if resp.status_code == 200 and '/accounts/login' not in resp.url:
-                      text = resp.text
-
-                      # Extract caption from embed HTML
-                      # The embed has a specific structure with data in script tags and meta tags
-
-                      # Method 1: Look for caption in the HTML
-                      caption_match = re.search(r'<div class=\"Caption\">.*?<span>(.*?)</span>', text, re.DOTALL)
-                      if caption_match:
-                          caption = re.sub(r'<[^>]+>', '', caption_match.group(1)).strip()
-                          print(f'  Caption: {caption[:200]}')
-
-                      # Method 2: Look for JSON-LD or structured data
-                      ld_match = re.search(r'<script type=\"application/ld\+json\">(.*?)</script>', text, re.DOTALL)
-                      if ld_match:
-                          try:
-                              ld_data = json.loads(ld_match.group(1))
-                              print(f'  JSON-LD: {json.dumps(ld_data, indent=2)[:500]}')
-                          except:
-                              pass
-
-                      # Method 3: Look for embedded JSON data
-                      # Instagram embeds post data in window._sharedData or similar
-                      shared_match = re.search(r'\"caption\":\s*\{\"text\":\s*\"(.*?)\"', text)
-                      if shared_match:
-                          print(f'  Caption from JSON: {shared_match.group(1)[:200]}')
-
-                      # Method 4: Look for any text that looks like a caption
-                      # The embed page has meta tags
-                      meta_desc = re.search(r'<meta property=\"og:description\" content=\"(.*?)\"', text)
-                      if meta_desc:
-                          print(f'  OG Description: {meta_desc.group(1)[:200]}')
-
-                      # Method 5: Look for date/time info
-                      date_match = re.search(r'\"taken_at\":\s*(\d+)', text)
-                      if date_match:
-                          from datetime import datetime, timezone
-                          dt = datetime.fromtimestamp(int(date_match.group(1)), tz=timezone.utc)
-                          print(f'  Date: {dt.isoformat()}')
-
-                      # Method 6: Look for owner/username
-                      owner_match = re.search(r'\"username\":\s*\"([^\"]+)\"', text)
-                      if owner_match:
-                          print(f'  Username: {owner_match.group(1)}')
-
-                      # Show all script content that might have data
-                      scripts = re.findall(r'<script[^>]*>(.*?)</script>', text, re.DOTALL)
-                      for i, script in enumerate(scripts):
-                          if len(script) > 100 and ('caption' in script or 'username' in script or 'shortcode' in script):
-                              print(f'  Script {i} ({len(script)} chars): {script[:300]}...')
-                              break
-
+                  # The embed renders the caption in a specific element
+                  caption_el = page.query_selector('.Caption, [class*=Caption], .CaptionContent, span[class*=caption]')
+                  if caption_el:
+                      print(f'Caption element: {caption_el.inner_text()[:200]}')
               except Exception as e:
-                  print(f'  Error: {e}')
-              print()
+                  print(f'Caption selector failed: {e}')
+
+              # Try to get all visible text
+              try:
+                  body_text = page.inner_text('body')
+                  print(f'\\nBody text ({len(body_text)} chars):')
+                  # Print meaningful lines
+                  for line in body_text.split('\\n'):
+                      line = line.strip()
+                      if len(line) > 10 and not line.startswith('{'):
+                          print(f'  {line[:200]}')
+              except Exception as e:
+                  print(f'Body text failed: {e}')
+
+              # Try to extract from the rendered DOM
+              try:
+                  # Get all text content
+                  all_text = page.evaluate('''() => {
+                      const walker = document.createTreeWalker(
+                          document.body,
+                          NodeFilter.SHOW_TEXT,
+                          null,
+                          false
+                      );
+                      const texts = [];
+                      let node;
+                      while (node = walker.nextNode()) {
+                          const text = node.textContent.trim();
+                          if (text.length > 5) {
+                              texts.push(text);
+                          }
+                      }
+                      return texts;
+                  }''')
+                  print(f'\\nAll text nodes ({len(all_text)}):')
+                  for t in all_text[:30]:
+                      print(f'  {t[:200]}')
+              except Exception as e:
+                  print(f'Text extraction failed: {e}')
+
+              # Screenshot for debugging
+              page.screenshot(path='/tmp/ig_embed.png')
+              print('\\nScreenshot saved to /tmp/ig_embed.png')
+
+              browser.close()
           "
