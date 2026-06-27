@@ -16,8 +16,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install curl_cffi
-        run: pip install curl_cffi
+      - name: Install curl_cffi and requests
+        run: pip install curl_cffi requests
 
       - name: Test curl_cffi vs requests on Instagram
         run: |
