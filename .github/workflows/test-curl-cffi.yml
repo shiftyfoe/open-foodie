@@ -26,10 +26,11 @@ jobs:
         run: |
           python3 -c "
           from scrapers.instagram import _get_recent_posts, _get_post_details
-          import json
+          import time
 
-          # Test 1: Get recent posts
+          # Test 1: Get recent posts (with delay to avoid rate limit)
           print('=== Test 1: Get recent posts from @danielfooddiary ===')
+          time.sleep(5)  # Wait before first request
           posts = _get_recent_posts('danielfooddiary')
           print(f'Found {len(posts)} posts')
           for p in posts[:3]:
@@ -39,6 +40,7 @@ jobs:
               # Test 2: Get post details
               sc = posts[0]['shortcode']
               print(f'\\n=== Test 2: Get details for {sc} ===')
+              time.sleep(3)
               details = _get_post_details(sc)
               if details:
                   print(f'  Caption: {details.get(\"caption\", \"\")[:200]}')
@@ -49,9 +51,11 @@ jobs:
               else:
                   print('  ✗ Failed to get details')
 
-          # Test 3: Full scrape
-          print('\\n=== Test 3: Full scrape ===')
-          from scrapers.instagram import scrape
+          # Test 3: Full scrape (just 1 account to avoid rate limits)
+          print('\\n=== Test 3: Full scrape (1 account) ===')
+          from scrapers.instagram import scrape, ACCOUNTS
+          import scrapers.instagram as ig_mod
+          ig_mod.ACCOUNTS = ['danielfooddiary']  # Just 1 account
           db = {'posts': [], 'last_scraped': {}}
           new_posts = scrape(db)
           print(f'\\nTotal new posts: {len(new_posts)}')

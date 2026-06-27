@@ -45,14 +45,20 @@ ACCOUNTS = [
 IG_DELAY = 5
 
 
-def _get_recent_posts(username: str) -> list[dict]:
+def _get_recent_posts(username: str, retries: int = 3) -> list[dict]:
     """Fetch recent post shortcodes and captions from profile API."""
     url = f"https://www.instagram.com/api/v1/users/web_profile_info/?username={username}"
-    try:
-        resp = requests.get(url, headers=_IG_API_HEADERS, timeout=15)
-        if resp.status_code != 200:
-            print(f"    ✗ Profile API returned {resp.status_code}")
-            return []
+    for attempt in range(retries):
+        try:
+            resp = requests.get(url, headers=_IG_API_HEADERS, timeout=15)
+            if resp.status_code == 429:
+                wait = 30 * (attempt + 1)
+                print(f"    ⚠ Rate limited, waiting {wait}s...")
+                time.sleep(wait)
+                continue
+            if resp.status_code != 200:
+                print(f"    ✗ Profile API returned {resp.status_code}")
+                return []
 
         data = resp.json()
         user = data.get("data", {}).get("user", {})
@@ -95,6 +101,7 @@ def _get_recent_posts(username: str) -> list[dict]:
     except Exception as exc:
         print(f"    ✗ Profile API error: {exc}")
         return []
+    return []
 
 
 def _get_post_details(shortcode: str) -> dict | None:
