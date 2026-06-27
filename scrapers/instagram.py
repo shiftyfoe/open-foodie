@@ -60,47 +60,47 @@ def _get_recent_posts(username: str, retries: int = 3) -> list[dict]:
                 print(f"    ✗ Profile API returned {resp.status_code}")
                 return []
 
-        data = resp.json()
-        user = data.get("data", {}).get("user", {})
-        if not user:
-            print(f"    ✗ No user data in response")
+            data = resp.json()
+            user = data.get("data", {}).get("user", {})
+            if not user:
+                print(f"    ✗ No user data in response")
+                return []
+
+            timeline = user.get("edge_owner_to_timeline_media", {})
+            edges = timeline.get("edges", [])
+
+            posts = []
+            for edge in edges:
+                node = edge.get("node", {})
+                shortcode = node.get("shortcode", "")
+                caption_edges = node.get("edge_media_to_caption", {}).get("edges", [])
+                caption = ""
+                if caption_edges:
+                    caption = caption_edges[0].get("node", {}).get("text", "")
+
+                timestamp = node.get("taken_at", 0)
+                if isinstance(timestamp, (int, float)) and timestamp > 0:
+                    dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+                    date = dt.isoformat()
+                else:
+                    date = datetime.now(timezone.utc).isoformat()
+
+                posts.append({
+                    "shortcode": shortcode,
+                    "caption": caption,
+                    "date": date,
+                    "is_video": node.get("is_video", False),
+                    "likes": node.get("edge_liked_by", {}).get("count", 0),
+                    "comments": node.get("edge_media_to_comment", {}).get("count", 0),
+                    "thumbnail": node.get("thumbnail_src", ""),
+                    "username": username,
+                })
+
+            return posts
+
+        except Exception as exc:
+            print(f"    ✗ Profile API error: {exc}")
             return []
-
-        timeline = user.get("edge_owner_to_timeline_media", {})
-        edges = timeline.get("edges", [])
-
-        posts = []
-        for edge in edges:
-            node = edge.get("node", {})
-            shortcode = node.get("shortcode", "")
-            caption_edges = node.get("edge_media_to_caption", {}).get("edges", [])
-            caption = ""
-            if caption_edges:
-                caption = caption_edges[0].get("node", {}).get("text", "")
-
-            timestamp = node.get("taken_at", 0)
-            if isinstance(timestamp, (int, float)) and timestamp > 0:
-                dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
-                date = dt.isoformat()
-            else:
-                date = datetime.now(timezone.utc).isoformat()
-
-            posts.append({
-                "shortcode": shortcode,
-                "caption": caption,
-                "date": date,
-                "is_video": node.get("is_video", False),
-                "likes": node.get("edge_liked_by", {}).get("count", 0),
-                "comments": node.get("edge_media_to_comment", {}).get("count", 0),
-                "thumbnail": node.get("thumbnail_src", ""),
-                "username": username,
-            })
-
-        return posts
-
-    except Exception as exc:
-        print(f"    ✗ Profile API error: {exc}")
-        return []
     return []
 
 
