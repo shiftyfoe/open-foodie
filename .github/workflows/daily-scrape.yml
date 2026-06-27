@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       initial_limit:
-        description: "Posts to fetch per channel on first run (default 300)"
+        description: "Posts to fetch per channel on first run (default 100)"
         required: false
-        default: "300"
+        default: "100"
 
 permissions:
   contents: write
@@ -33,10 +33,7 @@ jobs:
 
       - name: Scrape channels
         env:
-          TG_API_ID: ${{ secrets.TG_API_ID }}
-          TG_API_HASH: ${{ secrets.TG_API_HASH }}
-          TG_SESSION: ${{ secrets.TG_SESSION }}
-          INITIAL_LIMIT: ${{ github.event.inputs.initial_limit || '300' }}
+          INITIAL_LIMIT: ${{ github.event.inputs.initial_limit || '100' }}
         run: python scraper.py
 
       - name: Generate static site
@@ -47,6 +44,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/posts.json docs/index.html
-          git diff --staged --quiet && echo "Nothing to commit" && exit 0
+          git diff --staged --quiet && echo "Nothing new to commit" && exit 0
           git commit -m "chore: daily scrape $(date -u +%Y-%m-%d)"
           git push

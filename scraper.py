@@ -1,19 +1,29 @@
 #!/usr/bin/env python3
-"""Scrape Singapore foodie Telegram channels and append to data/posts.json."""
+"""
+Scrape public Singapore foodie Telegram channels via t.me/s/<channel>.
+No API key or authentication required — only works for public channels.
+"""
 
-import asyncio
 import json
-import os
-import sys
+import time
 from pathlib import Path
+from typing import Optional
 
-from telethon import TelegramClient
-from telethon.sessions import StringSession
+import requests
+from bs4 import BeautifulSoup
 
 DATA_FILE = Path("data/posts.json")
 CHANNELS_FILE = Path("channels.json")
-# Posts to fetch on first run per channel; subsequent runs use min_id (only new)
-INITIAL_LIMIT = int(os.environ.get("INITIAL_LIMIT", "300"))
+
+# Posts to fetch per channel on the very first run (each page ~= 20 posts)
+INITIAL_LIMIT = int(__import__("os").environ.get("INITIAL_LIMIT", "100"))
+# Seconds between HTTP requests — be polite
+REQUEST_DELAY = 1.5
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (compatible; SG-Foodie-Bot/1.0; +https://github.com)",
+    "Accept-Language": "en-US,en;q=0.9",
+}
 
 
 def load_db() -> dict:
@@ -28,63 +38,127 @@ def save_db(db: dict) -> None:
     DATA_FILE.write_text(json.dumps(db, indent=2, ensure_ascii=False))
 
 
-async def scrape_channel(client, username: str, db: dict) -> int:
-    entity = await client.get_entity(username)
-    title = getattr(entity, "title", username)
-    min_id = db["last_scraped"].get(username, 0)
-    existing = {p["id"] for p in db["posts"] if p["channel"] == username}
+def fetch_page(username: str, before_id: Optional[int] = None) -> Optional[BeautifulSoup]:
+    url = f"https://t.me/s/{username}"
+    params = {"before": before_id} if before_id else {}
+    try:
+        resp = requests.get(url, params=params, headers=HEADERS, timeout=15)
+        if resp.status_code == 200:
+            return BeautifulSoup(resp.text, "html.parser")
+        print(f"  HTTP {resp.status_code}")
+    except requests.RequestException as exc:
+        print(f"  Request error: {exc}")
+    return None
 
-    limit = INITIAL_LIMIT if min_id == 0 else None  # None = fetch until min_id
-    new_posts = []
 
-    async for msg in client.iter_messages(entity, min_id=min_id, limit=limit):
-        if msg.id in existing:
+def parse_channel_title(soup: BeautifulSoup) -> str:
+    el = soup.select_one(".tgme_channel_info_header_title span")
+    return el.get_text(strip=True) if el else ""
+
+
+def parse_messages(soup: BeautifulSoup, username: str, channel_title: str) -> list[dict]:
+    posts = []
+    for msg in soup.select(".tgme_widget_message"):
+        post_attr = msg.get("data-post", "")
+        if "/" not in post_attr:
             continue
-        text = msg.text or ""
-        has_media = msg.media is not None
+        try:
+            msg_id = int(post_attr.split("/")[1])
+        except ValueError:
+            continue
+
+        text_el = msg.select_one(".tgme_widget_message_text")
+        time_el = msg.select_one(".tgme_widget_message_date time")
+        has_media = bool(
+            msg.select_one(
+                ".tgme_widget_message_photo_wrap,"
+                ".tgme_widget_message_video_wrap,"
+                ".tgme_widget_message_document_wrap"
+            )
+        )
+
+        text = text_el.get_text("\n", strip=True) if text_el else ""
+        date_str = time_el.get("datetime", "") if time_el else ""
+
         if not text and not has_media:
             continue
-        new_posts.append({
-            "id": msg.id,
+
+        posts.append({
+            "id": msg_id,
             "channel": username,
-            "channel_title": title,
-            "date": msg.date.isoformat(),
+            "channel_title": channel_title or username,
+            "date": date_str,
             "text": text,
             "has_media": has_media,
-            "telegram_url": f"https://t.me/{username}/{msg.id}",
+            "telegram_url": f"https://t.me/{username}/{msg_id}",
         })
-
-    if new_posts:
-        db["posts"].extend(new_posts)
-        db["last_scraped"][username] = max(p["id"] for p in new_posts)
-
-    return len(new_posts)
+    return posts
 
 
-async def main() -> None:
-    api_id_raw = os.environ.get("TG_API_ID", "")
-    api_hash = os.environ.get("TG_API_HASH", "")
-    session_str = os.environ.get("TG_SESSION", "")
+def scrape_channel(username: str, min_id: int, limit: int) -> list[dict]:
+    """Fetch posts newer than min_id, up to limit total posts."""
+    all_posts: list[dict] = []
+    before_id: Optional[int] = None
+    channel_title = ""
+    first_page = True
 
-    if not api_id_raw or not api_hash:
-        sys.exit("ERROR: TG_API_ID and TG_API_HASH must be set. See README.md.")
+    while True:
+        soup = fetch_page(username, before_id)
+        if not soup:
+            break
 
-    api_id = int(api_id_raw)
+        if first_page:
+            channel_title = parse_channel_title(soup)
+            first_page = False
+
+        page_posts = parse_messages(soup, username, channel_title)
+        if not page_posts:
+            break
+
+        for post in page_posts:
+            if post["id"] <= min_id:
+                return all_posts  # caught up to last seen
+            all_posts.append(post)
+
+        if len(all_posts) >= limit:
+            break
+
+        before_id = min(p["id"] for p in page_posts)
+        if before_id is not None and before_id <= min_id + 1:
+            break
+
+        time.sleep(REQUEST_DELAY)
+
+    return all_posts
+
+
+def main() -> None:
     channels: list[str] = json.loads(CHANNELS_FILE.read_text())
     db = load_db()
+    existing_ids = {(p["channel"], p["id"]) for p in db["posts"]}
+    total_new = 0
 
-    async with TelegramClient(StringSession(session_str), api_id, api_hash) as client:
-        for username in channels:
-            print(f"Scraping @{username}...", end=" ", flush=True)
-            try:
-                count = await scrape_channel(client, username, db)
-                print(f"{count} new posts")
-            except Exception as exc:
-                print(f"SKIPPED ({exc})")
+    for username in channels:
+        min_id = db["last_scraped"].get(username, 0)
+        limit = INITIAL_LIMIT if min_id == 0 else 50  # daily runs only need a few pages
+        print(f"Scraping @{username} (min_id={min_id})...", end=" ", flush=True)
+
+        new_posts = [
+            p for p in scrape_channel(username, min_id, limit)
+            if (username, p["id"]) not in existing_ids
+        ]
+
+        if new_posts:
+            db["posts"].extend(new_posts)
+            db["last_scraped"][username] = max(p["id"] for p in new_posts)
+            total_new += len(new_posts)
+
+        print(f"{len(new_posts)} new posts")
+        time.sleep(REQUEST_DELAY)
 
     save_db(db)
-    print(f"\nDone — {len(db['posts'])} total posts in {DATA_FILE}")
+    print(f"\nDone — {total_new} new posts, {len(db['posts'])} total in {DATA_FILE}")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
