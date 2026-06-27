@@ -2,11 +2,6 @@ name: Test gallery-dl Instagram
 
 on:
   workflow_dispatch:
-    inputs:
-      username:
-        description: "Instagram username to test"
-        required: false
-        default: "danielfooddiary"
 
 permissions:
   contents: read
@@ -16,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
@@ -27,18 +19,26 @@ jobs:
       - name: Install gallery-dl
         run: pip install gallery-dl
 
-      - name: Test without login — fetch profile metadata
+      - name: Test without login — verbose output
         run: |
-          echo "=== Testing gallery-dl WITHOUT login ==="
+          echo "=== gallery-dl version ==="
           gallery-dl --version
           echo ""
 
-          # Just print URLs, don't download files
-          echo "Fetching post URLs from profile: ${{ github.event.inputs.username }}"
-          gallery-dl -g "https://www.instagram.com/${{ github.event.inputs.username }}/" 2>&1 || true
+          echo "=== Test 1: danielfooddiary (verbose) ==="
+          gallery-dl -v -g "https://www.instagram.com/danielfooddiary/" 2>&1 | head -30
+          echo ""
 
-      - name: Test without login — get info as JSON
-        run: |
-          echo "=== Testing JSON output ==="
-          # Use --print to get structured data without downloading
-          gallery-dl --print json -g "https://www.instagram.com/${{ github.event.inputs.username }}/" 2>&1 | head -20 || true
+          echo "=== Test 2: Try --print url format ==="
+          gallery-dl --print "{category} {shortcode} {date} {caption:.40}" -g "https://www.instagram.com/danielfooddiary/" 2>&1 | head -20
+          echo ""
+
+          echo "=== Test 3: Try fetching a single post directly ==="
+          gallery-dl -v -g "https://www.instagram.com/p/test123/" 2>&1 | head -20
+          echo ""
+
+          echo "=== Test 4: Check what Instagram returns ==="
+          curl -s -o /dev/null -w "HTTP %{http_code}" "https://www.instagram.com/danielfooddiary/?__a=1&__d=dis" -H "User-Agent: Mozilla/5.0" 2>&1
+          echo ""
+
+          echo "=== Done ==="
