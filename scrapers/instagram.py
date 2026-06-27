@@ -1,117 +1,165 @@
-"""Instagram scraper — fetches posts via gallery-dl with proxy rotation."""
+"""Instagram scraper — fetches posts via web_profile_info + individual post pages.
 
-import json
-import os
-import subprocess
+Uses Googlebot user-agent to access Instagram's SEO-friendly endpoints.
+No login or API key required.
+"""
+
+import re
 import time
-from typing import Optional
+from datetime import datetime, timezone
+from html import unescape
+
+import requests
 
 from . import HEADERS, existing_ids, make_post
-from .proxy import ProxyPool
+
+# Googlebot UA — triggers Instagram's SEO/SSR rendering
+_GOOGBOT_UA = (
+    "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 "
+    "Mobile Safari/537.36 (compatible; Googlebot/2.1; "
+    "+http://www.google.com/bot.html)"
+)
+
+_GOOGBOT_HEADERS = {
+    "User-Agent": _GOOGBOT_UA,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+_IG_API_HEADERS = {
+    "User-Agent": _GOOGBOT_UA,
+    "X-IG-App-ID": "936619743392459",
+    "Accept": "application/json",
+}
 
 # Accounts to scrape
 ACCOUNTS = [
     "danielfooddiary",
     "sgfoodielove",
     "eataborsg",
+    "sgfoodie",
 ]
 
-# Delay between accounts (seconds)
-IG_DELAY = 10
-
-# gallery-dl output dir (temporary, we only need metadata)
-_GALLERY_DL_DIR = "/tmp/ig_scrape"
+# Delay between requests (seconds)
+IG_DELAY = 5
 
 
-def _fetch_post_metadata(url: str, proxy: Optional[dict] = None) -> Optional[dict]:
-    """Run gallery-dl to get post metadata as JSON without downloading files."""
-    cmd = [
-        "gallery-dl",
-        "--print", "json",
-        "--no-download",
-        "-g",
-        url,
-    ]
-
-    env = os.environ.copy()
-    if proxy:
-        proxy_url = proxy.get("https") or proxy.get("http", "")
-        if proxy_url:
-            env["HTTPS_PROXY"] = proxy_url
-            env["HTTP_PROXY"] = proxy_url
-
+def _get_recent_posts(username: str) -> list[dict]:
+    """Fetch recent post shortcodes and captions from profile API."""
+    url = f"https://www.instagram.com/api/v1/users/web_profile_info/?username={username}"
     try:
-        result = subprocess.run(
-            cmd,
-            capture_output=True,
-            text=True,
-            timeout=60,
-            env=env,
-        )
-        if result.returncode != 0:
-            # gallery-dl returns non-zero on errors like 429
-            stderr = result.stderr.strip()
-            if "429" in stderr or "403" in stderr:
-                return None
-            # Other errors — still try to parse stdout
-            if not result.stdout.strip():
-                return None
+        resp = requests.get(url, headers=_IG_API_HEADERS, timeout=15)
+        if resp.status_code != 200:
+            print(f"    ✗ Profile API returned {resp.status_code}")
+            return []
 
-        # Parse JSON output — gallery-dl prints one JSON array per post
-        lines = result.stdout.strip().splitlines()
-        if not lines:
+        data = resp.json()
+        user = data.get("data", {}).get("user", {})
+        if not user:
+            print(f"    ✗ No user data in response")
+            return []
+
+        timeline = user.get("edge_owner_to_timeline_media", {})
+        edges = timeline.get("edges", [])
+
+        posts = []
+        for edge in edges:
+            node = edge.get("node", {})
+            shortcode = node.get("shortcode", "")
+            caption_edges = node.get("edge_media_to_caption", {}).get("edges", [])
+            caption = ""
+            if caption_edges:
+                caption = caption_edges[0].get("node", {}).get("text", "")
+
+            timestamp = node.get("taken_at", 0)
+            if isinstance(timestamp, (int, float)) and timestamp > 0:
+                dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+                date = dt.isoformat()
+            else:
+                date = datetime.now(timezone.utc).isoformat()
+
+            posts.append({
+                "shortcode": shortcode,
+                "caption": caption,
+                "date": date,
+                "is_video": node.get("is_video", False),
+                "likes": node.get("edge_liked_by", {}).get("count", 0),
+                "comments": node.get("edge_media_to_comment", {}).get("count", 0),
+                "thumbnail": node.get("thumbnail_src", ""),
+                "username": username,
+            })
+
+        return posts
+
+    except Exception as exc:
+        print(f"    ✗ Profile API error: {exc}")
+        return []
+
+
+def _get_post_details(shortcode: str) -> dict | None:
+    """Fetch full post details from individual post page via meta tags."""
+    url = f"https://www.instagram.com/p/{shortcode}/"
+    try:
+        resp = requests.get(url, headers=_GOOGBOT_HEADERS, timeout=15)
+        if resp.status_code != 200:
             return None
 
-        # Take the first line (main post metadata)
-        data = json.loads(lines[0])
-        return data
+        html = resp.text
 
-    except subprocess.TimeoutExpired:
-        return None
-    except (json.JSONDecodeError, IndexError):
-        return None
-
-
-def _parse_post(data: dict, source_url: str) -> Optional[dict]:
-    """Convert gallery-dl JSON output to our post format."""
-    try:
-        # gallery-dl JSON structure: [category, metadata_dict]
-        if isinstance(data, list) and len(data) >= 2:
-            metadata = data[1] if isinstance(data[1], dict) else {}
-        elif isinstance(data, dict):
-            metadata = data
-        else:
+        # Don't follow login redirects
+        if "/accounts/login" in html[:5000]:
             return None
 
-        shortcode = metadata.get("shortcode", "")
-        caption = metadata.get("caption", "")
-        if isinstance(caption, list):
-            # caption can be a list of nodes
-            caption = " ".join(n.get("text", "") for n in caption if isinstance(n, dict))
+        result = {}
 
-        timestamp = metadata.get("timestamp", "")
-        if isinstance(timestamp, (int, float)):
-            from datetime import datetime, timezone
-            dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
-            date = dt.isoformat()
-        elif isinstance(timestamp, str):
-            date = timestamp
-        else:
-            from datetime import datetime, timezone
-            date = datetime.now(timezone.utc).isoformat()
-
-        owner = metadata.get("owner", {})
-        username = owner.get("username", "") if isinstance(owner, dict) else ""
-
-        return make_post(
-            source="instagram",
-            source_id=shortcode or str(hash(source_url)),
-            source_title=username or "Instagram",
-            date=date,
-            text=caption,
-            source_url=source_url,
-            has_media=bool(metadata.get("display_url") or metadata.get("video_url")),
+        # Extract og:description — contains "X likes, Y comments - username on DATE: caption"
+        desc_match = re.search(
+            r'<meta[^>]*property="og:description"[^>]*content="([^"]+)"', html
         )
+        if desc_match:
+            desc = unescape(desc_match.group(1))
+            result["description"] = desc
+
+            # Parse like/comment counts
+            counts = re.match(r"(\d+)\s*likes?,\s*(\d+)\s*comments?", desc)
+            if counts:
+                result["likes"] = int(counts.group(1))
+                result["comments"] = int(counts.group(2))
+
+        # Extract full caption from og:title (more complete than description)
+        title_match = re.search(
+            r'<meta[^>]*property="og:title"[^>]*content="([^"]+)"', html
+        )
+        if title_match:
+            title = unescape(title_match.group(1))
+            # Format: 'Username on Instagram: "Caption text..."'
+            caption_match = re.search(r':\s*"(.+?)"?\s*$', title, re.DOTALL)
+            if caption_match:
+                result["caption"] = caption_match.group(1).strip()
+            else:
+                result["caption"] = title
+
+        # Extract image URL
+        img_match = re.search(
+            r'<meta[^>]*property="og:image"[^>]*content="([^"]+)"', html
+        )
+        if img_match:
+            result["image_url"] = img_match.group(1)
+
+        # Extract taken_at timestamp
+        taken_match = re.search(r'"taken_at":(\d+)', html)
+        if taken_match:
+            ts = int(taken_match.group(1))
+            result["date"] = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
+
+        # Extract shortcode
+        sc_match = re.search(r'"shortcode":"([^"]+)"', html)
+        if sc_match:
+            result["shortcode"] = sc_match.group(1)
+
+        return result if result.get("caption") or result.get("description") else None
+
     except Exception:
         return None
 
@@ -121,35 +169,58 @@ def scrape(db: dict) -> list[dict]:
     seen = existing_ids(db)
     new_posts = []
 
-    # Build proxy pool
-    pool = ProxyPool.build(min_working=3, test_ig=True)
-    if not pool:
-        print("  ⚠ No working proxies found — trying without proxy")
-
     for account in ACCOUNTS:
         print(f"  Fetching @{account}...")
-        url = f"https://www.instagram.com/{account}/"
 
-        # Try with proxy first, then without
-        data = None
-        if pool:
-            proxy = pool.get()
-            data = _fetch_post_metadata(url, proxy=proxy)
+        # Get recent posts from profile API
+        posts = _get_recent_posts(account)
+        if not posts:
+            print(f"    ✗ No posts found")
+            time.sleep(IG_DELAY)
+            continue
 
-        if data is None and pool:
-            # Retry without proxy
-            data = _fetch_post_metadata(url)
+        print(f"    Found {len(posts)} recent posts")
 
-        if data:
-            post = _parse_post(data, url)
-            if post and post["id"] not in seen:
-                new_posts.append(post)
-                seen.add(post["id"])
-                print(f"    ✓ {post['source_id']}")
-            else:
-                print(f"    — duplicate or parse error")
-        else:
-            print(f"    ✗ failed to fetch")
+        for post_data in posts:
+            shortcode = post_data["shortcode"]
+            post_id = f"instagram-{shortcode}"
+
+            if post_id in seen:
+                continue
+
+            # Get full details from individual post page
+            details = _get_post_details(shortcode)
+            time.sleep(2)  # Be polite between post fetches
+
+            # Use profile data as fallback, post page data as primary
+            caption = ""
+            if details and details.get("caption"):
+                caption = details["caption"]
+            elif post_data.get("caption"):
+                caption = post_data["caption"]
+
+            date = post_data.get("date", datetime.now(timezone.utc).isoformat())
+            if details and details.get("date"):
+                date = details["date"]
+
+            if not caption:
+                continue
+
+            source_url = f"https://www.instagram.com/p/{shortcode}/"
+
+            new_posts.append(
+                make_post(
+                    source="instagram",
+                    source_id=shortcode,
+                    source_title=account,
+                    date=date,
+                    text=caption,
+                    source_url=source_url,
+                    has_media=True,
+                )
+            )
+            seen.add(post_id)
+            print(f"    ✓ {shortcode}: {caption[:60]}...")
 
         time.sleep(IG_DELAY)
 

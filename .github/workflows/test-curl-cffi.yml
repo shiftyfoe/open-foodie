@@ -1,4 +1,4 @@
-name: Test Instagram Network Interception
+name: Test Instagram Googlebot Scraper
 
 on:
   workflow_dispatch:
@@ -7,68 +7,54 @@ permissions:
   contents: read
 
 jobs:
-  test-network:
+  test-instagram:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
       - name: Set up Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
           python-version: "3.12"
 
-      - name: Install Playwright
-        run: |
-          pip install playwright
-          playwright install chromium --with-deps
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Intercept Instagram API calls
+      - name: Test Instagram scraper
         run: |
           python3 -c "
+          from scrapers.instagram import _get_recent_posts, _get_post_details
           import json
-          from playwright.sync_api import sync_playwright
 
-          print('=== Intercepting Instagram API Calls ===')
+          # Test 1: Get recent posts
+          print('=== Test 1: Get recent posts from @danielfooddiary ===')
+          posts = _get_recent_posts('danielfooddiary')
+          print(f'Found {len(posts)} posts')
+          for p in posts[:3]:
+              print(f'  {p[\"shortcode\"]} | {p[\"date\"]} | {p[\"caption\"][:80]}...')
 
-          api_calls = []
+          if posts:
+              # Test 2: Get post details
+              sc = posts[0]['shortcode']
+              print(f'\\n=== Test 2: Get details for {sc} ===')
+              details = _get_post_details(sc)
+              if details:
+                  print(f'  Caption: {details.get(\"caption\", \"\")[:200]}')
+                  print(f'  Date: {details.get(\"date\")}')
+                  print(f'  Likes: {details.get(\"likes\")}')
+                  print(f'  Comments: {details.get(\"comments\")}')
+                  print(f'  Image: {details.get(\"image_url\", \"\")[:100]}...')
+              else:
+                  print('  ✗ Failed to get details')
 
-          def handle_response(response):
-              url = response.url
-              if 'instagram.com' in url and ('graphql' in url or 'api' in url or 'ajax' in url or 'media' in url):
-                  try:
-                      body = response.text()
-                      api_calls.append({
-                          'url': url,
-                          'status': response.status,
-                          'body_len': len(body),
-                          'body_preview': body[:500] if len(body) < 10000 else body[:500] + f'... ({len(body)} total)'
-                      })
-                      print(f'  API: {response.status} {url[:100]}')
-                  except:
-                      api_calls.append({'url': url, 'status': response.status, 'body_len': 0})
-
-          with sync_playwright() as p:
-              browser = p.chromium.launch(headless=True)
-              context = browser.new_context(
-                  user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
-              )
-              page = context.new_page()
-              page.on('response', handle_response)
-
-              print('Loading embed page...')
-              try:
-                  page.goto('https://www.instagram.com/p/DZ9wTjEhbFk/embed/', wait_until='networkidle', timeout=30000)
-              except Exception as e:
-                  print(f'  Navigation: {e}')
-
-              page.wait_for_timeout(5000)
-
-              print(f'\\nCaptured {len(api_calls)} API calls:')
-              for call in api_calls:
-                  print(f'\\n  URL: {call[\"url\"][:150]}')
-                  print(f'  Status: {call[\"status\"]}')
-                  print(f'  Body length: {call[\"body_len\"]}')
-                  if call.get('body_preview'):
-                      print(f'  Preview: {call[\"body_preview\"][:300]}')
-
-              browser.close()
+          # Test 3: Full scrape
+          print('\\n=== Test 3: Full scrape ===')
+          from scrapers.instagram import scrape
+          db = {'posts': [], 'last_scraped': {}}
+          new_posts = scrape(db)
+          print(f'\\nTotal new posts: {len(new_posts)}')
+          for p in new_posts[:5]:
+              print(f'  {p[\"id\"]} | {p[\"date\"]} | {p[\"text\"][:80]}...')
           "
