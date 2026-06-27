@@ -62,7 +62,7 @@ from apify_client import ApifyClient
 client = ApifyClient(os.environ["APIFY_TOKEN"])
 run_input = {
     "directUrls": [f"https://www.instagram.com/{account}/" for account in accounts],
-    "resultsLimit": 12,  # last 12 posts per account
+    "resultsLimit": 5,  # only last 5 posts per account (cost optimization)
     "resultsType": "posts",
 }
 run = client.actor("apify/instagram-scraper").call(run_input=run_input)
@@ -103,6 +103,7 @@ resp = requests.post(
         "zone": os.environ.get("BRIGHTDATA_ZONE", "serp_api1"),
         "url": [f"https://www.instagram.com/{account}/" for account in accounts],
         "format": "json",
+        "limit": 5,  # only last 5 posts per account (cost optimization)
     },
     params={"type": "discover_new", "discover_by": "profile_page"},
 )
@@ -208,14 +209,36 @@ Once Apify/Bright Data prove reliable, remove:
 
 ---
 
+## Cost Optimization
+
+Both Apify and Bright Data charge **per result returned**, not per request. Every post they send back costs money — even if it's already in `posts.json`. Strategies to minimize waste:
+
+### 1. Reduce batch size (biggest win)
+
+Request only **5 posts per account** instead of 12. If the newest post matches what's in `posts.json`, we know there's nothing new. This cuts paid results by ~60%.
+
+### 2. Filter against existing IDs (free)
+
+After getting API results, filter against `existing_ids(db)` before processing. You still pay for returned results, but don't waste time processing duplicates.
+
+### 3. Skip unchanged accounts (future optimization)
+
+Track `last_changed` timestamp per account in a metadata file. If an account's newest post hasn't changed since last scrape, skip it entirely on subsequent runs. Requires at least one initial fetch to populate.
+
+### 4. Apify dataset caching
+
+Apify stores actor run results. If you run the same actor with identical input, cached results don't re-cost. Limited usefulness since our input varies (different time), but helps for retries.
+
+---
+
 ## Cost Estimate
 
-**Daily run**: 3 accounts × ~12 posts each = ~36 posts/day = ~1,080 posts/month
+**Daily run**: 3 accounts × 5 posts each = 15 posts/day = ~450 posts/month
 
-| Provider | Monthly cost at 1,080 posts |
-|----------|---------------------------|
-| Apify free tier | **$0** (3,700 included) |
-| Bright Data free tier | **$0** (5,000 included) |
-| gallery-dl (current) | $0 but unreliable |
+| Provider | Monthly cost at 450 posts | Free tier headroom |
+|----------|--------------------------|-------------------|
+| Apify free tier | **$0** | 3,700 included — room for **8x growth** |
+| Bright Data free tier | **$0** | 5,000 included — room for **11x growth** |
+| gallery-dl (current) | $0 but unreliable | N/A |
 
-Both free tiers cover our daily usage with room to grow ~3x before hitting limits.
+Both free tiers cover our daily usage with massive room to grow. Even adding 10+ accounts stays within free tier.
