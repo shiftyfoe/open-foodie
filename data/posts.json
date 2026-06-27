@@ -1,0 +1,74 @@
+{
+  "posts": [
+    {
+      "id": 1001,
+      "channel": "eatbooksg",
+      "channel_title": "Eatbook",
+      "date": "2026-06-25T08:30:00+00:00",
+      "text": "🍜 NEW: This hidden ramen shop in Tanjong Pagar has THE most rich tonkotsu broth we've had in SG. Queue starts at 11am sharp. Get the special with black garlic oil 🧄\n\nKano Ramen\n📍 Tanjong Pagar Plaza #01-07\n⏰ 11am–3pm, 5pm–9pm (closed Mon)",
+      "has_media": true,
+      "telegram_url": "https://t.me/eatbooksg/1001"
+    },
+    {
+      "id": 1002,
+      "channel": "sethlui",
+      "channel_title": "Seth Lui",
+      "date": "2026-06-24T14:15:00+00:00",
+      "text": "Tried this new chili crab pasta place at Telok Ayer and honestly it slaps. Fusion done right. The crab is generous and the pasta absorbs all that sweet, spicy sauce. ~$28/pax.\n\n📍 Telok Ayer Street, near Thian Hock Keng",
+      "has_media": true,
+      "telegram_url": "https://t.me/sethlui/1002"
+    },
+    {
+      "id": 1003,
+      "channel": "misstamchiak",
+      "channel_title": "Miss Tam Chiak",
+      "date": "2026-06-23T09:00:00+00:00",
+      "text": "Finally found the best wanton mee in the East! Uncle has been doing this for 40 years and you can tell. Springy noodles, crispy char siu, flavourful soup. Only $4.50!\n\n📍 Bedok North Ave 1 Blk 538, #01-660\n⏰ 6am–1pm daily",
+      "has_media": false,
+      "telegram_url": "https://t.me/misstamchiak/1003"
+    },
+    {
+      "id": 1004,
+      "channel": "eatbooksg",
+      "channel_title": "Eatbook",
+      "date": "2026-06-22T11:00:00+00:00",
+      "text": "Omakase under $100? This kaiseki counter at Keong Saik is quietly one of the best-value Japanese meals in Singapore. 8 courses, incredibly curated ingredients. Book at least 2 weeks ahead.\n\n📍 Keong Saik Road",
+      "has_media": true,
+      "telegram_url": "https://t.me/eatbooksg/1004"
+    },
+    {
+      "id": 1005,
+      "channel": "burpplesg",
+      "channel_title": "Burpple",
+      "date": "2026-05-30T10:00:00+00:00",
+      "text": "Weekend warrior eats: the laksa at this stall in Katong is legitimately world-class. Thick coconut gravy, whole prawns, cockles — the works. Got here at 10am and it was already packed.\n\n328 Katong Laksa\n📍 51 E Coast Rd",
+      "has_media": true,
+      "telegram_url": "https://t.me/burpplesg/1005"
+    },
+    {
+      "id": 1006,
+      "channel": "ladyironchef",
+      "channel_title": "Lady Iron Chef",
+      "date": "2026-05-28T08:00:00+00:00",
+      "text": "New brunch spot alert at Dempsey! Their eggs benedict with pulled pork is incredible — the hollandaise is silky smooth and not too heavy. Great for a lazy Sunday. Prices are reasonable for the area ~$20–30/pax.\n\n📍 Block 10 Dempsey Road",
+      "has_media": true,
+      "telegram_url": "https://t.me/ladyironchef/1006"
+    },
+    {
+      "id": 1007,
+      "channel": "sethlui",
+      "channel_title": "Seth Lui",
+      "date": "2026-05-15T12:00:00+00:00",
+      "text": "Underrated gem: the beef noodles at this Hong Kong-style cha chaan teng at Novena. Braised beef shank in a rich, dark broth with silky flat noodles. $9.80. Come before 12 or you'll wait 30 min.\n\n📍 Thomson Road, near Novena MRT",
+      "has_media": false,
+      "telegram_url": "https://t.me/sethlui/1007"
+    }
+  ],
+  "last_scraped": {
+    "eatbooksg": 1004,
+    "sethlui": 1007,
+    "misstamchiak": 1003,
+    "ladyironchef": 1006,
+    "burpplesg": 1005
+  }
+}

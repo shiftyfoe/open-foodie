@@ -1,0 +1,52 @@
+name: Daily Scrape
+
+on:
+  schedule:
+    # 10:00 AM SGT (UTC+8) = 02:00 UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      initial_limit:
+        description: "Posts to fetch per channel on first run (default 300)"
+        required: false
+        default: "300"
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Scrape channels
+        env:
+          TG_API_ID: ${{ secrets.TG_API_ID }}
+          TG_API_HASH: ${{ secrets.TG_API_HASH }}
+          TG_SESSION: ${{ secrets.TG_SESSION }}
+          INITIAL_LIMIT: ${{ github.event.inputs.initial_limit || '300' }}
+        run: python scraper.py
+
+      - name: Generate static site
+        run: python generate.py
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/posts.json docs/index.html
+          git diff --staged --quiet && echo "Nothing to commit" && exit 0
+          git commit -m "chore: daily scrape $(date -u +%Y-%m-%d)"
+          git push

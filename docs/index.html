@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SG Foodie Digest — Best Spots from Telegram</title>
+  <meta name="description" content="Daily digest of Singapore food recommendations from Telegram foodie channels, grouped by month.">
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --accent: #e8490f;
+    --accent-light: #fdf0eb;
+    --text: #1a1a1a;
+    --muted: #6b6b6b;
+    --border: #e5e5e5;
+    --card-bg: #ffffff;
+    --bg: #fafafa;
+    --sidebar-w: 200px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+  }
+  /* Sidebar */
+  .sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    position: fixed;
+    top: 0; left: 0;
+    background: #fff;
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo span { display: block; font-size: 0.7rem; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .month-nav {
+    display: flex;
+    flex-direction: column;
+    padding-top: 12px;
+  }
+  .month-link {
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .month-link:hover, .month-link.active {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+  /* Main */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    padding: 40px 32px;
+    max-width: 900px;
+  }
+  .site-header { margin-bottom: 40px; }
+  .site-header h1 { font-size: 1.8rem; font-weight: 800; }
+  .site-header p { color: var(--muted); margin-top: 6px; font-size: 0.9rem; }
+  .updated { color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
+  /* Month section */
+  .month-section { margin-bottom: 48px; }
+  .month-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent-light);
+  }
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  /* Post card */
+  .post-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .post-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .channel-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 2px 8px;
+    border-radius: 100px;
+    text-decoration: none;
+  }
+  .channel-tag:hover { text-decoration: underline; }
+  .post-date { font-size: 0.75rem; color: var(--muted); margin-left: auto; }
+  .media-badge { font-size: 0.75rem; }
+  .post-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--text);
+    flex: 1;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .view-link {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: auto;
+  }
+  .view-link:hover { text-decoration: underline; }
+  /* Empty state */
+  .empty { color: var(--muted); font-size: 0.9rem; padding: 20px 0; }
+  /* Mobile */
+  @media (max-width: 640px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; padding: 20px 16px; }
+    .post-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">🍜 SG Foodie<span>Telegram Digest</span></div>
+    <nav class="month-nav">
+<a class="month-link" href="#2026-06">Jun 2026</a>
+<a class="month-link" href="#2026-05">May 2026</a>
+</nav>
+  </aside>
+
+  <main class="main">
+    <header class="site-header">
+      <h1>🍜 SG Foodie Digest</h1>
+      <p>Best food spots from Singapore Telegram channels, updated daily.</p>
+      <p class="updated">Last updated: 27 Jun 2026 02:29 UTC — 7 posts from 2 months</p>
+    </header>
+
+    
+    
+  <section class="month-section" id="2026-06">
+    <h2 class="month-heading">Jun 2026</h2>
+    <div class="post-grid">
+      
+    <article class="post-card">
+      <div class="post-meta">
+        <a class="channel-tag" href="https://t.me/eatbooksg" target="_blank" rel="noopener">@Eatbook</a>
+        <span class="post-date">25 Jun</span>
+        <span class="media-badge">📷</span>
+      </div>
+      <p class='post-text'>🍜 NEW: This hidden ramen shop in Tanjong Pagar has THE most rich tonkotsu broth we've had in SG. Queue starts at 11am sharp. Get the special with black garlic oil 🧄
+
+Kano Ramen
+📍 Tanjong Pagar Plaza #01-07
+⏰ 11am–3pm, 5pm–9pm (closed Mon)</p>
+      <a class="view-link" href="https://t.me/eatbooksg/1001" target="_blank" rel="noopener">View on Telegram →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <a class="channel-tag" href="https://t.me/sethlui" target="_blank" rel="noopener">@Seth Lui</a>
+        <span class="post-date">24 Jun</span>
+        <span class="media-badge">📷</span>
+      </div>
+      <p class='post-text'>Tried this new chili crab pasta place at Telok Ayer and honestly it slaps. Fusion done right. The crab is generous and the pasta absorbs all that sweet, spicy sauce. ~$28/pax.
+
+📍 Telok Ayer Street, near Thian Hock Keng</p>
+      <a class="view-link" href="https://t.me/sethlui/1002" target="_blank" rel="noopener">View on Telegram →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <a class="channel-tag" href="https://t.me/misstamchiak" target="_blank" rel="noopener">@Miss Tam Chiak</a>
+        <span class="post-date">23 Jun</span>
+        
+      </div>
+      <p class='post-text'>Finally found the best wanton mee in the East! Uncle has been doing this for 40 years and you can tell. Springy noodles, crispy char siu, flavourful soup. Only $4.50!
+
+📍 Bedok North Ave 1 Blk 538, #01-660
+⏰ 6am–1pm daily</p>
+      <a class="view-link" href="https://t.me/misstamchiak/1003" target="_blank" rel="noopener">View on Telegram →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <a class="channel-tag" href="https://t.me/eatbooksg" target="_blank" rel="noopener">@Eatbook</a>
+        <span class="post-date">22 Jun</span>
+        <span class="media-badge">📷</span>
+      </div>
+      <p class='post-text'>Omakase under $100? This kaiseki counter at Keong Saik is quietly one of the best-value Japanese meals in Singapore. 8 courses, incredibly curated ingredients. Book at least 2 weeks ahead.
+
+📍 Keong Saik Road</p>
+      <a class="view-link" href="https://t.me/eatbooksg/1004" target="_blank" rel="noopener">View on Telegram →</a>
+    </article>
+    </div>
+  </section>
+
+  <section class="month-section" id="2026-05">
+    <h2 class="month-heading">May 2026</h2>
+    <div class="post-grid">
+      
+    <article class="post-card">
+      <div class="post-meta">
+        <a class="channel-tag" href="https://t.me/burpplesg" target="_blank" rel="noopener">@Burpple</a>
+        <span class="post-date">30 May</span>
+        <span class="media-badge">📷</span>
+      </div>
+      <p class='post-text'>Weekend warrior eats: the laksa at this stall in Katong is legitimately world-class. Thick coconut gravy, whole prawns, cockles — the works. Got here at 10am and it was already packed.
+
+328 Katong Laksa
+📍 51 E Coast Rd</p>
+      <a class="view-link" href="https://t.me/burpplesg/1005" target="_blank" rel="noopener">View on Telegram →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <a class="channel-tag" href="https://t.me/ladyironchef" target="_blank" rel="noopener">@Lady Iron Chef</a>
+        <span class="post-date">28 May</span>
+        <span class="media-badge">📷</span>
+      </div>
+      <p class='post-text'>New brunch spot alert at Dempsey! Their eggs benedict with pulled pork is incredible — the hollandaise is silky smooth and not too heavy. Great for a lazy Sunday. Prices are reasonable for the area ~$20–30/pax.
+
+📍 Block 10 Dempsey Road</p>
+      <a class="view-link" href="https://t.me/ladyironchef/1006" target="_blank" rel="noopener">View on Telegram →</a>
+    </article>
+
+    <article class="post-card">
+      <div class="post-meta">
+        <a class="channel-tag" href="https://t.me/sethlui" target="_blank" rel="noopener">@Seth Lui</a>
+        <span class="post-date">15 May</span>
+        
+      </div>
+      <p class='post-text'>Underrated gem: the beef noodles at this Hong Kong-style cha chaan teng at Novena. Braised beef shank in a rich, dark broth with silky flat noodles. $9.80. Come before 12 or you'll wait 30 min.
+
+📍 Thomson Road, near Novena MRT</p>
+      <a class="view-link" href="https://t.me/sethlui/1007" target="_blank" rel="noopener">View on Telegram →</a>
+    </article>
+    </div>
+  </section>
+  </main>
+
+  <script>
+  // Highlight active month in sidebar as user scrolls
+  const sections = document.querySelectorAll('.month-section');
+  const links = document.querySelectorAll('.month-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.month-link[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
