@@ -50,6 +50,9 @@ jobs:
       - name: Local dedup — cluster near-duplicates & extract restaurant mentions
         run: python dedup_local.py
 
+      - name: Classify posts with cuisine and category tags
+        run: python classify.py
+
       - name: Generate static site
         run: python generate.py
 

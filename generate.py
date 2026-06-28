@@ -28,6 +28,26 @@ SOURCE_COLORS = {
     "lemon8": "#ff4d57",
 }
 
+PLATFORM_FAVICONS = {
+    "telegram": "https://www.google.com/s2/favicons?domain=telegram.org&sz=32",
+    "burpple": "https://www.google.com/s2/favicons?domain=burpple.com&sz=32",
+    "hungrygowhere": "https://www.google.com/s2/favicons?domain=hungrygowhere.com&sz=32",
+    "lemon8": "https://www.google.com/s2/favicons?domain=lemon8-app.com&sz=32",
+}
+
+TAG_GROUPS = [
+    ("Category", ["cafe", "hawker", "restaurant", "bakery", "dessert", "drinks"]),
+    ("Cuisine", ["chinese", "japanese", "korean", "thai", "western", "indian", "malay", "vietnamese"]),
+]
+
+TAG_LABELS = {
+    "cafe": "Cafe", "hawker": "Hawker", "restaurant": "Restaurant",
+    "bakery": "Bakery", "dessert": "Dessert", "drinks": "Drinks",
+    "chinese": "Chinese", "japanese": "Japanese", "korean": "Korean",
+    "thai": "Thai", "western": "Western", "indian": "Indian",
+    "malay": "Malay", "vietnamese": "Vietnamese",
+}
+
 
 def month_label(key: str) -> str:
     year, month = key.split("-")
@@ -72,8 +92,11 @@ def render_post(post: dict) -> str:
     else:
         link_text = "View source →"
 
+    tags = post.get("tags") or []
+    tags_attr = " ".join(tags)
+
     return f"""
-    <article class="post-card" data-source="{source}">
+    <article class="post-card" data-source="{source}" data-tags="{tags_attr}">
       <div class="post-meta">
         <a class="source-tag" href="{url}" target="_blank" rel="noopener" style="background:{source_color}15;color:{source_color}">{source_label}</a>
         <span class="source-title">{source_title}</span>
@@ -105,22 +128,46 @@ def render_nav(months: list[str], month_counts: dict[str, int]) -> str:
     return f'<nav class="month-nav">\n{links}\n</nav>'
 
 
-def render_filter_bar(present_sources: set[str]) -> str:
-    buttons = ['<button class="filter-btn active" data-source="all">All</button>']
+def render_filter_bar(present_sources: set[str], tag_counts: dict[str, int]) -> str:
+    source_buttons = ['<button class="filter-btn active" data-source="all">All</button>']
     for source in ["telegram", "burpple", "hungrygowhere", "lemon8"]:
         if source in present_sources:
             label = SOURCE_LABELS.get(source, source)
             color = SOURCE_COLORS.get(source, "#6b6b6b")
-            buttons.append(
-                f'<button class="filter-btn" data-source="{source}" style="--sc:{color}">{label}</button>'
+            favicon = PLATFORM_FAVICONS.get(source, "")
+            icon_html = (
+                f'<img src="{favicon}" width="20" height="20" alt="{label}" loading="lazy">'
+                if favicon else label
             )
-    btns_html = "\n      ".join(buttons)
+            source_buttons.append(
+                f'<button class="filter-btn logo-btn" data-source="{source}" style="--sc:{color}" title="{label}">{icon_html}</button>'
+            )
+    src_html = "\n      ".join(source_buttons)
+
+    tag_rows = []
+    for group_label, tags in TAG_GROUPS:
+        present = [(t, tag_counts[t]) for t in tags if tag_counts.get(t, 0) > 0]
+        if not present:
+            continue
+        pills = " ".join(
+            f'<button class="tag-btn" data-tag="{t}">{TAG_LABELS[t]}'
+            f'<span class="tag-count">{c}</span></button>'
+            for t, c in present
+        )
+        tag_rows.append(
+            f'<div class="tag-filter-row">'
+            f'<span class="tag-group-label">{group_label}</span>'
+            f'{pills}</div>'
+        )
+    tags_html = "\n    ".join(tag_rows)
+
     return f"""  <div class="filter-bar">
     <input type="search" id="search-input" class="search-input" placeholder="Search posts…" autocomplete="off">
     <div class="source-filters">
-      {btns_html}
+      {src_html}
     </div>
-  </div>"""
+  </div>
+  {tags_html}"""
 
 
 CSS = """
@@ -245,6 +292,52 @@ CSS = """
   }
   .filter-btn:hover { border-color: var(--sc, var(--accent)); color: var(--sc, var(--accent)); }
   .filter-btn.active { background: var(--sc, var(--accent)); border-color: var(--sc, var(--accent)); color: #fff; }
+  .filter-btn.logo-btn { padding: 5px 8px; display: inline-flex; align-items: center; justify-content: center; }
+  .filter-btn.logo-btn img { display: block; border-radius: 4px; }
+  .filter-btn.logo-btn.active img { filter: brightness(0) invert(1); }
+  /* Tag filters */
+  .tag-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .tag-group-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    min-width: 60px;
+  }
+  .tag-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--muted);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .tag-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tag-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .tag-btn.active .tag-count { background: rgba(255,255,255,0.25); color: #fff; }
+  .tag-count {
+    font-size: 0.68rem;
+    background: var(--border);
+    color: var(--muted);
+    border-radius: 100px;
+    padding: 0 5px;
+    min-width: 18px;
+    text-align: center;
+  }
   /* No-results message */
   .no-results { display: none; color: var(--muted); font-size: 0.95rem; padding: 48px 0; text-align: center; }
   .no-results.visible { display: block; }
@@ -405,8 +498,9 @@ JS = """
   }, { rootMargin: '-30% 0px -60% 0px' });
   sections.forEach(s => observer.observe(s));
 
-  // --- Source filter + search ---
+  // --- Source filter + tag filter + search ---
   let activeSource = 'all';
+  let activeTags = new Set();
   let searchQuery = '';
 
   function applyFilters() {
@@ -416,7 +510,9 @@ JS = """
     document.querySelectorAll('.post-card').forEach(card => {
       const srcMatch = activeSource === 'all' || card.dataset.source === activeSource;
       const textMatch = !q || card.textContent.toLowerCase().includes(q);
-      const visible = srcMatch && textMatch;
+      const cardTags = card.dataset.tags ? card.dataset.tags.split(' ').filter(Boolean) : [];
+      const tagMatch = activeTags.size === 0 || cardTags.some(t => activeTags.has(t));
+      const visible = srcMatch && textMatch && tagMatch;
       card.style.display = visible ? '' : 'none';
       if (visible) {
         const sec = card.closest('.month-section');
@@ -445,6 +541,20 @@ JS = """
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeSource = btn.dataset.source;
+      applyFilters();
+    });
+  });
+
+  document.querySelectorAll('.tag-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag;
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+        btn.classList.remove('active');
+      } else {
+        activeTags.add(tag);
+        btn.classList.add('active');
+      }
       applyFilters();
     });
   });
@@ -521,6 +631,7 @@ def generate() -> None:
 
     grouped: dict[str, list] = defaultdict(list)
     present_sources: set[str] = set()
+    tag_counts: dict[str, int] = defaultdict(int)
     for post in posts:
         if not post.get("text") and not post.get("has_media"):
             continue
@@ -530,13 +641,15 @@ def generate() -> None:
         key = dt.strftime("%Y-%m")
         grouped[key].append(post)
         present_sources.add(post.get("source", "telegram"))
+        for tag in post.get("tags") or []:
+            tag_counts[tag] += 1
 
     months = sorted(grouped.keys(), reverse=True)
     month_counts = {m: len(grouped[m]) for m in months}
     updated = datetime.now(timezone.utc).strftime("%d %b %Y %H:%M UTC")
 
     nav_html = render_nav(months, month_counts)
-    filter_bar_html = render_filter_bar(present_sources)
+    filter_bar_html = render_filter_bar(present_sources, tag_counts)
     sections_html = "\n".join(render_month_section(m, grouped[m]) for m in months)
 
     empty_msg = '<p class="empty">No posts scraped yet. Run <code>python scraper.py</code> to populate this page.</p>' if not months else ""
