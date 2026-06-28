@@ -13,17 +13,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install requests
+      - name: Install dependencies
         run: pip install requests
 
-      - name: Test Lemon8 direct vs Jina Reader
+      - name: Inspect Lemon8 item structure from CI
         run: |
           python3 - <<'EOF'
-          import requests, json, re
+          import requests, json
 
-          CATEGORIES = ["food", "restaurant", "cafe"]
-
-          def test_direct(category):
+          def fetch_items(category):
               url = (
                   f"https://www.lemon8-app.com/feed/{category}"
                   "?method=stream-loadmore"
@@ -36,53 +34,37 @@ jobs:
               })
               data = r.json()
               feed = data.get(f"$FeedDateLoadmore+{category}", {})
-              items = feed.get("items", [])
-              print(f"  DIRECT [{category}]: status={r.status_code} items={len(items)} top_keys={list(data.keys())[:4]}")
-              return items
+              return feed.get("items", [])
 
-          def test_jina_json(category):
-              # Jina fetching the JSON API endpoint directly
-              target = (
-                  f"https://www.lemon8-app.com/feed/{category}"
-                  "?method=stream-loadmore"
-                  "&_data=routes%2Ffeed.%24category_name"
-                  "&region=sg&_version=1"
-              )
-              r = requests.get(f"https://r.jina.ai/{target}", timeout=30, headers={
-                  "Accept": "application/json",
-                  "X-No-Cache": "true",
-              })
-              print(f"  JINA-JSON [{category}]: status={r.status_code} content_type={r.headers.get('content-type','')[:40]}")
-              try:
-                  data = r.json()
-                  feed = data.get(f"$FeedDateLoadmore+{category}", {})
-                  items = feed.get("items", [])
-                  print(f"    → parsed JSON, items={len(items)}")
-                  return items
-              except Exception:
-                  print(f"    → not JSON, body[:300]={r.text[:300]}")
-                  return []
-
-          def test_jina_html(category):
-              # Jina fetching the rendered HTML page
-              target = f"https://www.lemon8-app.com/discover?region=sg&category={category}"
-              r = requests.get(f"https://r.jina.ai/{target}", timeout=30, headers={
-                  "Accept": "text/plain",
-                  "X-No-Cache": "true",
-              })
-              print(f"  JINA-HTML [{category}]: status={r.status_code} len={len(r.text)}")
-              print(f"    body[:500]={r.text[:500]}")
-              return []
-
-          print("=== DIRECT API ===")
-          for cat in CATEGORIES:
-              test_direct(cat)
-
-          print("\n=== JINA READER (JSON endpoint) ===")
-          for cat in CATEGORIES[:1]:
-              test_jina_json(cat)
-
-          print("\n=== JINA READER (HTML page) ===")
-          for cat in CATEGORIES[:1]:
-              test_jina_html(cat)
+          items = fetch_items("food")
+          print(f"Total items: {len(items)}")
+          if items:
+              item = items[0]
+              print(f"Item keys: {list(item.keys())}")
+              print(f"groupId: {repr(item.get('groupId', 'MISSING'))}")
+              print(f"title: {repr(item.get('title', 'MISSING'))}")
+              print(f"shortContent: {repr(item.get('shortContent', 'MISSING'))[:120]}")
+              print(f"author: {item.get('author', {})}")
+              print(f"imageList count: {len(item.get('imageList', []))}")
+              print()
+              print("--- Simulating scraper filter logic ---")
+              filtered_out = {"no_group_id": 0, "no_text": 0, "passed": 0}
+              for it in items:
+                  gid = it.get("groupId", "")
+                  if not gid:
+                      filtered_out["no_group_id"] += 1
+                      continue
+                  title = it.get("title", "")
+                  short = it.get("shortContent", "")
+                  text = title
+                  if short:
+                      text = f"{title}\n\n{short}" if title else short
+                  if not text.strip():
+                      filtered_out["no_text"] += 1
+                      continue
+                  filtered_out["passed"] += 1
+              print(f"Filter results: {filtered_out}")
+          else:
+              print("No items returned — full response body:")
+              print(json.dumps(r.json(), indent=2)[:1000])
           EOF
