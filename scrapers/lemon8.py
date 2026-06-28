@@ -261,11 +261,22 @@ def _fetch_page(
     return [], None
 
 
+def _post_date(group_id: str) -> str:
+    """Extract post creation date from Lemon8 group ID.
+
+    The top 32 bits of the ID are a Unix timestamp in seconds.
+    """
+    try:
+        ts = int(group_id) >> 32
+        return datetime.fromtimestamp(ts, tz=timezone.utc).isoformat()
+    except (ValueError, OSError):
+        return datetime.now(timezone.utc).isoformat()
+
+
 def _scrape_category(
     session: requests.Session,
     category: str,
     seen: set,
-    today: str,
     proxy_cycle: itertools.cycle | None = None,
 ) -> list[dict]:
     """Scrape all pages of one category feed, return new posts."""
@@ -306,7 +317,7 @@ def _scrape_category(
                     source="lemon8",
                     source_id=group_id,
                     source_title=nick_name or link_name,
-                    date=today,
+                    date=_post_date(group_id),
                     text=text,
                     source_url=source_url,
                     has_media=bool(item.get("imageList")),
@@ -327,13 +338,12 @@ def scrape(db: dict) -> list[dict]:
     seen = existing_ids(db)
     new_posts = []
     session = _make_session()
-    today = datetime.now(timezone.utc).isoformat()
 
     proxies = _load_proxies()
     proxy_cycle = itertools.cycle(proxies) if proxies else None
 
     for category in _CATEGORIES:
-        posts = _scrape_category(session, category, seen, today, proxy_cycle)
+        posts = _scrape_category(session, category, seen, proxy_cycle)
         new_posts.extend(posts)
         print(f"    [{category}] {len(posts)} new posts")
         if category != _CATEGORIES[-1]:
