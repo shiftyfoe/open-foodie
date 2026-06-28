@@ -127,6 +127,9 @@
   }
   .filter-btn:hover { border-color: var(--sc, var(--accent)); color: var(--sc, var(--accent)); }
   .filter-btn.active { background: var(--sc, var(--accent)); border-color: var(--sc, var(--accent)); color: #fff; }
+  .filter-btn.logo-btn { padding: 5px 8px; display: inline-flex; align-items: center; justify-content: center; }
+  .filter-btn.logo-btn img { display: block; border-radius: 4px; }
+  .filter-btn.logo-btn.active img { filter: brightness(0) invert(1); }
   /* Tag filters */
   .tag-filter-row {
     display: flex;
@@ -372,17 +375,17 @@
     <header class="site-header">
       <h1>🍜 SG Foodie Digest</h1>
       <p>Best food spots from Singapore — Telegram, Burpple, HungryGoWhere & Lemon8, updated daily.</p>
-      <p class="updated">Last updated: 28 Jun 2026 10:23 UTC — 1178 posts across 38 months</p>
+      <p class="updated">Last updated: 28 Jun 2026 10:25 UTC — 1178 posts across 38 months</p>
     </header>
 
       <div class="filter-bar">
     <input type="search" id="search-input" class="search-input" placeholder="Search posts…" autocomplete="off">
     <div class="source-filters">
       <button class="filter-btn active" data-source="all">All</button>
-      <button class="filter-btn" data-source="telegram" style="--sc:#0088cc">Telegram</button>
-      <button class="filter-btn" data-source="burpple" style="--sc:#e8490f">Burpple</button>
-      <button class="filter-btn" data-source="hungrygowhere" style="--sc:#28a745">HGW</button>
-      <button class="filter-btn" data-source="lemon8" style="--sc:#ff4d57">Lemon8</button>
+      <button class="filter-btn logo-btn" data-source="telegram" style="--sc:#0088cc" title="Telegram"><img src="https://www.google.com/s2/favicons?domain=telegram.org&sz=32" width="20" height="20" alt="Telegram" loading="lazy"></button>
+      <button class="filter-btn logo-btn" data-source="burpple" style="--sc:#e8490f" title="Burpple"><img src="https://www.google.com/s2/favicons?domain=burpple.com&sz=32" width="20" height="20" alt="Burpple" loading="lazy"></button>
+      <button class="filter-btn logo-btn" data-source="hungrygowhere" style="--sc:#28a745" title="HGW"><img src="https://www.google.com/s2/favicons?domain=hungrygowhere.com&sz=32" width="20" height="20" alt="HGW" loading="lazy"></button>
+      <button class="filter-btn logo-btn" data-source="lemon8" style="--sc:#ff4d57" title="Lemon8"><img src="https://www.google.com/s2/favicons?domain=lemon8-app.com&sz=32" width="20" height="20" alt="Lemon8" loading="lazy"></button>
     </div>
   </div>
   <div class="tag-filter-row"><span class="tag-group-label">Category</span><button class="tag-btn" data-tag="cafe">Cafe<span class="tag-count">101</span></button> <button class="tag-btn" data-tag="hawker">Hawker<span class="tag-count">82</span></button> <button class="tag-btn" data-tag="restaurant">Restaurant<span class="tag-count">110</span></button> <button class="tag-btn" data-tag="bakery">Bakery<span class="tag-count">55</span></button> <button class="tag-btn" data-tag="dessert">Dessert<span class="tag-count">94</span></button> <button class="tag-btn" data-tag="drinks">Drinks<span class="tag-count">38</span></button></div>
