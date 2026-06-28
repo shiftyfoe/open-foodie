@@ -16,55 +16,67 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Inspect Lemon8 item structure from CI
+      - name: Run actual Lemon8 scraper with real DB
         run: |
           python3 - <<'EOF'
-          import requests, json
+          import sys
+          sys.path.insert(0, '.')
+          from scrapers import load_db, existing_ids
+          from scrapers import lemon8
 
-          def fetch_items(category):
-              url = (
-                  f"https://www.lemon8-app.com/feed/{category}"
-                  "?method=stream-loadmore"
-                  "&_data=routes%2Ffeed.%24category_name"
-                  "&region=sg&_version=1"
-              )
-              r = requests.get(url, timeout=15, headers={
-                  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-                  "accept": "application/json",
-              })
-              data = r.json()
-              feed = data.get(f"$FeedDateLoadmore+{category}", {})
-              return feed.get("items", [])
+          db = load_db()
+          seen = existing_ids(db)
+          print(f"DB has {len(db['posts'])} posts, {len(seen)} unique IDs")
+          print(f"Lemon8 posts in DB: {sum(1 for p in db['posts'] if p.get('source') == 'lemon8')}")
 
-          items = fetch_items("food")
-          print(f"Total items: {len(items)}")
-          if items:
-              item = items[0]
-              print(f"Item keys: {list(item.keys())}")
-              print(f"groupId: {repr(item.get('groupId', 'MISSING'))}")
-              print(f"title: {repr(item.get('title', 'MISSING'))}")
-              print(f"shortContent: {repr(item.get('shortContent', 'MISSING'))[:120]}")
-              print(f"author: {item.get('author', {})}")
-              print(f"imageList count: {len(item.get('imageList', []))}")
-              print()
-              print("--- Simulating scraper filter logic ---")
-              filtered_out = {"no_group_id": 0, "no_text": 0, "passed": 0}
-              for it in items:
-                  gid = it.get("groupId", "")
-                  if not gid:
-                      filtered_out["no_group_id"] += 1
-                      continue
-                  title = it.get("title", "")
-                  short = it.get("shortContent", "")
-                  text = title
-                  if short:
-                      text = f"{title}\n\n{short}" if title else short
-                  if not text.strip():
-                      filtered_out["no_text"] += 1
-                      continue
-                  filtered_out["passed"] += 1
-              print(f"Filter results: {filtered_out}")
-          else:
-              print("No items returned — full response body:")
-              print(json.dumps(r.json(), indent=2)[:1000])
+          # Run just the food category manually to see what happens
+          import requests, time, random
+
+          webid = "".join(random.choice("0123456789") for _ in range(19)) + "1"
+          session = requests.Session()
+          session.headers.update({
+              "cookie": f"tt_webid={webid};",
+              "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+              "accept": "application/json",
+          })
+
+          url = (
+              "https://www.lemon8-app.com/feed/food"
+              "?method=stream-loadmore"
+              "&_data=routes%2Ffeed.%24category_name"
+              "&region=sg&_version=1"
+          )
+          resp = session.get(url, timeout=15)
+          data = resp.json()
+          feed = data.get("$FeedDateLoadmore+food", {})
+          items = feed.get("items", [])
+          print(f"\nAPI: status={resp.status_code} items={len(items)}")
+
+          new = 0
+          for item in items:
+              gid = item.get("groupId", "")
+              if not gid:
+                  print(f"  SKIP no groupId: {list(item.keys())}")
+                  continue
+              post_id = f"lemon8-{gid}"
+              if post_id in seen:
+                  print(f"  SKIP already seen: {post_id}")
+                  continue
+              title = item.get("title", "")
+              short = item.get("shortContent", "")
+              text = title or short
+              if not text.strip():
+                  print(f"  SKIP no text: gid={gid}")
+                  continue
+              print(f"  PASS: {post_id} title={repr(title[:60])}")
+              new += 1
+
+          print(f"\nResult: {new}/{len(items)} items would be new posts")
+
+          # Now run the full scraper
+          print("\n=== Running full lemon8.scrape(db) ===")
+          posts = lemon8.scrape(db)
+          print(f"Total new posts returned: {len(posts)}")
+          if posts:
+              print(f"Sample: {posts[0]}")
           EOF
