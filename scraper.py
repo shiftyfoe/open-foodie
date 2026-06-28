@@ -8,13 +8,13 @@ Runs each source scraper concurrently, merges results into data/posts.json.
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from scrapers import load_db, save_db
-from scrapers import telegram, hungrygowhere, burpple, instagram
+from scrapers import telegram, hungrygowhere, burpple, lemon8
 
 SCRAPERS = [
     ("Telegram", telegram),
     ("HungryGoWhere", hungrygowhere),
     ("Burpple", burpple),
-    ("Instagram", instagram),
+    ("Lemon8", lemon8),
 ]
 
 
