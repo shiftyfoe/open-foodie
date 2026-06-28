@@ -97,7 +97,7 @@ def _fetch_free_proxies() -> list[str]:
         # Deduplicate
         all_proxies = list(dict.fromkeys(all_proxies))
         random.shuffle(all_proxies)
-        all_proxies = all_proxies[:100]
+        all_proxies = all_proxies[:1000]
         print(f"    ℹ Lemon8 free proxy: fetched {len(all_proxies)} unique candidates")
     return all_proxies
 
