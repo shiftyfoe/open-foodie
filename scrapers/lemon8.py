@@ -108,19 +108,43 @@ def _fetch_free_proxies() -> list[str]:
     return all_proxies
 
 
+# Lemon8 test URL (first page of food feed, lightweight)
+_TEST_URL = (
+    "https://www.lemon8-app.com/feed/food"
+    "?method=stream-loadmore"
+    "&_data=routes%2Ffeed.%24category_name"
+    "&region=sg&_version=1"
+)
+
+
 def _test_proxy(proxy: str) -> str | None:
-    """Test proxy can tunnel HTTPS. Returns proxy URL if OK, None otherwise."""
+    """Test proxy can reach Lemon8 and return items. Returns proxy URL if OK."""
     try:
-        # Test HTTPS tunneling (CONNECT) — this is what Lemon8 actually needs
+        # Stage 1: Verify HTTPS tunneling works
         resp = requests.get(
             "https://httpbin.org/ip",
             proxies={"http": proxy, "https": proxy},
             timeout=5,
         )
-        if resp.status_code == 200:
-            # Verify it's actually proxied (not a transparent/cached response)
-            data = resp.json()
-            if "origin" in data:
+        if resp.status_code != 200:
+            return None
+
+        # Stage 2: Verify it actually returns Lemon8 items
+        webid = "".join(random.choice("0123456789") for _ in range(19)) + "1"
+        resp2 = requests.get(
+            _TEST_URL,
+            headers={
+                "cookie": f"tt_webid={webid};",
+                "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+                "accept": "application/json",
+            },
+            proxies={"http": proxy, "https": proxy},
+            timeout=8,
+        )
+        if resp2.status_code == 200:
+            data = resp2.json()
+            items = data.get("$FeedDateLoadmore+food", {}).get("items", [])
+            if items:
                 return proxy
     except Exception:
         pass
