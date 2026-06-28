@@ -61,7 +61,6 @@ def render_post(post: dict) -> str:
     url = escape(post.get("source_url", ""))
     media_badge = '<span class="media-badge">📷</span>' if post.get("has_media") else ""
 
-    # Source-specific link text
     if source == "telegram":
         link_text = "View on Telegram →"
     elif source == "burpple":
@@ -74,7 +73,7 @@ def render_post(post: dict) -> str:
         link_text = "View source →"
 
     return f"""
-    <article class="post-card">
+    <article class="post-card" data-source="{source}">
       <div class="post-meta">
         <a class="source-tag" href="{url}" target="_blank" rel="noopener" style="background:{source_color}15;color:{source_color}">{source_label}</a>
         <span class="source-title">{source_title}</span>
@@ -98,12 +97,30 @@ def render_month_section(key: str, posts: list[dict]) -> str:
   </section>"""
 
 
-def render_nav(months: list[str]) -> str:
+def render_nav(months: list[str], month_counts: dict[str, int]) -> str:
     links = "\n".join(
-        f'<a class="month-link" href="#{m}">{month_label(m)}</a>'
+        f'<a class="month-link" href="#{m}">{month_label(m)}<span class="month-count">{month_counts.get(m, 0)}</span></a>'
         for m in months
     )
     return f'<nav class="month-nav">\n{links}\n</nav>'
+
+
+def render_filter_bar(present_sources: set[str]) -> str:
+    buttons = ['<button class="filter-btn active" data-source="all">All</button>']
+    for source in ["telegram", "burpple", "hungrygowhere", "lemon8"]:
+        if source in present_sources:
+            label = SOURCE_LABELS.get(source, source)
+            color = SOURCE_COLORS.get(source, "#6b6b6b")
+            buttons.append(
+                f'<button class="filter-btn" data-source="{source}" style="--sc:{color}">{label}</button>'
+            )
+    btns_html = "\n      ".join(buttons)
+    return f"""  <div class="filter-bar">
+    <input type="search" id="search-input" class="search-input" placeholder="Search posts…" autocomplete="off">
+    <div class="source-filters">
+      {btns_html}
+    </div>
+  </div>"""
 
 
 CSS = """
@@ -116,7 +133,7 @@ CSS = """
     --border: #e5e5e5;
     --card-bg: #ffffff;
     --bg: #fafafa;
-    --sidebar-w: 200px;
+    --sidebar-w: 210px;
     --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   body {
@@ -136,7 +153,7 @@ CSS = """
     border-right: 1px solid var(--border);
     padding: 24px 0;
     overflow-y: auto;
-    z-index: 10;
+    z-index: 20;
   }
   .logo {
     font-size: 1.1rem;
@@ -152,6 +169,8 @@ CSS = """
     padding-top: 12px;
   }
   .month-link {
+    display: flex;
+    align-items: center;
     padding: 8px 20px;
     font-size: 0.85rem;
     color: var(--muted);
@@ -162,17 +181,73 @@ CSS = """
     background: var(--accent-light);
     color: var(--accent);
   }
+  .month-count {
+    margin-left: auto;
+    font-size: 0.7rem;
+    background: var(--border);
+    color: var(--muted);
+    border-radius: 100px;
+    padding: 1px 7px;
+    min-width: 22px;
+    text-align: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .month-link.active .month-count {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
   /* Main */
   .main {
     margin-left: var(--sidebar-w);
     flex: 1;
     padding: 40px 32px;
-    max-width: 900px;
+    max-width: 960px;
   }
-  .site-header { margin-bottom: 40px; }
+  .site-header { margin-bottom: 28px; }
   .site-header h1 { font-size: 1.8rem; font-weight: 800; }
   .site-header p { color: var(--muted); margin-top: 6px; font-size: 0.9rem; }
   .updated { color: var(--muted); font-size: 0.8rem; margin-top: 4px; }
+  /* Filter bar */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 180px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-family: var(--font);
+    outline: none;
+    background: var(--card-bg);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(232,73,15,0.1);
+  }
+  .source-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--muted);
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--sc, var(--accent)); color: var(--sc, var(--accent)); }
+  .filter-btn.active { background: var(--sc, var(--accent)); border-color: var(--sc, var(--accent)); color: #fff; }
+  /* No-results message */
+  .no-results { display: none; color: var(--muted); font-size: 0.95rem; padding: 48px 0; text-align: center; }
+  .no-results.visible { display: block; }
   /* Month section */
   .month-section { margin-bottom: 48px; }
   .month-heading {
@@ -238,18 +313,87 @@ CSS = """
   .view-link:hover { text-decoration: underline; }
   /* Empty state */
   .empty { color: var(--muted); font-size: 0.9rem; padding: 20px 0; }
+  /* Back to top */
+  .back-to-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 100;
+  }
+  .back-to-top.visible { display: flex; }
+  .back-to-top:hover { transform: translateY(-2px); }
+  /* Mobile top bar */
+  .mobile-bar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 52px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    padding: 0 16px;
+    z-index: 30;
+  }
+  .mobile-logo { font-weight: 700; font-size: 1rem; color: var(--accent); flex: 1; }
+  .hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+  }
+  /* Overlay behind mobile sidebar */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 15;
+  }
+  .sidebar-overlay.open { display: block; }
   /* Mobile */
   @media (max-width: 640px) {
-    .sidebar { display: none; }
-    .main { margin-left: 0; padding: 20px 16px; }
+    .sidebar {
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+    }
+    .sidebar.mobile-open { transform: translateX(0); }
+    .mobile-bar { display: flex; }
+    .main { margin-left: 0; padding: 68px 16px 20px; }
     .post-grid { grid-template-columns: 1fr; }
+    .back-to-top { bottom: 16px; right: 16px; }
+    .filter-bar { flex-direction: column; align-items: stretch; }
+    .search-input { width: 100%; }
   }
 """
 
 JS = """
-  // Highlight active month in sidebar as user scrolls
   const sections = document.querySelectorAll('.month-section');
   const links = document.querySelectorAll('.month-link');
+
+  // Highlight active month on scroll
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -260,6 +404,89 @@ JS = """
     });
   }, { rootMargin: '-30% 0px -60% 0px' });
   sections.forEach(s => observer.observe(s));
+
+  // --- Source filter + search ---
+  let activeSource = 'all';
+  let searchQuery = '';
+
+  function applyFilters() {
+    const q = searchQuery.toLowerCase();
+    const monthCounts = {};
+
+    document.querySelectorAll('.post-card').forEach(card => {
+      const srcMatch = activeSource === 'all' || card.dataset.source === activeSource;
+      const textMatch = !q || card.textContent.toLowerCase().includes(q);
+      const visible = srcMatch && textMatch;
+      card.style.display = visible ? '' : 'none';
+      if (visible) {
+        const sec = card.closest('.month-section');
+        if (sec) monthCounts[sec.id] = (monthCounts[sec.id] || 0) + 1;
+      }
+    });
+
+    let anyVisible = false;
+    sections.forEach(sec => {
+      const count = monthCounts[sec.id] || 0;
+      sec.style.display = count > 0 ? '' : 'none';
+      if (count > 0) anyVisible = true;
+      const link = document.querySelector('.month-link[href="#' + sec.id + '"]');
+      if (link) {
+        const badge = link.querySelector('.month-count');
+        if (badge) badge.textContent = count;
+      }
+    });
+
+    const noResults = document.getElementById('no-results');
+    if (noResults) noResults.classList.toggle('visible', !anyVisible);
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeSource = btn.dataset.source;
+      applyFilters();
+    });
+  });
+
+  let searchTimer;
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        searchQuery = searchInput.value;
+        applyFilters();
+      }, 200);
+    });
+  }
+
+  // --- Mobile sidebar ---
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+  const hamburger = document.querySelector('.hamburger');
+
+  function openSidebar() {
+    sidebar.classList.add('mobile-open');
+    overlay.classList.add('open');
+  }
+  function closeSidebar() {
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('open');
+  }
+
+  if (hamburger) hamburger.addEventListener('click', openSidebar);
+  if (overlay) overlay.addEventListener('click', closeSidebar);
+  links.forEach(link => link.addEventListener('click', closeSidebar));
+
+  // --- Back to top ---
+  const backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      backToTop.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
 """
 
 
@@ -293,6 +520,7 @@ def generate() -> None:
     posts = db.get("posts", [])
 
     grouped: dict[str, list] = defaultdict(list)
+    present_sources: set[str] = set()
     for post in posts:
         if not post.get("text") and not post.get("has_media"):
             continue
@@ -301,11 +529,14 @@ def generate() -> None:
         dt = datetime.fromisoformat(post["date"])
         key = dt.strftime("%Y-%m")
         grouped[key].append(post)
+        present_sources.add(post.get("source", "telegram"))
 
     months = sorted(grouped.keys(), reverse=True)
+    month_counts = {m: len(grouped[m]) for m in months}
     updated = datetime.now(timezone.utc).strftime("%d %b %Y %H:%M UTC")
 
-    nav_html = render_nav(months)
+    nav_html = render_nav(months, month_counts)
+    filter_bar_html = render_filter_bar(present_sources)
     sections_html = "\n".join(render_month_section(m, grouped[m]) for m in months)
 
     empty_msg = '<p class="empty">No posts scraped yet. Run <code>python scraper.py</code> to populate this page.</p>' if not months else ""
@@ -320,6 +551,15 @@ def generate() -> None:
   <style>{CSS}</style>
 </head>
 <body>
+  <div class="sidebar-overlay"></div>
+
+  <div class="mobile-bar">
+    <span class="mobile-logo">🍜 SG Foodie</span>
+    <button class="hamburger" aria-label="Open navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
   <aside class="sidebar">
     <div class="logo">🍜 SG Foodie<span>Food Digest</span></div>
     {nav_html}
@@ -332,9 +572,13 @@ def generate() -> None:
       <p class="updated">Last updated: {updated} — {sum(len(v) for v in grouped.values())} posts across {len(grouped)} months</p>
     </header>
 
+    {filter_bar_html}
+    <div id="no-results" class="no-results">No posts match your search or filter.</div>
     {empty_msg}
     {sections_html}
   </main>
+
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">↑</button>
 
   <script>{JS}</script>
 </body>
