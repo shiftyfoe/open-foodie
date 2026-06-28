@@ -5,9 +5,12 @@ SG Foodie Scraper — orchestrates all data sources.
 Runs each source scraper concurrently, merges results into data/posts.json.
 """
 
+import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
+from pathlib import Path
 
-from scrapers import load_db, save_db
+from scrapers import DATA_DIR, load_db, save_db
 from scrapers import telegram, hungrygowhere, burpple, lemon8
 
 SCRAPERS = [
@@ -51,9 +54,25 @@ def main() -> None:
         total += len(posts)
 
     # Report errors after all scrapers finish
+    errors = []
     for name, (_, error) in results.items():
         if error:
             print(f"\n⚠ {name}: {error}")
+            errors.append(name)
+
+    # Write status file for scrape_report.py
+    status = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "total_new": total,
+        "errors": errors,
+        "sources": {
+            name: {"new_posts": len(posts), "error": error}
+            for name, (posts, error) in results.items()
+        },
+    }
+    (DATA_DIR / "scrape_status.json").write_text(
+        json.dumps(status, indent=2)
+    )
 
     save_db(db)
     print(f"\nDone — {total} new posts, {len(db['posts'])} total")

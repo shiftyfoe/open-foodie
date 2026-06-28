@@ -1,55 +1,49 @@
 """Post-scrape health report — run after scraper.py in CI.
 
-Reports per-source stats, warns on anomalies, fails if all sources are dead.
+Reads data/scrape_status.json written by scraper.py.
+Reports per-source stats, warns on anomalies, fails only on scraper errors.
 """
 
 from __future__ import annotations
 
+import json
 import sys
-from collections import Counter
-from datetime import datetime, timezone
+from pathlib import Path
 
-from scrapers import load_db
+STATUS_FILE = Path("data/scrape_status.json")
 
 
 def main() -> None:
-    db = load_db()
-    posts = db.get("posts", [])
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-
-    # Count posts by source, split by today vs total
-    today_counts: Counter[str] = Counter()
-    total_counts: Counter[str] = Counter()
-    for p in posts:
-        src = p.get("source", "unknown")
-        total_counts[src] += 1
-        if p.get("date", "").startswith(today):
-            today_counts[src] += 1
-
-    sources = sorted(total_counts.keys())
-
-    # Header
-    print(f"{'Source':<15} {'Today':>7} {'Total':>8}")
-    print("-" * 32)
-    for src in sources:
-        t = today_counts.get(src, 0)
-        total = total_counts[src]
-        flag = " ⚠" if t == 0 else ""
-        print(f"{src:<15} {t:>7} {total:>8}{flag}")
-
-    print("-" * 32)
-    print(f"{'TOTAL':<15} {sum(today_counts.values()):>7} {len(posts):>8}")
-
-    # Warnings
-    zero_sources = [s for s in sources if today_counts.get(s, 0) == 0]
-    if zero_sources:
-        print(f"\n⚠ No new posts today from: {', '.join(zero_sources)}")
-
-    if not today_counts:
-        print("\n✗ All sources returned 0 new posts — scraper may be broken")
+    if not STATUS_FILE.exists():
+        print("✗ No scrape status file — scraper.py may not have run")
         sys.exit(1)
 
-    print("\n✓ Scrape looks healthy")
+    status = json.loads(STATUS_FILE.read_text())
+    sources = status.get("sources", {})
+    errors = status.get("errors", [])
+    total_new = status.get("total_new", 0)
+
+    # Header
+    print(f"{'Source':<15} {'New':>7} {'Status':<10}")
+    print("-" * 34)
+    for name, info in sorted(sources.items()):
+        count = info.get("new_posts", 0)
+        err = info.get("error")
+        status_str = f"✗ {err}" if err else "✓"
+        print(f"{name:<15} {count:>7} {status_str}")
+
+    print("-" * 34)
+    print(f"{'TOTAL':<15} {total_new:>7}")
+
+    # Fail only on actual scraper errors
+    if errors:
+        print(f"\n✗ Scraper errors in: {', '.join(errors)}")
+        sys.exit(1)
+
+    if total_new == 0:
+        print("\nℹ No new posts — DB is up to date")
+    else:
+        print(f"\n✓ {total_new} new posts collected")
 
 
 if __name__ == "__main__":
