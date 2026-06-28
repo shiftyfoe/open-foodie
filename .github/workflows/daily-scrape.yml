@@ -14,6 +14,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: scrape-deploy
+  cancel-in-progress: false
+
 jobs:
   scrape-and-deploy:
     runs-on: ubuntu-latest
@@ -44,7 +48,7 @@ jobs:
       - name: Generate static site
         run: python generate.py
 
-      - name: Commit & push (with autostash for concurrent runs)
+      - name: Commit & push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -53,8 +57,14 @@ jobs:
           test -f data/dedup_posts.json && git add data/dedup_posts.json || true
           git diff --staged --quiet && echo "Nothing new to commit" && exit 0
           git commit -m "chore: daily scrape $(date -u +%Y-%m-%d)"
-          # Pull with autostash to handle concurrent workflow runs
-          for i in 1 2 3; do
-            git pull --rebase --autostash origin main && break || sleep 5
-          done
+          # Rebase onto latest origin; on conflict, abort and fall back to merge
+          git fetch origin main
+          if ! git rebase origin/main; then
+            git rebase --abort
+            # docs/index.html is generated — resolve by regenerating after merge
+            git merge origin/main --no-edit || true
+            python generate.py
+            git add docs/index.html
+            git -c core.editor=true merge --continue 2>/dev/null || git commit --no-edit -m "chore: merge concurrent scrape $(date -u +%Y-%m-%d)"
+          fi
           git push
