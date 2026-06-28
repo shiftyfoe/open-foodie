@@ -1,7 +1,12 @@
-name: Test Lemon8 via Jina Reader
+name: Test Lemon8 Scraper
 
 on:
   workflow_dispatch:
+    inputs:
+      use_proxy:
+        description: "Use proxy for requests (yes/no)"
+        required: false
+        default: "no"
 
 jobs:
   test:
@@ -16,10 +21,12 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Run actual Lemon8 scraper with real DB
+      - name: Run Lemon8 scraper diagnostics
+        env:
+          LEMON8_PROXIES: ${{ secrets.LEMON8_PROXIES }}
         run: |
           python3 - <<'EOF'
-          import sys
+          import sys, os
           sys.path.insert(0, '.')
           from scrapers import load_db, existing_ids
           from scrapers import lemon8
@@ -29,8 +36,20 @@ jobs:
           print(f"DB has {len(db['posts'])} posts, {len(seen)} unique IDs")
           print(f"Lemon8 posts in DB: {sum(1 for p in db['posts'] if p.get('source') == 'lemon8')}")
 
-          # Run just the food category manually to see what happens
-          import requests, time, random
+          # Check proxy config
+          proxy_env = os.environ.get("LEMON8_PROXIES", "").strip()
+          if proxy_env:
+              proxies = [p.strip() for p in proxy_env.split(",") if p.strip()]
+              print(f"\n✓ Proxies configured: {len(proxies)}")
+              for i, p in enumerate(proxies):
+                  # Mask credentials in output
+                  masked = p.split("@")[-1] if "@" in p else p
+                  print(f"  [{i+1}] ...@{masked}")
+          else:
+              print("\n✗ No LEMON8_PROXIES set — running without proxy")
+
+          # Test single category
+          import requests, time, random, itertools
 
           webid = "".join(random.choice("0123456789") for _ in range(19)) + "1"
           session = requests.Session()
@@ -40,43 +59,54 @@ jobs:
               "accept": "application/json",
           })
 
+          proxies_list = lemon8._load_proxies()
+          proxy_cycle = itertools.cycle(proxies_list) if proxies_list else None
+
           url = (
               "https://www.lemon8-app.com/feed/food"
               "?method=stream-loadmore"
               "&_data=routes%2Ffeed.%24category_name"
               "&region=sg&_version=1"
           )
-          resp = session.get(url, timeout=15)
-          data = resp.json()
-          feed = data.get("$FeedDateLoadmore+food", {})
-          items = feed.get("items", [])
-          print(f"\nAPI: status={resp.status_code} items={len(items)}")
 
-          new = 0
-          for item in items:
-              gid = item.get("groupId", "")
-              if not gid:
-                  print(f"  SKIP no groupId: {list(item.keys())}")
-                  continue
-              post_id = f"lemon8-{gid}"
-              if post_id in seen:
-                  print(f"  SKIP already seen: {post_id}")
-                  continue
-              title = item.get("title", "")
-              short = item.get("shortContent", "")
-              text = title or short
-              if not text.strip():
-                  print(f"  SKIP no text: gid={gid}")
-                  continue
-              print(f"  PASS: {post_id} title={repr(title[:60])}")
-              new += 1
+          proxy = next(proxy_cycle) if proxy_cycle else None
+          proxy_dict = {"http": proxy, "https": proxy} if proxy else None
+          if proxy:
+              masked = proxy.split("@")[-1] if "@" in proxy else proxy
+              print(f"\nUsing proxy: ...@{masked}")
 
-          print(f"\nResult: {new}/{len(items)} items would be new posts")
+          resp = session.get(url, timeout=15, proxies=proxy_dict)
+          print(f"\nAPI: status={resp.status_code}")
 
-          # Now run the full scraper
+          if resp.status_code == 200:
+              data = resp.json()
+              feed = data.get("$FeedDateLoadmore+food", {})
+              items = feed.get("items", [])
+              print(f"Items returned: {len(items)}")
+
+              new = 0
+              for item in items:
+                  gid = item.get("groupId", "")
+                  if not gid:
+                      continue
+                  post_id = f"lemon8-{gid}"
+                  if post_id in seen:
+                      continue
+                  title = item.get("title", "")
+                  short = item.get("shortContent", "")
+                  text = title or short
+                  if not text.strip():
+                      continue
+                  new += 1
+
+              print(f"New posts (not in DB): {new}/{len(items)}")
+          else:
+              print(f"Response body: {resp.text[:200]}")
+
+          # Run full scraper
           print("\n=== Running full lemon8.scrape(db) ===")
           posts = lemon8.scrape(db)
-          print(f"Total new posts returned: {len(posts)}")
+          print(f"\nTotal new posts: {len(posts)}")
           if posts:
-              print(f"Sample: {posts[0]}")
+              print(f"Sample: {posts[0].get('source_title', '')} — {posts[0].get('text', '')[:80]}")
           EOF

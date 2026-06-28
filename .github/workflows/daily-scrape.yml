@@ -40,6 +40,7 @@ jobs:
       - name: Scrape all sources (concurrent)
         env:
           INITIAL_LIMIT: ${{ github.event.inputs.initial_limit || '100' }}
+          LEMON8_PROXIES: ${{ secrets.LEMON8_PROXIES }}
         run: python scraper.py
 
       - name: Local dedup — cluster near-duplicates & extract restaurant mentions
