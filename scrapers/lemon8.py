@@ -3,8 +3,9 @@
 Uses a randomly generated tt_webid cookie (no login required).
 Hits the same web endpoints the Lemon8 site uses.
 
-Set LEMON8_PROXIES env var to comma-separated proxy URLs to avoid IP blocking.
-Example: LEMON8_PROXIES="http://user:pass@host1:8080,http://user:pass@host2:8080"
+Proxy support (to avoid IP blocking from CI):
+  - LEMON8_PROXIES: comma-separated proxy URLs (manual list)
+  - If unset, auto-fetches free proxies from public sources
 """
 
 from __future__ import annotations
@@ -13,6 +14,7 @@ import itertools
 import os
 import random
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 
 import requests
@@ -52,16 +54,90 @@ _MAX_PAGES = 3
 _MAX_RETRIES = 3
 _BACKOFF_BASE = 3  # seconds; doubles each retry
 
+# Free proxy sources (HTTP)
+_PROXY_SOURCES = [
+    "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all",
+    "https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt",
+    "https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/http.txt",
+    "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt",
+    "https://raw.githubusercontent.com/proxylist-to/proxy-list/main/http.txt",
+]
+
+
+def _fetch_free_proxies() -> list[str]:
+    """Fetch fresh free HTTP proxies from public sources."""
+    all_proxies: list[str] = []
+    for url in _PROXY_SOURCES:
+        try:
+            resp = requests.get(url, timeout=10)
+            if resp.status_code == 200:
+                lines = [
+                    line.strip()
+                    for line in resp.text.splitlines()
+                    if line.strip() and not line.startswith("#")
+                ]
+                for line in lines:
+                    if not line.startswith("http"):
+                        line = f"http://{line}"
+                    all_proxies.append(line)
+        except Exception:
+            continue
+
+    if all_proxies:
+        random.shuffle(all_proxies)
+        all_proxies = all_proxies[:50]
+        print(f"    ℹ Lemon8 free proxy: fetched {len(all_proxies)} candidates")
+    return all_proxies
+
+
+def _test_proxy(proxy: str) -> str | None:
+    """Quick check if a proxy works. Returns proxy URL if OK, None otherwise."""
+    try:
+        resp = requests.get(
+            "https://httpbin.org/ip",
+            proxies={"http": proxy, "https": proxy},
+            timeout=5,
+        )
+        if resp.status_code == 200:
+            return proxy
+    except Exception:
+        pass
+    return None
+
 
 def _load_proxies() -> list[str]:
-    """Load proxy list from LEMON8_PROXIES env var."""
+    """Load proxy list from env var, or auto-fetch free proxies."""
     raw = os.environ.get("LEMON8_PROXIES", "").strip()
-    if not raw:
+    if raw:
+        proxies = [p.strip() for p in raw.split(",") if p.strip()]
+        if proxies:
+            print(f"    ℹ Lemon8 proxy: {len(proxies)} proxy(ies) from env")
+        return proxies
+
+    # Auto-fetch free proxies and test them concurrently
+    candidates = _fetch_free_proxies()
+    if not candidates:
+        print("    ⚠ Lemon8 proxy: no free proxies found, running direct")
         return []
-    proxies = [p.strip() for p in raw.split(",") if p.strip()]
-    if proxies:
-        print(f"    ℹ Lemon8 proxy: {len(proxies)} proxy(ies) configured")
-    return proxies
+
+    working: list[str] = []
+    print(f"    ℹ Lemon8 proxy: testing {len(candidates)} proxies (concurrent)...")
+    with ThreadPoolExecutor(max_workers=10) as pool:
+        futures = {pool.submit(_test_proxy, p): p for p in candidates}
+        for future in as_completed(futures):
+            if len(working) >= 5:
+                break
+            result = future.result()
+            if result:
+                working.append(result)
+                host = result.split("@")[-1] if "@" in result else result
+                print(f"      ✓ {host}")
+
+    if working:
+        print(f"    ℹ Lemon8 proxy: {len(working)} working proxy(ies)")
+    else:
+        print("    ⚠ Lemon8 proxy: no working proxies, running direct")
+    return working
 
 
 def _make_session() -> requests.Session:
