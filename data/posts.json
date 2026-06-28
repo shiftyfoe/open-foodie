@@ -65,7 +65,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "hawker"
+      ]
     },
     {
       "id": "lemon8-7656069107225346567",
@@ -151,6 +153,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
         "hawker",
         "dessert",
         "drinks"
@@ -432,7 +435,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -508,8 +512,7 @@
       "location": "",
       "tags": [
         "cafe",
-        "japanese",
-        "western"
+        "japanese"
       ]
     },
     {
@@ -556,8 +559,7 @@
       "location": "",
       "tags": [
         "hawker",
-        "japanese",
-        "western"
+        "japanese"
       ]
     },
     {
@@ -616,6 +618,7 @@
       "location": "",
       "tags": [
         "chinese",
+        "korean",
         "malay"
       ]
     },
@@ -631,7 +634,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "malay"
+        "hawker"
       ]
     },
     {
@@ -701,7 +704,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -731,7 +735,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "chinese"
       ]
     },
     {
@@ -780,8 +785,7 @@
         "cafe",
         "japanese",
         "thai",
-        "western",
-        "malay"
+        "western"
       ]
     },
     {
@@ -881,6 +885,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "thai"
       ]
     },
@@ -897,7 +902,8 @@
       "location": "",
       "tags": [
         "restaurant",
-        "indian"
+        "indian",
+        "malay"
       ]
     },
     {
@@ -926,7 +932,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "lemon8-7655341051690877448",
@@ -953,7 +961,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "restaurant"
       ]
     },
     {
@@ -1061,7 +1070,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-13055",
@@ -1075,7 +1087,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "malay"
+        "restaurant"
       ]
     },
     {
@@ -1107,6 +1119,7 @@
       "location": "",
       "tags": [
         "cafe",
+        "drinks",
         "western"
       ]
     },
@@ -1122,8 +1135,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker",
-        "malay"
+        "hawker"
       ]
     },
     {
@@ -1155,8 +1167,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert",
-        "drinks"
+        "dessert"
       ]
     },
     {
@@ -1200,8 +1211,7 @@
       "location": "",
       "tags": [
         "hawker",
-        "chinese",
-        "malay"
+        "chinese"
       ]
     },
     {
@@ -1216,7 +1226,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "korean"
+        "korean",
+        "western"
       ]
     },
     {
@@ -1320,7 +1331,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4312",
@@ -1348,7 +1362,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "lemon8-7654864288871481864",
@@ -1374,7 +1390,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "telegram-13049",
@@ -1432,9 +1450,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "malay"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-4311",
@@ -1447,7 +1463,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "dessert"
+      ]
     },
     {
       "id": "telegram-8081",
@@ -1531,7 +1549,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-8080",
@@ -1544,9 +1565,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "drinks"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-1003",
@@ -1607,8 +1626,7 @@
       "location": "",
       "tags": [
         "cafe",
-        "japanese",
-        "malay"
+        "japanese"
       ]
     },
     {
@@ -1669,7 +1687,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-8078",
@@ -1683,6 +1703,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "malay"
       ]
     },
@@ -1697,7 +1718,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "telegram-4308",
@@ -1792,6 +1815,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -1881,8 +1905,8 @@
       "location": "",
       "tags": [
         "dessert",
-        "japanese",
-        "malay"
+        "drinks",
+        "japanese"
       ]
     },
     {
@@ -1955,8 +1979,7 @@
       "location": "",
       "tags": [
         "japanese",
-        "western",
-        "malay"
+        "western"
       ]
     },
     {
@@ -2016,7 +2039,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant",
+        "korean"
+      ]
     },
     {
       "id": "telegram-8073",
@@ -2046,7 +2072,7 @@
       "location": "",
       "tags": [
         "hawker",
-        "drinks",
+        "chinese",
         "thai"
       ]
     },
@@ -2075,6 +2101,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese",
         "japanese"
       ]
@@ -2137,6 +2164,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "chinese"
       ]
     },
@@ -2152,7 +2180,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "malay"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -2195,6 +2224,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -2279,7 +2309,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "bakery",
+        "dessert"
+      ]
     },
     {
       "id": "lemon8-7653285667190866440",
@@ -2336,7 +2369,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "bakery",
+        "dessert"
       ]
     },
     {
@@ -2382,6 +2417,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -2524,7 +2560,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-13020",
@@ -2537,9 +2575,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "malay"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-4301",
@@ -2552,7 +2588,12 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "bakery",
+        "dessert",
+        "chinese"
+      ]
     },
     {
       "id": "telegram-8067",
@@ -2565,7 +2606,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "chinese"
+      ]
     },
     {
       "id": "telegram-4777",
@@ -2579,6 +2622,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -2636,6 +2680,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -2679,6 +2724,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "thai"
       ]
     },
@@ -2916,6 +2962,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "korean"
       ]
     },
@@ -2932,7 +2979,7 @@
       "location": "",
       "tags": [
         "restaurant",
-        "drinks"
+        "chinese"
       ]
     },
     {
@@ -2991,8 +3038,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "chinese",
-        "malay"
+        "hawker",
+        "chinese"
       ]
     },
     {
@@ -3006,7 +3053,11 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks",
+        "western"
+      ]
     },
     {
       "id": "telegram-8057",
@@ -3019,7 +3070,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "chinese"
+      ]
     },
     {
       "id": "telegram-13010",
@@ -3035,6 +3088,7 @@
       "tags": [
         "cafe",
         "bakery",
+        "dessert",
         "western"
       ]
     },
@@ -3063,6 +3117,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "dessert"
       ]
     },
@@ -3109,8 +3164,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "chinese",
-        "malay"
+        "chinese"
       ]
     },
     {
@@ -3241,6 +3295,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
+        "drinks",
         "western"
       ]
     },
@@ -3272,7 +3328,6 @@
       "location": "",
       "tags": [
         "restaurant",
-        "drinks",
         "korean"
       ]
     },
@@ -3415,6 +3470,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
+        "drinks",
         "japanese"
       ]
     },
@@ -3444,8 +3501,6 @@
       "location": "",
       "tags": [
         "hawker",
-        "restaurant",
-        "bakery",
         "western"
       ]
     },
@@ -3492,6 +3547,7 @@
       "location": "",
       "tags": [
         "hawker",
+        "bakery",
         "chinese"
       ]
     },
@@ -3570,7 +3626,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -3661,7 +3718,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-4767",
@@ -3719,7 +3778,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-8046",
@@ -3833,6 +3894,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -3922,7 +3984,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-12983",
@@ -3951,6 +4015,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese",
         "korean"
       ]
@@ -3981,6 +4046,7 @@
       "location": "",
       "tags": [
         "cafe",
+        "drinks",
         "western"
       ]
     },
@@ -3995,7 +4061,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "drinks"
+      ]
     },
     {
       "id": "telegram-12981",
@@ -4021,7 +4089,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-8041",
@@ -4065,9 +4136,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "malay"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-8040",
@@ -4082,8 +4151,7 @@
       "location": "",
       "tags": [
         "hawker",
-        "chinese",
-        "malay"
+        "chinese"
       ]
     },
     {
@@ -4214,7 +4282,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-12976",
@@ -4227,9 +4298,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "drinks"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-4282",
@@ -4258,7 +4327,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery"
+        "bakery",
+        "drinks"
       ]
     },
     {
@@ -4288,8 +4358,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant",
-        "malay"
+        "restaurant"
       ]
     },
     {
@@ -4380,6 +4449,7 @@
       "location": "",
       "tags": [
         "dessert",
+        "drinks",
         "japanese",
         "korean",
         "thai"
@@ -4425,6 +4495,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -4440,7 +4511,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant"
+        "restaurant",
+        "chinese"
       ]
     },
     {
@@ -4470,6 +4542,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -4511,7 +4584,11 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "restaurant",
+        "bakery",
+        "dessert",
+        "chinese"
       ]
     },
     {
@@ -4527,8 +4604,7 @@
       "location": "",
       "tags": [
         "cafe",
-        "restaurant",
-        "malay"
+        "restaurant"
       ]
     },
     {
@@ -4558,9 +4634,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "malay"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-4756",
@@ -4587,7 +4661,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -4645,6 +4720,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -4699,7 +4775,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "cafe",
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -4741,7 +4819,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant",
+        "western"
+      ]
     },
     {
       "id": "telegram-12964",
@@ -4771,7 +4852,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
         "japanese"
       ]
     },
@@ -4848,8 +4928,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant",
-        "malay"
+        "restaurant"
       ]
     },
     {
@@ -4863,7 +4942,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "telegram-12960",
@@ -4876,7 +4957,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-1922",
@@ -4890,6 +4973,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -4938,6 +5022,7 @@
       "location": "",
       "tags": [
         "cafe",
+        "drinks",
         "vietnamese"
       ]
     },
@@ -5082,7 +5167,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery",
         "dessert",
         "western"
       ]
@@ -5112,7 +5196,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "korean"
       ]
     },
     {
@@ -5126,7 +5211,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "bakery",
+        "dessert"
+      ]
     },
     {
       "id": "telegram-4270",
@@ -5139,7 +5227,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "telegram-4745",
@@ -5181,7 +5271,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "bakery",
+        "dessert"
+      ]
     },
     {
       "id": "telegram-4268",
@@ -5195,7 +5288,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
         "japanese"
       ]
     },
@@ -5356,9 +5448,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "drinks"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-4264",
@@ -5457,8 +5547,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert",
-        "drinks"
+        "dessert"
       ]
     },
     {
@@ -5473,7 +5562,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "korean"
       ]
     },
     {
@@ -5488,6 +5578,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "korean"
       ]
     },
@@ -5502,7 +5593,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4739",
@@ -5517,7 +5611,10 @@
       "location": "",
       "tags": [
         "cafe",
+        "restaurant",
+        "bakery",
         "dessert",
+        "drinks",
         "japanese",
         "western"
       ]
@@ -5580,6 +5677,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "malay"
       ]
     },
@@ -5596,6 +5694,7 @@
       "location": "",
       "tags": [
         "cafe",
+        "restaurant",
         "dessert",
         "japanese",
         "malay"
@@ -5888,7 +5987,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "malay"
+        "restaurant"
       ]
     },
     {
@@ -5902,7 +6001,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-7997",
@@ -5916,6 +6018,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "drinks"
       ]
     },
@@ -5930,9 +6033,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "malay"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-4729",
@@ -5975,6 +6076,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
         "dessert"
       ]
     },
@@ -5991,6 +6093,7 @@
       "location": "",
       "tags": [
         "dessert",
+        "drinks",
         "thai"
       ]
     },
@@ -6046,7 +6149,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-4250",
@@ -6229,7 +6334,8 @@
       "location": "",
       "tags": [
         "cafe",
-        "dessert"
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -6300,7 +6406,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "cafe",
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -6314,7 +6422,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "telegram-4719",
@@ -6329,7 +6439,8 @@
       "location": "",
       "tags": [
         "cafe",
-        "hawker"
+        "hawker",
+        "drinks"
       ]
     },
     {
@@ -6343,7 +6454,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4718",
@@ -6441,7 +6555,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "cafe",
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -6556,6 +6672,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "dessert"
       ]
     },
@@ -6571,7 +6688,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant"
+        "restaurant",
+        "bakery"
       ]
     },
     {
@@ -6585,7 +6703,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4709",
@@ -6598,7 +6719,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "bakery",
+        "dessert"
+      ]
     },
     {
       "id": "telegram-1007",
@@ -6614,7 +6738,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "chinese"
+      ]
     },
     {
       "id": "telegram-884",
@@ -6658,9 +6785,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "drinks"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-4232",
@@ -6804,7 +6929,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -6860,6 +6986,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "western"
       ]
     },
@@ -7002,7 +7129,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant"
+        "restaurant",
+        "chinese"
       ]
     },
     {
@@ -7032,7 +7160,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "lemon8-7638509277484794369",
@@ -7058,7 +7188,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4220",
@@ -7085,7 +7217,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "restaurant",
+        "dessert",
+        "western"
       ]
     },
     {
@@ -7217,7 +7351,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-4694",
@@ -7230,7 +7366,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "drinks"
+      ]
     },
     {
       "id": "hungrygowhere-63891",
@@ -7257,7 +7395,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
         "chinese"
       ]
     },
@@ -7272,7 +7409,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "drinks"
+      ]
     },
     {
       "id": "hungrygowhere-63817",
@@ -7315,6 +7454,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "drinks",
         "western"
       ]
     },
@@ -7330,7 +7470,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
         "restaurant",
+        "drinks",
         "malay"
       ]
     },
@@ -7376,6 +7518,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -7391,6 +7534,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "western"
       ]
     },
@@ -7433,7 +7577,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-1917",
@@ -7507,7 +7653,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4680",
@@ -7520,7 +7669,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4679",
@@ -7547,7 +7699,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "drinks"
       ]
     },
     {
@@ -7562,6 +7715,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "thai"
       ]
     },
@@ -7725,7 +7879,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant"
+        "restaurant",
+        "western"
       ]
     },
     {
@@ -7768,6 +7923,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
+        "drinks",
         "western"
       ]
     },
@@ -7782,7 +7939,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-1914",
@@ -7808,7 +7967,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-4666",
@@ -7823,6 +7985,8 @@
       "location": "",
       "tags": [
         "cafe",
+        "restaurant",
+        "bakery",
         "chinese"
       ]
     },
@@ -7851,7 +8015,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant"
+        "restaurant",
+        "western"
       ]
     },
     {
@@ -7866,6 +8031,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -7941,7 +8107,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
+        "restaurant",
         "japanese"
       ]
     },
@@ -8074,6 +8240,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
+        "restaurant",
         "chinese"
       ]
     },
@@ -8146,7 +8314,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "hungrygowhere-62633",
@@ -8173,6 +8343,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -8220,7 +8391,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "korean"
+      ]
     },
     {
       "id": "hungrygowhere-62552",
@@ -8288,6 +8461,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -8303,6 +8477,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -8333,6 +8508,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -8464,7 +8640,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "dessert",
+        "korean"
       ]
     },
     {
@@ -8533,7 +8710,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
         "japanese"
       ]
     },
@@ -8607,7 +8783,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery",
         "western"
       ]
     },
@@ -8623,6 +8798,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "dessert",
         "western"
       ]
@@ -8726,7 +8902,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "hungrygowhere-61804",
@@ -8799,7 +8977,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "bakery",
+        "drinks"
       ]
     },
     {
@@ -8856,7 +9036,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "bakery"
+      ]
     },
     {
       "id": "hungrygowhere-61687",
@@ -8914,7 +9096,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7613056790254715400",
@@ -8928,7 +9113,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "dessert",
+        "chinese"
       ]
     },
     {
@@ -8998,7 +9185,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "hungrygowhere-61497",
@@ -9096,6 +9286,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -9149,7 +9340,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7610846492052275719",
@@ -9163,7 +9357,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "bakery"
       ]
     },
     {
@@ -9220,7 +9415,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7609865818226033160",
@@ -9318,7 +9516,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "hawker"
+      ]
     },
     {
       "id": "hungrygowhere-61300",
@@ -9478,7 +9678,8 @@
       "location": "",
       "tags": [
         "cafe",
-        "hawker"
+        "hawker",
+        "drinks"
       ]
     },
     {
@@ -9493,6 +9694,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "western"
       ]
     },
@@ -9579,7 +9781,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "hungrygowhere-61108",
@@ -9682,7 +9887,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "hungrygowhere-60931",
@@ -9710,7 +9917,6 @@
       "location": "",
       "tags": [
         "hawker",
-        "restaurant",
         "western"
       ]
     },
@@ -9752,6 +9958,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "korean"
       ]
     },
@@ -9766,7 +9973,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "lemon8-7604485692722397714",
@@ -9780,6 +9989,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
+        "drinks",
         "western"
       ]
     },
@@ -9851,6 +10062,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -9878,7 +10090,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "drinks"
+      ]
     },
     {
       "id": "hungrygowhere-60778",
@@ -10093,9 +10307,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "malay"
-      ]
+      "tags": []
     },
     {
       "id": "hungrygowhere-60521",
@@ -10182,7 +10394,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "telegram-1903",
@@ -10367,8 +10581,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "japanese",
-        "western"
+        "dessert",
+        "drinks",
+        "japanese"
       ]
     },
     {
@@ -10395,7 +10610,11 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks",
+        "western"
+      ]
     },
     {
       "id": "telegram-1901",
@@ -10437,6 +10656,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "western"
       ]
     },
@@ -10451,7 +10671,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "lemon8-7594883659358945809",
@@ -10508,6 +10730,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "bakery"
       ]
     },
@@ -10577,7 +10800,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -10688,6 +10912,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "western"
       ]
     },
@@ -10755,7 +10980,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "drinks"
       ]
     },
     {
@@ -10865,7 +11091,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
         "korean"
       ]
     },
@@ -10924,6 +11149,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -10939,6 +11165,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "dessert",
         "japanese"
       ]
     },
@@ -10996,7 +11223,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "bakery",
+        "dessert"
+      ]
     },
     {
       "id": "hungrygowhere-59709",
@@ -11123,7 +11353,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "korean"
       ]
     },
     {
@@ -11182,6 +11413,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "chinese",
         "japanese"
       ]
@@ -11281,7 +11513,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery"
+        "drinks"
       ]
     },
     {
@@ -11327,7 +11559,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery"
+        "cafe",
+        "bakery",
+        "drinks"
       ]
     },
     {
@@ -11342,6 +11576,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -11494,7 +11729,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7580565062310429192",
@@ -11646,7 +11884,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant"
+        "restaurant",
+        "western"
       ]
     },
     {
@@ -11660,7 +11899,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "lemon8-7577557204174176776",
@@ -11689,7 +11930,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "dessert",
+        "korean"
       ]
     },
     {
@@ -11732,7 +11974,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "lemon8-7576724289195131400",
@@ -11759,8 +12003,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "chinese",
-        "malay"
+        "chinese"
       ]
     },
     {
@@ -11800,7 +12043,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "korean"
+      ]
     },
     {
       "id": "telegram-1888",
@@ -11854,7 +12099,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "korean"
+      ]
     },
     {
       "id": "lemon8-7575018586058588688",
@@ -11880,7 +12127,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "hawker",
+        "korean"
+      ]
     },
     {
       "id": "lemon8-7574800281364398593",
@@ -11907,6 +12157,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "western"
       ]
     },
@@ -11921,7 +12172,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "lemon8-7574125784818778645",
@@ -12143,6 +12396,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
+        "drinks",
         "western"
       ]
     },
@@ -12187,7 +12442,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "korean"
+      ]
     },
     {
       "id": "hungrygowhere-57769",
@@ -12215,7 +12472,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "lemon8-7568822042494943751",
@@ -12341,6 +12600,7 @@
       "tags": [
         "cafe",
         "restaurant",
+        "drinks",
         "western"
       ]
     },
@@ -12428,6 +12688,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "drinks",
         "chinese"
       ]
     },
@@ -12496,7 +12757,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7564565608063435282",
@@ -12552,7 +12815,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "lemon8-7563107059651183111",
@@ -12581,7 +12846,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "lemon8-7562839724608602625",
@@ -12620,7 +12887,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "hungrygowhere-57058",
@@ -12673,6 +12942,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "thai"
       ]
     },
@@ -12687,7 +12957,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe"
+      ]
     },
     {
       "id": "lemon8-7560936022322823688",
@@ -12769,7 +13041,6 @@
       "location": "",
       "tags": [
         "bakery",
-        "drinks",
         "korean"
       ]
     },
@@ -12841,8 +13112,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery",
-        "drinks"
+        "bakery"
       ]
     },
     {
@@ -12870,6 +13140,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "japanese"
       ]
     },
@@ -12902,6 +13173,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
+        "drinks",
         "western"
       ]
     },
@@ -12969,7 +13242,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -13027,6 +13301,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "bakery",
         "chinese"
       ]
     },
@@ -13088,6 +13363,7 @@
       "tags": [
         "cafe",
         "dessert",
+        "drinks",
         "western"
       ]
     },
@@ -13142,7 +13418,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "cafe",
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -13159,7 +13437,8 @@
       "tags": [
         "cafe",
         "bakery",
-        "dessert"
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -13232,8 +13511,7 @@
       "location": "",
       "tags": [
         "bakery",
-        "dessert",
-        "drinks"
+        "dessert"
       ]
     },
     {
@@ -13327,9 +13605,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "bakery"
-      ]
+      "tags": []
     },
     {
       "id": "lemon8-7551589338681836050",
@@ -13371,7 +13647,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7550653625140265473",
@@ -13553,7 +13832,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "drinks"
       ]
     },
     {
@@ -13747,7 +14027,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -13949,7 +14230,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "hawker"
+      ]
     },
     {
       "id": "hungrygowhere-55213",
@@ -14074,7 +14357,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -14103,7 +14387,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7538054544115253781",
@@ -14117,6 +14403,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -14161,6 +14448,7 @@
       "location": "",
       "tags": [
         "cafe",
+        "restaurant",
         "bakery"
       ]
     },
@@ -14176,7 +14464,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -14282,7 +14571,8 @@
       "location": "",
       "tags": [
         "hawker",
-        "restaurant"
+        "restaurant",
+        "chinese"
       ]
     },
     {
@@ -14380,7 +14670,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "lemon8-7533242515202310673",
@@ -14480,6 +14773,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "bakery"
       ]
     },
@@ -14495,8 +14789,10 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
         "hawker",
-        "dessert"
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -14527,7 +14823,9 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "cafe",
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -14630,7 +14928,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "lemon8-7530668686219641352",
@@ -14702,7 +15002,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "drinks"
       ]
     },
     {
@@ -14745,7 +15046,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -14773,7 +15075,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "dessert"
+        "dessert",
+        "drinks"
       ]
     },
     {
@@ -14898,6 +15201,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "dessert"
       ]
     },
@@ -14951,7 +15255,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "thai"
+      ]
     },
     {
       "id": "lemon8-7525343608690704904",
@@ -15036,6 +15342,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "thai"
       ]
     },
@@ -15159,7 +15466,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery"
+        "bakery",
+        "drinks"
       ]
     },
     {
@@ -15175,6 +15483,8 @@
       "location": "",
       "tags": [
         "restaurant",
+        "bakery",
+        "dessert",
         "vietnamese"
       ]
     },
@@ -15264,7 +15574,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "bakery"
+      ]
     },
     {
       "id": "telegram-842",
@@ -15306,6 +15618,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "western"
       ]
     },
@@ -15335,7 +15648,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "western"
+      ]
     },
     {
       "id": "hungrygowhere-51774",
@@ -15349,6 +15664,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "western"
       ]
     },
@@ -15363,9 +15679,7 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": [
-        "malay"
-      ]
+      "tags": []
     },
     {
       "id": "telegram-841",
@@ -15482,6 +15796,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "korean"
       ]
     },
@@ -15542,7 +15857,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "hawker"
+      ]
     },
     {
       "id": "telegram-1844",
@@ -15584,7 +15901,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery",
         "drinks",
         "western"
       ]
@@ -15631,7 +15947,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery",
         "western"
       ]
     },
@@ -15677,6 +15992,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "drinks",
         "korean"
       ]
@@ -15693,7 +16009,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
         "western"
       ]
     },
@@ -15765,6 +16080,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "dessert",
         "chinese",
         "japanese",
@@ -15826,7 +16142,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "restaurant"
+        "restaurant",
+        "western"
       ]
     },
     {
@@ -15840,7 +16157,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-1837",
@@ -15896,7 +16215,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "hawker"
+      ]
     },
     {
       "id": "telegram-1833",
@@ -15980,7 +16301,9 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "restaurant"
+      ]
     },
     {
       "id": "telegram-1829",
@@ -15994,6 +16317,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "chinese"
       ]
     },
@@ -16025,6 +16349,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -16040,6 +16365,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "hawker",
         "chinese"
       ]
     },
@@ -16125,6 +16451,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "korean"
       ]
     },
@@ -16153,7 +16480,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "hawker"
+        "hawker",
+        "bakery"
       ]
     },
     {
@@ -16318,8 +16646,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "thai",
-        "malay"
+        "thai"
       ]
     },
     {
@@ -16377,7 +16704,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-822",
@@ -16408,7 +16738,8 @@
       "location": "",
       "tags": [
         "cafe",
-        "bakery"
+        "bakery",
+        "korean"
       ]
     },
     {
@@ -16423,7 +16754,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery"
+        "bakery",
+        "dessert"
       ]
     },
     {
@@ -16655,7 +16987,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "bakery"
+        "bakery",
+        "dessert"
       ]
     },
     {
@@ -16715,6 +17048,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "restaurant",
         "korean"
       ]
     },
@@ -16774,7 +17108,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-786",
@@ -16788,6 +17125,7 @@
       "cuisine": "",
       "location": "",
       "tags": [
+        "cafe",
         "drinks"
       ]
     },
@@ -16879,7 +17217,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "korean"
       ]
     },
     {
@@ -17042,7 +17381,8 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "cafe"
+        "cafe",
+        "restaurant"
       ]
     },
     {
@@ -17056,7 +17396,10 @@
       "restaurant_name": "",
       "cuisine": "",
       "location": "",
-      "tags": []
+      "tags": [
+        "cafe",
+        "drinks"
+      ]
     },
     {
       "id": "telegram-764",
@@ -17096,7 +17439,6 @@
       "cuisine": "",
       "location": "",
       "tags": [
-        "drinks",
         "korean"
       ]
     },
