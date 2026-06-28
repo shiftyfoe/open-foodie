@@ -43,6 +43,10 @@ jobs:
           LEMON8_PROXIES: ${{ secrets.LEMON8_PROXIES }}
         run: python scraper.py
 
+      - name: Scrape health report
+        if: always()
+        run: python scrape_report.py
+
       - name: Local dedup — cluster near-duplicates & extract restaurant mentions
         run: python dedup_local.py
 
