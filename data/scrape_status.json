@@ -1,13 +1,13 @@
 {
-  "timestamp": "2026-06-28T09:53:35.893725+00:00",
-  "total_new": 298,
+  "timestamp": "2026-06-28T10:39:21.886267+00:00",
+  "total_new": 0,
   "errors": [],
   "sources": {
-    "Burpple": {
+    "Telegram": {
       "new_posts": 0,
       "error": null
     },
-    "Telegram": {
+    "Burpple": {
       "new_posts": 0,
       "error": null
     },
@@ -16,7 +16,7 @@
       "error": null
     },
     "Lemon8": {
-      "new_posts": 298,
+      "new_posts": 0,
       "error": null
     }
   }
