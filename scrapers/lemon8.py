@@ -54,13 +54,23 @@ _MAX_PAGES = 3
 _MAX_RETRIES = 3
 _BACKOFF_BASE = 3  # seconds; doubles each retry
 
-# Free proxy sources (HTTP)
+# Free proxy sources (HTTP) — more sources = higher chance of finding working ones
 _PROXY_SOURCES = [
     "https://api.proxyscrape.com/v2/?request=displayproxies&protocol=http&timeout=10000&country=all&ssl=all&anonymity=all",
     "https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt",
     "https://raw.githubusercontent.com/ShiftyTR/Proxy-List/master/http.txt",
     "https://raw.githubusercontent.com/monosans/proxy-list/main/proxies/http.txt",
     "https://raw.githubusercontent.com/proxylist-to/proxy-list/main/http.txt",
+    "https://raw.githubusercontent.com/claude888/proxy-list/main/http.txt",
+    "https://raw.githubusercontent.com/mmpx12/proxy-list/master/http.txt",
+    "https://raw.githubusercontent.com/roosterkid/openproxylist/main/HTTPS_RAW.txt",
+    "https://raw.githubusercontent.com/UserR3X/proxy-list/main/online/http.txt",
+    "https://raw.githubusercontent.com/ErcinDedeworken/proxies/main/https_proxies.txt",
+    "https://api.openproxylist.xyz/http.txt",
+    "https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt",
+    "https://raw.githubusercontent.com/jetkai/proxy-list/main/online-proxies/txt/proxies-http.txt",
+    "https://raw.githubusercontent.com/sunny9577/proxy-list/generated/http_proxies.txt",
+    "https://raw.githubusercontent.com/zevtyardt/proxy-list/main/http.txt",
 ]
 
 
@@ -84,9 +94,11 @@ def _fetch_free_proxies() -> list[str]:
             continue
 
     if all_proxies:
+        # Deduplicate
+        all_proxies = list(dict.fromkeys(all_proxies))
         random.shuffle(all_proxies)
-        all_proxies = all_proxies[:50]
-        print(f"    ℹ Lemon8 free proxy: fetched {len(all_proxies)} candidates")
+        all_proxies = all_proxies[:100]
+        print(f"    ℹ Lemon8 free proxy: fetched {len(all_proxies)} unique candidates")
     return all_proxies
 
 
@@ -96,7 +108,7 @@ def _test_proxy(proxy: str) -> str | None:
         resp = requests.get(
             "https://httpbin.org/ip",
             proxies={"http": proxy, "https": proxy},
-            timeout=5,
+            timeout=6,
         )
         if resp.status_code == 200:
             return proxy
@@ -131,10 +143,10 @@ def _load_proxies() -> list[str]:
 
     working: list[str] = []
     print(f"    ℹ Lemon8 proxy: testing {len(candidates)} proxies (concurrent)...")
-    with ThreadPoolExecutor(max_workers=10) as pool:
+    with ThreadPoolExecutor(max_workers=20) as pool:
         futures = {pool.submit(_test_proxy, p): p for p in candidates}
         for future in as_completed(futures):
-            if len(working) >= 5:
+            if len(working) >= 10:
                 break
             result = future.result()
             if result:
