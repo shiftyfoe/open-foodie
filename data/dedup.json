@@ -1,0 +1,1169 @@
+{
+  "restaurants": [
+    {
+      "name": "BKK Bistro & Bar",
+      "normalized_name": "bkk bistro bar",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2023-06-12T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "BKK Bistro & Bar",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/bkk-bistro-bar/",
+          "source_title": "BKK Bistro &#038; Bar: Orto’s famous 80-cent boat noodles joint opens new Kallang outlet",
+          "date": "2023-06-12T00:00:00+08:00",
+          "excerpt": "BKK Bistro &#038; Bar: Orto’s famous 80-cent boat noodles joint opens new Kallang outlet\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Il Clay Supper Club",
+      "normalized_name": "il clay supper club",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-02-14T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Il Clay Supper Club",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/il-clay-supper-club/",
+          "source_title": "Il Clay Supper Club: Chic date spot by 50 Top Pizza chef hidden behind “oven” doors",
+          "date": "2025-02-14T00:00:00+08:00",
+          "excerpt": "Il Clay Supper Club: Chic date spot by 50 Top Pizza chef hidden behind “oven” doors\nTag: Restaurants\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Casa Cicheti",
+      "normalized_name": "casa cicheti",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-02-26T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Casa Cicheti",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/casa-cicheti/",
+          "source_title": "Casa Cicheti: Quaint Tiong Bahru restaurant by Cicheti Group serving handmade pastas and fried pizza",
+          "date": "2025-02-26T00:00:00+08:00",
+          "excerpt": "Casa Cicheti: Quaint Tiong Bahru restaurant by Cicheti Group serving handmade pastas and fried pizza\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Taste Myeongdong",
+      "normalized_name": "taste myeongdong",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-05-11T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Taste Myeongdong",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/taste-myeongdong-food-court-orchard/",
+          "source_title": "Taste Myeongdong at Orchard: New Korean food hall where you can get K-street food &#038; more",
+          "date": "2025-05-11T00:00:00+08:00",
+          "excerpt": "Taste Myeongdong at Orchard: New Korean food hall where you can get K-street food &#038; more\nTag: New Openings\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Altro Zafferano",
+      "normalized_name": "altro zafferano",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-05-24T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Altro Zafferano",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/altro-zafferano-italian-restaurant/",
+          "source_title": "Altro Zafferano: Southern Italy and the art of everyday dining",
+          "date": "2025-05-24T00:00:00+08:00",
+          "excerpt": "Altro Zafferano: Southern Italy and the art of everyday dining\nTag: New Menus\nCategory: Food News\nBy Angeline Ang"
+        }
+      ]
+    },
+    {
+      "name": "Song Gye Ok Singapore",
+      "normalized_name": "song gye ok singapore",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-06-03T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Song Gye Ok Singapore",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/song-gye-ok-singapore/",
+          "source_title": "Song Gye Ok Singapore: Popular Korean grilled chicken concept opens at Telok Ayer",
+          "date": "2025-06-03T00:00:00+08:00",
+          "excerpt": "Song Gye Ok Singapore: Popular Korean grilled chicken concept opens at Telok Ayer\nTag: New Openings\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Eightisfy Western",
+      "normalized_name": "eightisfy western",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-06-13T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Eightisfy Western",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/eightisfy-western-coffee-shop/",
+          "source_title": "Eightisfy Western: Ex-Cicheti chef selling handmade pasta and homely Western in an ulu kopitiam",
+          "date": "2025-06-13T00:00:00+08:00",
+          "excerpt": "Eightisfy Western: Ex-Cicheti chef selling handmade pasta and homely Western in an ulu kopitiam\nTag: Hawkers\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Nonette",
+      "normalized_name": "nonette",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-07-04T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Nonette",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/nonette-banh-mi-pop-up/",
+          "source_title": "Nonette: Paris bistro known for banh mi and Asian-inspired doughnuts pops up in Singapore",
+          "date": "2025-07-04T00:00:00+08:00",
+          "excerpt": "Nonette: Paris bistro known for banh mi and Asian-inspired doughnuts pops up in Singapore\nTag: Pop-up\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Gwangjang Gaon",
+      "normalized_name": "gwangjang gaon",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-07-25T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Gwangjang Gaon",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/gwangjang-gaon-jewel/",
+          "source_title": "Gwangjang Gaon: Award-winning Blue Ribbon Korean restaurant lands in Singapore",
+          "date": "2025-07-25T00:00:00+08:00",
+          "excerpt": "Gwangjang Gaon: Award-winning Blue Ribbon Korean restaurant lands in Singapore\nTag: Korean\nCategory: Food News\nBy Shannon Ong"
+        }
+      ]
+    },
+    {
+      "name": "Mondo",
+      "normalized_name": "mondo",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-08-28T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Mondo",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/mondo-gelato-bar-singapore/",
+          "source_title": "Mondo: Amoy’s new gelato bar has fun gelato cocktail floats and flavours such as pineapple makgeolli &#038; blue cheese",
+          "date": "2025-08-28T00:00:00+08:00",
+          "excerpt": "Mondo: Amoy’s new gelato bar has fun gelato cocktail floats and flavours such as pineapple makgeolli &#038; blue cheese\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "SanDai Yong Tau Foo",
+      "normalized_name": "sandai yong tau foo",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-09-26T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "SanDai Yong Tau Foo",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/sandai-yong-tau-foo-serangoon-garden/",
+          "source_title": "SanDai Yong Tau Foo: New venture by SanDai’s young third-gen fishball maker Delonix Tan",
+          "date": "2025-09-26T00:00:00+08:00",
+          "excerpt": "SanDai Yong Tau Foo: New venture by SanDai’s young third-gen fishball maker Delonix Tan\nTag: People\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Pout Rooftop Cafe",
+      "normalized_name": "pout rooftop cafe",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-10-10T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Pout Rooftop Cafe",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/pout-rooftop-cafe/",
+          "source_title": "Pout Rooftop Cafe: New viral cafe at Clarke Quay with serene skyline views that’s got everyone talking",
+          "date": "2025-10-10T00:00:00+08:00",
+          "excerpt": "Pout Rooftop Cafe: New viral cafe at Clarke Quay with serene skyline views that’s got everyone talking\nTag: New Openings\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Wonderful Bapsang",
+      "normalized_name": "wonderful bapsang",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-10-24T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Wonderful Bapsang",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/wonderful-bapsang-suntec-city/",
+          "source_title": "Wonderful Bapsang: Nourishing tofu stews and Korean classics in Suntec City",
+          "date": "2025-10-24T00:00:00+08:00",
+          "excerpt": "Wonderful Bapsang: Nourishing tofu stews and Korean classics in Suntec City\nTag: New Openings\nCategory: Food News\nBy Abigail Buligan"
+        }
+      ]
+    },
+    {
+      "name": "Hee Hee Hee Steam Fish",
+      "normalized_name": "hee hee hee steam fish",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-10-31T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Hee Hee Hee Steam Fish",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/hee-hee-hee-steam-fish/",
+          "source_title": "Hee Hee Hee Steam Fish: From fishmongers to hawkers",
+          "date": "2025-10-31T00:00:00+08:00",
+          "excerpt": "Hee Hee Hee Steam Fish: From fishmongers to hawkers\nTag: People\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Sanwichio",
+      "normalized_name": "sanwichio",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-10-31T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Sanwichio",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/sanwichio-dessert-eunos/",
+          "source_title": "Sanwichio: Eunos’ charming new bakery serving up beautiful bakes",
+          "date": "2025-10-31T00:00:00+08:00",
+          "excerpt": "Sanwichio: Eunos’ charming new bakery serving up beautiful bakes\nTag: New Openings\nCategory: Food News\nBy Shannon Ong"
+        }
+      ]
+    },
+    {
+      "name": "Noci Pasta Bar",
+      "normalized_name": "noci pasta bar",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-11-04T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Noci Pasta Bar",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/noci-pasta-bar-suntec-city/",
+          "source_title": "Noci Pasta Bar: Suntec City’s new, stylish spot with Italian pasta &#038; pizza made from scratch",
+          "date": "2025-11-04T00:00:00+08:00",
+          "excerpt": "Noci Pasta Bar: Suntec City’s new, stylish spot with Italian pasta &#038; pizza made from scratch\nTag: New Openings\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Taiyo Camp Club by Shane Pow",
+      "normalized_name": "taiyo camp club by shane pow",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-11-19T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Taiyo Camp Club by Shane Pow",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/taiyo-camp-club-shane-pow-chef-x/",
+          "source_title": "Taiyo Camp Club by Shane Pow: Cosy campfire-inspired pop-up with bakes and savouries at Chef X",
+          "date": "2025-11-19T00:00:00+08:00",
+          "excerpt": "Taiyo Camp Club by Shane Pow: Cosy campfire-inspired pop-up with bakes and savouries at Chef X\nTag: New Openings\nCategory: Food News\nBy Abigail Buligan"
+        }
+      ]
+    },
+    {
+      "name": "Putien Mama",
+      "normalized_name": "putien mama",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-11-25T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Putien Mama",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/putien-mama-singapore/",
+          "source_title": "Putien Mama: Putien’s wallet-friendly alter-ego dishes out home-style Fujian fare, all for under S$12",
+          "date": "2025-11-25T00:00:00+08:00",
+          "excerpt": "Putien Mama: Putien’s wallet-friendly alter-ego dishes out home-style Fujian fare, all for under S$12\nTag: Budget-Friendly\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Laurus Table",
+      "normalized_name": "laurus table",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-11-28T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Laurus Table",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/laurus-table-rws/",
+          "source_title": "Laurus Table: RWS’ new seafood-focused Italian restaurant by celebrity chef Fabrizio Ferrari",
+          "date": "2025-11-28T00:00:00+08:00",
+          "excerpt": "Laurus Table: RWS’ new seafood-focused Italian restaurant by celebrity chef Fabrizio Ferrari\nTag: New Openings\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Tutto",
+      "normalized_name": "tutto",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-12-04T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Tutto",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/tutto-jewel-changi/",
+          "source_title": "Da Paolo family opens Tutto at Jewel Changi, serving authentic Italian with a view — and the unique assassina pasta",
+          "date": "2025-12-04T00:00:00+08:00",
+          "excerpt": "Da Paolo family opens Tutto at Jewel Changi, serving authentic Italian with a view — and the unique assassina pasta\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Nolita",
+      "normalized_name": "nolita",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-12-23T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Nolita",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/nolita-kitchen/",
+          "source_title": "Omote opens Nolita, a modern Italian restaurant in Lentor with pasta under S$30 — some include lobster!",
+          "date": "2025-12-23T00:00:00+08:00",
+          "excerpt": "Omote opens Nolita, a modern Italian restaurant in Lentor with pasta under S$30 — some include lobster!\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Gochu Singapore",
+      "normalized_name": "gochu singapore",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-12-26T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Gochu Singapore",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/gochu-singapore/",
+          "source_title": "Gochu Singapore: New cave-themed Korean restaurant tucked away in Yishun",
+          "date": "2025-12-26T00:00:00+08:00",
+          "excerpt": "Gochu Singapore: New cave-themed Korean restaurant tucked away in Yishun\nTag: Asian\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Koyoi by Kanpai",
+      "normalized_name": "koyoi by kanpai",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2025-12-26T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Koyoi by Kanpai",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/koyoi-by-kanpai/",
+          "source_title": "Koyoi by Kanpai: CBD after-work spot with S$4 drinks, izakaya and zi char bites",
+          "date": "2025-12-26T00:00:00+08:00",
+          "excerpt": "Koyoi by Kanpai: CBD after-work spot with S$4 drinks, izakaya and zi char bites\nTag: New Openings\nCategory: Food News\nBy Angeline Ang"
+        }
+      ]
+    },
+    {
+      "name": "Van Kafe",
+      "normalized_name": "van kafe",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-02T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Van Kafe",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/van-kafe-jurong/",
+          "source_title": "Van Kafe: A Japandi-style spot nestled in Jurong with cosy glasshouse indoor seating",
+          "date": "2026-01-02T00:00:00+08:00",
+          "excerpt": "Van Kafe: A Japandi-style spot nestled in Jurong with cosy glasshouse indoor seating\nTag: Cafes\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Medusa Osteria Romano",
+      "normalized_name": "medusa osteria romano",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-07T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Medusa Osteria Romano",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/medusa-osteria-romano/",
+          "source_title": "Fortuna opens Medusa Osteria Romano at South Beach, serving Roman food in bright crimson decor",
+          "date": "2026-01-07T00:00:00+08:00",
+          "excerpt": "Fortuna opens Medusa Osteria Romano at South Beach, serving Roman food in bright crimson decor\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Cloudfields",
+      "normalized_name": "cloudfields",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-09T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Cloudfields",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/cloudfields-cafe/",
+          "source_title": "Cloudfields: Stylish all-day cafe located at Tan Boon Liat Building in Havelock",
+          "date": "2026-01-09T00:00:00+08:00",
+          "excerpt": "Cloudfields: Stylish all-day cafe located at Tan Boon Liat Building in Havelock\nTag: Cafes\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Elephant Grounds",
+      "normalized_name": "elephant grounds",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-12T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Elephant Grounds",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/elephant-grounds-singapore/",
+          "source_title": "Elephant Grounds opens in Singapore: Famous HK cafe brand brings its coffee and fresh bakes to Bugis",
+          "date": "2026-01-12T00:00:00+08:00",
+          "excerpt": "Elephant Grounds opens in Singapore: Famous HK cafe brand brings its coffee and fresh bakes to Bugis\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Wild Honey Pie",
+      "normalized_name": "wild honey pie",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-13T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Wild Honey Pie",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/wild-honey-pie-bakery/",
+          "source_title": "Wild Honey Pie: Hawker bakery Cat in the Hat’s new weekend-only alter-ego, with naturally leavened bread &#038; bakes",
+          "date": "2026-01-13T00:00:00+08:00",
+          "excerpt": "Wild Honey Pie: Hawker bakery Cat in the Hat’s new weekend-only alter-ego, with naturally leavened bread &#038; bakes\nTag: New Openings\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Piadini Italian Streats",
+      "normalized_name": "piadini italian streats",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-14T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Piadini Italian Streats",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/piadini-italian-streats-somerset/",
+          "source_title": "Piadini Italian Streats: A Singaporean’s love letter to the Italian piadina",
+          "date": "2026-01-14T00:00:00+08:00",
+          "excerpt": "Piadini Italian Streats: A Singaporean’s love letter to the Italian piadina\nTag: People\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Tea Dot",
+      "normalized_name": "tea dot",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-23T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Tea Dot",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/tea-dot-tengah/",
+          "source_title": "Tea Dot: Tengah’s one-of-a-kind tea spot, offering herbal brews &#038; single-origin tea on tap",
+          "date": "2026-01-23T00:00:00+08:00",
+          "excerpt": "Tea Dot: Tengah’s one-of-a-kind tea spot, offering herbal brews &#038; single-origin tea on tap\nTag: New Openings\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "On the Table",
+      "normalized_name": "on table",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-30T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "On the Table",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/critics-reviews/mee-rebus-singapore/",
+          "source_title": "On the Table: Mee rebus, a tangle of traditions",
+          "date": "2026-01-30T00:00:00+08:00",
+          "excerpt": "On the Table: Mee rebus, a tangle of traditions\nTag: Local\nCategory: Critics’ Reviews\nBy Gary Lim"
+        }
+      ]
+    },
+    {
+      "name": "The Pasta & Tortizza",
+      "normalized_name": "pasta tortizza",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-01-30T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "The Pasta & Tortizza",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/the-pasta-and-tortizza-hougang/",
+          "source_title": "The Pasta &#038; Tortizza: A hawker stall reimagining pizza with tortilla-based tortizza",
+          "date": "2026-01-30T00:00:00+08:00",
+          "excerpt": "The Pasta &#038; Tortizza: A hawker stall reimagining pizza with tortilla-based tortizza\nTag: Hawkers\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Studio Frond",
+      "normalized_name": "studio frond",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-06T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Studio Frond",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/studio-frond-joo-chiat/",
+          "source_title": "Studio Frond: Weekend-only botanical bar at Joo Chiat offers picture-pretty matcha and hojicha drinks",
+          "date": "2026-02-06T00:00:00+08:00",
+          "excerpt": "Studio Frond: Weekend-only botanical bar at Joo Chiat offers picture-pretty matcha and hojicha drinks\nTag: New Openings\nCategory: Food News\nBy Shannon Ong"
+        }
+      ]
+    },
+    {
+      "name": "Reverie",
+      "normalized_name": "reverie",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-11T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Reverie",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/reverie-western-food-singapore/",
+          "source_title": "26-year-old opens Reverie, a viral hawker stall in Clementi with affordable restaurant-quality pasta &#038; western fare",
+          "date": "2026-02-11T00:00:00+08:00",
+          "excerpt": "26-year-old opens Reverie, a viral hawker stall in Clementi with affordable restaurant-quality pasta &#038; western fare\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Song Gye Ok Centrepoint",
+      "normalized_name": "song gye ok centrepoint",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-13T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Song Gye Ok Centrepoint",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/song-gye-ok-centrepoint/",
+          "source_title": "Song Gye Ok Centrepoint: Popular grilled chicken concept opens second store at The Centrepoint",
+          "date": "2026-02-13T00:00:00+08:00",
+          "excerpt": "Song Gye Ok Centrepoint: Popular grilled chicken concept opens second store at The Centrepoint\nTag: Korean BBQ\nCategory: Food News\nBy Hannah Tan"
+        }
+      ]
+    },
+    {
+      "name": "Oatsome",
+      "normalized_name": "oatsome",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-13T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Oatsome",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/oatsome-singapore/",
+          "source_title": "Oatsome: Meet the couple behind the viral Korean-inspired dessert cafe",
+          "date": "2026-02-13T00:00:00+08:00",
+          "excerpt": "Oatsome: Meet the couple behind the viral Korean-inspired dessert cafe\nTag: Valentine's Day\nCategory: Food News\nBy Gaelmaine Hoong"
+        }
+      ]
+    },
+    {
+      "name": "Ramen Taisho",
+      "normalized_name": "ramen taisho",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-14T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Ramen Taisho",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/ramen-taisho-tampines/",
+          "source_title": "Ramen Taisho: Hearty tonkotsu ramen &#038; tsukemen under this Tampines West HDB block",
+          "date": "2026-02-14T00:00:00+08:00",
+          "excerpt": "Ramen Taisho: Hearty tonkotsu ramen &#038; tsukemen under this Tampines West HDB block\nTag: Tampines\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Diff",
+      "normalized_name": "diff",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-16T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Diff",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/diff-speciality-coffee-singapore/",
+          "source_title": "Diff: New sleek speciality coffee bar hidden in a kopitiam, with great pour-overs &#038; pandan kueh lapis",
+          "date": "2026-02-16T00:00:00+08:00",
+          "excerpt": "Diff: New sleek speciality coffee bar hidden in a kopitiam, with great pour-overs &#038; pandan kueh lapis\nTag: New Openings\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Jellyfish Sushi",
+      "normalized_name": "jellyfish sushi",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-20T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Jellyfish Sushi",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/jellyfish-sushi-singapore/",
+          "source_title": "Jellyfish Sushi: The new fluid and experimental dining playground at New Bahru by Bjorn Shen",
+          "date": "2026-02-20T00:00:00+08:00",
+          "excerpt": "Jellyfish Sushi: The new fluid and experimental dining playground at New Bahru by Bjorn Shen\nTag: New Openings\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Menya Horikawa",
+      "normalized_name": "menya horikawa",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-21T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Menya Horikawa",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/menya-horikawa-singapore/",
+          "source_title": "Menya Horikawa: Young hawker Rick Tan brings mazesoba to the heartlands",
+          "date": "2026-02-21T00:00:00+08:00",
+          "excerpt": "Menya Horikawa: Young hawker Rick Tan brings mazesoba to the heartlands\nTag: People\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Jumboree",
+      "normalized_name": "jumboree",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-26T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Jumboree",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/jumboree-tai-seng/",
+          "source_title": "Jumboree in Tai Seng: Jumbo opens its first food hall in with 10 different brands, live music, and beer and wine taps!",
+          "date": "2026-02-26T00:00:00+08:00",
+          "excerpt": "Jumboree in Tai Seng: Jumbo opens its first food hall in with 10 different brands, live music, and beer and wine taps!\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Wad Coffee",
+      "normalized_name": "wad coffee",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-02-26T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Wad Coffee",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/wad-coffee-bishan/",
+          "source_title": "Wad Coffee in Bishan: This cute hole-in-the-wall spot even has yummy old-school pandan waffles",
+          "date": "2026-02-26T00:00:00+08:00",
+          "excerpt": "Wad Coffee in Bishan: This cute hole-in-the-wall spot even has yummy old-school pandan waffles\nTag: New Openings\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Karii",
+      "normalized_name": "karii",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-05T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Karii",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/karii-okinawa-street-food/",
+          "source_title": "En Group launches Okinawan street food concept Karii at Suntec City",
+          "date": "2026-03-05T00:00:00+08:00",
+          "excerpt": "En Group launches Okinawan street food concept Karii at Suntec City\nTag: New Openings\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Baker RST",
+      "normalized_name": "baker rst",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-09T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Baker RST",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/baker-rst-singapore/",
+          "source_title": "Baker RST: New hawker stall serving locally inspired muffins &#038; mini pizza, all under S$3.10",
+          "date": "2026-03-09T00:00:00+08:00",
+          "excerpt": "Baker RST: New hawker stall serving locally inspired muffins &#038; mini pizza, all under S$3.10\nTag: Bakeries\nCategory: Food News\nBy Shannon Yap"
+        }
+      ]
+    },
+    {
+      "name": "Bomul Gelato Bar",
+      "normalized_name": "bomul gelato bar",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-19T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Bomul Gelato Bar",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/bomul-gelato-bar/",
+          "source_title": "Bomul Samgyetang launches Bomul Gelato Bar with six flavours, including kunafa double black chocolate",
+          "date": "2026-03-19T00:00:00+08:00",
+          "excerpt": "Bomul Samgyetang launches Bomul Gelato Bar with six flavours, including kunafa double black chocolate\nTag: New Openings\nCategory: Food News\nBy Shannon Ong"
+        }
+      ]
+    },
+    {
+      "name": "Aifokato by Tofu G Gelato",
+      "normalized_name": "aifokato by tofu g gelato",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-20T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Aifokato by Tofu G Gelato",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/aifokato-singapore/",
+          "source_title": "Aifokato by Tofu G Gelato: Customisable affogato takeaway spot in the CBD",
+          "date": "2026-03-20T00:00:00+08:00",
+          "excerpt": "Aifokato by Tofu G Gelato: Customisable affogato takeaway spot in the CBD\nTag: CBD\nCategory: Food News\nBy Shannon Ong"
+        }
+      ]
+    },
+    {
+      "name": "Peko Peko 2.0",
+      "normalized_name": "peko peko 20",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-23T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Peko Peko 2.0",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/peko-peko-aburi-bowls/",
+          "source_title": "Peko Peko 2.0: CBD lunch spot revamps menu with flame-torched protein bowls",
+          "date": "2026-03-23T00:00:00+08:00",
+          "excerpt": "Peko Peko 2.0: CBD lunch spot revamps menu with flame-torched protein bowls\nTag: New Menus\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Fat Fat Food",
+      "normalized_name": "fat fat food",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-24T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Fat Fat Food",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/fat-fat-food/",
+          "source_title": "Fat Fat Food: Hawker Jim Chia dishes out silk, soul-warming Cantonese porridge",
+          "date": "2026-03-24T00:00:00+08:00",
+          "excerpt": "Fat Fat Food: Hawker Jim Chia dishes out silk, soul-warming Cantonese porridge\nTag: People\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Keria",
+      "normalized_name": "keria",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-27T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Keria",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/keria-japanese-restaurant-cuppage-plaza/",
+          "source_title": "Keria at Cuppage Plaza: An authentic gem that feels like you’re in an old-school izakaya in Japan",
+          "date": "2026-03-27T00:00:00+08:00",
+          "excerpt": "Keria at Cuppage Plaza: An authentic gem that feels like you’re in an old-school izakaya in Japan\nTag: Izakaya\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Modu High",
+      "normalized_name": "modu high",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-03-31T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Modu High",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/modu-high-amoy-street/",
+          "source_title": "Modu High: A bigger, more elevated version of Modu’s samgyetang concept, now at Amoy Street",
+          "date": "2026-03-31T00:00:00+08:00",
+          "excerpt": "Modu High: A bigger, more elevated version of Modu’s samgyetang concept, now at Amoy Street\nTag: New Openings\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Smash Street",
+      "normalized_name": "smash street",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-04-01T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Smash Street",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/smash-street-amoy-street/",
+          "source_title": "Scarpetta opens Smash Street at Amoy, a smash burger bar with juicy double-patty burgers",
+          "date": "2026-04-01T00:00:00+08:00",
+          "excerpt": "Scarpetta opens Smash Street at Amoy, a smash burger bar with juicy double-patty burgers\nTag: Amoy Street\nCategory: Food News\nBy Shannon Ong"
+        }
+      ]
+    },
+    {
+      "name": "Geylang Claypot Rice",
+      "normalized_name": "geylang claypot rice",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-04-11T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Geylang Claypot Rice",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/geylang-claypot-rice/",
+          "source_title": "Geylang Claypot Rice: How an ex-banker keeps this 44-year-old heritage brand thriving",
+          "date": "2026-04-11T00:00:00+08:00",
+          "excerpt": "Geylang Claypot Rice: How an ex-banker keeps this 44-year-old heritage brand thriving\nTag: People\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Braveheart Sake",
+      "normalized_name": "braveheart sake",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-04-14T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Braveheart Sake",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/braveheart-sake/",
+          "source_title": "Braveheart Sake: A new bar where sake tastes like banana, &#038; speciality sake cocktails taste like beer",
+          "date": "2026-04-14T00:00:00+08:00",
+          "excerpt": "Braveheart Sake: A new bar where sake tastes like banana, &#038; speciality sake cocktails taste like beer\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Ah Yu Fried Prawn Noodle",
+      "normalized_name": "ah yu fried prawn noodle",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-04-17T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Ah Yu Fried Prawn Noodle",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/ah-yu-fried-prawn-noodle/",
+          "source_title": "Ah Yu Fried Prawn Noodle: How a life-changing Hokkien mee plate turned Kid Chua into a hawker",
+          "date": "2026-04-17T00:00:00+08:00",
+          "excerpt": "Ah Yu Fried Prawn Noodle: How a life-changing Hokkien mee plate turned Kid Chua into a hawker\nTag: People\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Dip Fried Chicken",
+      "normalized_name": "dip fried chicken",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-04-24T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Dip Fried Chicken",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/dip-fried-chicken/",
+          "source_title": "Dip Fried Chicken: A hawker stall reimagining fried chicken with Singaporean-style dips",
+          "date": "2026-04-24T00:00:00+08:00",
+          "excerpt": "Dip Fried Chicken: A hawker stall reimagining fried chicken with Singaporean-style dips\nTag: People\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Onigiri Gon",
+      "normalized_name": "onigiri gon",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-04-24T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Onigiri Gon",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/onigiri-gon-fortune-centre/",
+          "source_title": "Onigiri Gon: New dine-in onigiri shop at Fortune Centre with over 20 filling choices",
+          "date": "2026-04-24T00:00:00+08:00",
+          "excerpt": "Onigiri Gon: New dine-in onigiri shop at Fortune Centre with over 20 filling choices\nTag: Japanese\nCategory: Food News\nBy Sarah Chua"
+        }
+      ]
+    },
+    {
+      "name": "Green Green Matcha",
+      "normalized_name": "green green matcha",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-04-28T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Green Green Matcha",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/green-green-matcha/",
+          "source_title": "Green Green Matcha: Telok Ayer coffeeshop stall with quirky matcha and hojicha latte flavours",
+          "date": "2026-04-28T00:00:00+08:00",
+          "excerpt": "Green Green Matcha: Telok Ayer coffeeshop stall with quirky matcha and hojicha latte flavours\nTag: Matcha\nCategory: Food News\nBy Hannah Tan"
+        }
+      ]
+    },
+    {
+      "name": "Prawn Hub Hokkien Prawn Mee",
+      "normalized_name": "prawn hub hokkien prawn mee",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-05-09T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Prawn Hub Hokkien Prawn Mee",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/prawn-hub-hokkien-prawn-mee/",
+          "source_title": "Ex-Meat &#038; Rice founders open Prawn Hub Hokkien Prawn Mee at Tanjong Pagar Plaza Market &#038; Food Centre",
+          "date": "2026-05-09T00:00:00+08:00",
+          "excerpt": "Ex-Meat &#038; Rice founders open Prawn Hub Hokkien Prawn Mee at Tanjong Pagar Plaza Market &#038; Food Centre\nTag: Hawkers\nCategory: Food News\nBy Rebecca Wong"
+        }
+      ]
+    },
+    {
+      "name": "Origin Grill",
+      "normalized_name": "origin grill",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-05-13T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Origin Grill",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/origin-grill-shangri-la/",
+          "source_title": "Origin Grill: S$28 steak at the luxurious Shangri-La grillhouse",
+          "date": "2026-05-13T00:00:00+08:00",
+          "excerpt": "Origin Grill: S$28 steak at the luxurious Shangri-La grillhouse\nTag: New Menus\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Sukiyakijin",
+      "normalized_name": "sukiyakijin",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-05-15T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "Sukiyakijin",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/sukiyakijin-shaw-centre/",
+          "source_title": "Les Amis Group launches Sukiyakijin, an A5 wagyu sukiyaki concept",
+          "date": "2026-05-15T00:00:00+08:00",
+          "excerpt": "Les Amis Group launches Sukiyakijin, an A5 wagyu sukiyaki concept\nTag: New Openings\nCategory: Food News\nBy Zawani Abdul Ghani"
+        }
+      ]
+    },
+    {
+      "name": "Paelah",
+      "normalized_name": "paelah",
+      "mention_count": 1,
+      "sources": [
+        "burpple"
+      ],
+      "latest_date": "2026-06-27T11:35:36+08:00",
+      "source_posts": [
+        {
+          "name": "Paelah",
+          "source": "burpple",
+          "source_url": "https://www.burpple.com/f/rpMmAlJG",
+          "source_title": "Signature Seafood Paella ($10.90)",
+          "date": "2026-06-27T11:35:36+08:00",
+          "excerpt": "Signature Seafood Paella ($10.90)\nFrom Paelah. The waiting time was abt 20min evrmen though there was no queue. The portion is generous. The seafood is really fresh. The tomato sauce in the ricr adds "
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "total_posts_processed": 894,
+    "total_restaurants_found": 61,
+    "method": "local-regex",
+    "processed_at": "2026-06-28T06:23:30.399133+00:00"
+  }
+}

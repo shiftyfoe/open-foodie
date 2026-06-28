@@ -18,14 +18,14 @@ SOURCE_LABELS = {
     "telegram": "Telegram",
     "burpple": "Burpple",
     "hungrygowhere": "HGW",
-    "instagram": "Instagram",
+    "lemon8": "Lemon8",
 }
 
 SOURCE_COLORS = {
     "telegram": "#0088cc",
     "burpple": "#e8490f",
     "hungrygowhere": "#28a745",
-    "instagram": "#E1306C",
+    "lemon8": "#ff4d57",
 }
 
 
@@ -68,6 +68,8 @@ def render_post(post: dict) -> str:
         link_text = "View on Burpple →"
     elif source == "hungrygowhere":
         link_text = "View on HGW →"
+    elif source == "lemon8":
+        link_text = "View on Lemon8 →"
     else:
         link_text = "View source →"
 
@@ -326,7 +328,7 @@ def generate() -> None:
   <main class="main">
     <header class="site-header">
       <h1>🍜 SG Foodie Digest</h1>
-      <p>Best food spots from Singapore — Telegram, Burpple & HungryGoWhere, updated daily.</p>
+      <p>Best food spots from Singapore — Telegram, Burpple, HungryGoWhere & Lemon8, updated daily.</p>
       <p class="updated">Last updated: {updated} — {sum(len(v) for v in grouped.values())} posts across {len(grouped)} months</p>
     </header>
 
