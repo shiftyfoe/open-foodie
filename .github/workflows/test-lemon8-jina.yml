@@ -1,0 +1,88 @@
+name: Test Lemon8 via Jina Reader
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Test Lemon8 direct vs Jina Reader
+        run: |
+          python3 - <<'EOF'
+          import requests, json, re
+
+          CATEGORIES = ["food", "restaurant", "cafe"]
+
+          def test_direct(category):
+              url = (
+                  f"https://www.lemon8-app.com/feed/{category}"
+                  "?method=stream-loadmore"
+                  "&_data=routes%2Ffeed.%24category_name"
+                  "&region=sg&_version=1"
+              )
+              r = requests.get(url, timeout=15, headers={
+                  "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+                  "accept": "application/json",
+              })
+              data = r.json()
+              feed = data.get(f"$FeedDateLoadmore+{category}", {})
+              items = feed.get("items", [])
+              print(f"  DIRECT [{category}]: status={r.status_code} items={len(items)} top_keys={list(data.keys())[:4]}")
+              return items
+
+          def test_jina_json(category):
+              # Jina fetching the JSON API endpoint directly
+              target = (
+                  f"https://www.lemon8-app.com/feed/{category}"
+                  "?method=stream-loadmore"
+                  "&_data=routes%2Ffeed.%24category_name"
+                  "&region=sg&_version=1"
+              )
+              r = requests.get(f"https://r.jina.ai/{target}", timeout=30, headers={
+                  "Accept": "application/json",
+                  "X-No-Cache": "true",
+              })
+              print(f"  JINA-JSON [{category}]: status={r.status_code} content_type={r.headers.get('content-type','')[:40]}")
+              try:
+                  data = r.json()
+                  feed = data.get(f"$FeedDateLoadmore+{category}", {})
+                  items = feed.get("items", [])
+                  print(f"    → parsed JSON, items={len(items)}")
+                  return items
+              except Exception:
+                  print(f"    → not JSON, body[:300]={r.text[:300]}")
+                  return []
+
+          def test_jina_html(category):
+              # Jina fetching the rendered HTML page
+              target = f"https://www.lemon8-app.com/discover?region=sg&category={category}"
+              r = requests.get(f"https://r.jina.ai/{target}", timeout=30, headers={
+                  "Accept": "text/plain",
+                  "X-No-Cache": "true",
+              })
+              print(f"  JINA-HTML [{category}]: status={r.status_code} len={len(r.text)}")
+              print(f"    body[:500]={r.text[:500]}")
+              return []
+
+          print("=== DIRECT API ===")
+          for cat in CATEGORIES:
+              test_direct(cat)
+
+          print("\n=== JINA READER (JSON endpoint) ===")
+          for cat in CATEGORIES[:1]:
+              test_jina_json(cat)
+
+          print("\n=== JINA READER (HTML page) ===")
+          for cat in CATEGORIES[:1]:
+              test_jina_html(cat)
+          EOF
