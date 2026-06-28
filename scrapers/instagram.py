@@ -1,9 +1,11 @@
-"""Instagram scraper — fetches posts via web_profile_info + individual post pages.
+"""Instagram scraper — fetches posts via profile HTML or web_profile_info API.
 
 Uses Googlebot user-agent to access Instagram's SEO-friendly endpoints.
-No login or API key required.
+No login or API key required. Set INSTAGRAM_SESSION_ID env var for
+more reliable access.
 """
 
+import os
 import re
 import time
 from datetime import datetime, timezone
@@ -11,7 +13,7 @@ from html import unescape
 
 import requests
 
-from . import HEADERS, existing_ids, make_post
+from . import existing_ids, make_post
 
 # Googlebot UA — triggers Instagram's SEO/SSR rendering
 _GOOGBOT_UA = (
@@ -45,63 +47,109 @@ ACCOUNTS = [
 IG_DELAY = 5
 
 
-def _get_recent_posts(username: str, retries: int = 3) -> list[dict]:
-    """Fetch recent post shortcodes and captions from profile API."""
-    url = f"https://www.instagram.com/api/v1/users/web_profile_info/?username={username}"
-    for attempt in range(retries):
-        try:
-            resp = requests.get(url, headers=_IG_API_HEADERS, timeout=15)
-            if resp.status_code == 429:
-                wait = 30 * (attempt + 1)
-                print(f"    ⚠ Rate limited, waiting {wait}s...")
-                time.sleep(wait)
-                continue
-            if resp.status_code != 200:
-                print(f"    ✗ Profile API returned {resp.status_code}")
-                return []
+def _session_cookies() -> dict:
+    """Return session cookie if INSTAGRAM_SESSION_ID is set, else empty."""
+    session_id = os.environ.get("INSTAGRAM_SESSION_ID", "")
+    return {"sessionid": session_id} if session_id else {}
 
+
+def _get_shortcodes_from_html(username: str) -> list[dict]:
+    """Scrape profile HTML (Googlebot UA) to extract post shortcodes."""
+    url = f"https://www.instagram.com/{username}/"
+    try:
+        resp = requests.get(
+            url, headers=_GOOGBOT_HEADERS, cookies=_session_cookies(), timeout=15
+        )
+        if resp.status_code == 429:
+            print(f"    ✗ Profile HTML also rate limited (429)")
+            return []
+        if resp.status_code != 200:
+            print(f"    ✗ Profile HTML returned {resp.status_code}")
+            return []
+
+        html = resp.text
+        if "/accounts/login" in html[:5000]:
+            print(f"    ✗ Profile HTML redirected to login")
+            return []
+
+        # Extract shortcodes from /p/ href links and embedded JSON "shortcode" fields
+        seen: set[str] = set()
+        shortcodes: list[str] = []
+        for sc in re.findall(r'/p/([A-Za-z0-9_-]{8,})', html):
+            if sc not in seen:
+                seen.add(sc)
+                shortcodes.append(sc)
+        for sc in re.findall(r'"shortcode":"([A-Za-z0-9_-]{8,})"', html):
+            if sc not in seen:
+                seen.add(sc)
+                shortcodes.append(sc)
+
+        print(f"    Found {len(shortcodes[:12])} shortcodes via HTML")
+        return [
+            {
+                "shortcode": sc,
+                "caption": "",
+                "date": datetime.now(timezone.utc).isoformat(),
+                "username": username,
+            }
+            for sc in shortcodes[:12]
+        ]
+    except Exception as exc:
+        print(f"    ✗ Profile HTML error: {exc}")
+        return []
+
+
+def _get_recent_posts(username: str) -> list[dict]:
+    """Fetch recent posts via internal API, with immediate HTML fallback on failure."""
+    url = f"https://www.instagram.com/api/v1/users/web_profile_info/?username={username}"
+    try:
+        resp = requests.get(
+            url, headers=_IG_API_HEADERS, cookies=_session_cookies(), timeout=15
+        )
+        if resp.status_code == 200:
             data = resp.json()
             user = data.get("data", {}).get("user", {})
-            if not user:
-                print(f"    ✗ No user data in response")
-                return []
+            if user:
+                edges = user.get("edge_owner_to_timeline_media", {}).get("edges", [])
+                posts = []
+                for edge in edges:
+                    node = edge.get("node", {})
+                    shortcode = node.get("shortcode", "")
+                    caption_edges = (
+                        node.get("edge_media_to_caption", {}).get("edges", [])
+                    )
+                    caption = ""
+                    if caption_edges:
+                        caption = caption_edges[0].get("node", {}).get("text", "")
 
-            timeline = user.get("edge_owner_to_timeline_media", {})
-            edges = timeline.get("edges", [])
+                    timestamp = node.get("taken_at", 0)
+                    if isinstance(timestamp, (int, float)) and timestamp > 0:
+                        date = datetime.fromtimestamp(
+                            timestamp, tz=timezone.utc
+                        ).isoformat()
+                    else:
+                        date = datetime.now(timezone.utc).isoformat()
 
-            posts = []
-            for edge in edges:
-                node = edge.get("node", {})
-                shortcode = node.get("shortcode", "")
-                caption_edges = node.get("edge_media_to_caption", {}).get("edges", [])
-                caption = ""
-                if caption_edges:
-                    caption = caption_edges[0].get("node", {}).get("text", "")
+                    posts.append({
+                        "shortcode": shortcode,
+                        "caption": caption,
+                        "date": date,
+                        "is_video": node.get("is_video", False),
+                        "likes": node.get("edge_liked_by", {}).get("count", 0),
+                        "comments": node.get("edge_media_to_comment", {}).get("count", 0),
+                        "thumbnail": node.get("thumbnail_src", ""),
+                        "username": username,
+                    })
+                if posts:
+                    return posts
+        elif resp.status_code == 429:
+            print(f"    ⚠ API rate limited (429), falling back to HTML...")
+        else:
+            print(f"    ⚠ API returned {resp.status_code}, falling back to HTML...")
+    except Exception as exc:
+        print(f"    ⚠ API error: {exc}, falling back to HTML...")
 
-                timestamp = node.get("taken_at", 0)
-                if isinstance(timestamp, (int, float)) and timestamp > 0:
-                    dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
-                    date = dt.isoformat()
-                else:
-                    date = datetime.now(timezone.utc).isoformat()
-
-                posts.append({
-                    "shortcode": shortcode,
-                    "caption": caption,
-                    "date": date,
-                    "is_video": node.get("is_video", False),
-                    "likes": node.get("edge_liked_by", {}).get("count", 0),
-                    "comments": node.get("edge_media_to_comment", {}).get("count", 0),
-                    "thumbnail": node.get("thumbnail_src", ""),
-                    "username": username,
-                })
-
-            return posts
-
-        except Exception as exc:
-            print(f"    ✗ Profile API error: {exc}")
-            return []
-    return []
+    return _get_shortcodes_from_html(username)
 
 
 def _get_post_details(shortcode: str) -> dict | None:
@@ -179,14 +227,11 @@ def scrape(db: dict) -> list[dict]:
     for account in ACCOUNTS:
         print(f"  Fetching @{account}...")
 
-        # Get recent posts from profile API
         posts = _get_recent_posts(account)
         if not posts:
             print(f"    ✗ No posts found")
             time.sleep(IG_DELAY)
             continue
-
-        print(f"    Found {len(posts)} recent posts")
 
         for post_data in posts:
             shortcode = post_data["shortcode"]
