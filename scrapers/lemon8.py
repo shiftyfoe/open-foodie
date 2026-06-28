@@ -105,20 +105,29 @@ def _test_proxy(proxy: str) -> str | None:
     return None
 
 
+# Module-level cache so _load_proxies() only fetches once per process
+_proxy_cache: list[str] | None = None
+
+
 def _load_proxies() -> list[str]:
-    """Load proxy list from env var, or auto-fetch free proxies."""
+    """Load proxy list from env var, or auto-fetch free proxies (cached)."""
+    global _proxy_cache
+    if _proxy_cache is not None:
+        return _proxy_cache
+
     raw = os.environ.get("LEMON8_PROXIES", "").strip()
     if raw:
-        proxies = [p.strip() for p in raw.split(",") if p.strip()]
-        if proxies:
-            print(f"    ℹ Lemon8 proxy: {len(proxies)} proxy(ies) from env")
-        return proxies
+        _proxy_cache = [p.strip() for p in raw.split(",") if p.strip()]
+        if _proxy_cache:
+            print(f"    ℹ Lemon8 proxy: {len(_proxy_cache)} proxy(ies) from env")
+        return _proxy_cache
 
     # Auto-fetch free proxies and test them concurrently
     candidates = _fetch_free_proxies()
     if not candidates:
         print("    ⚠ Lemon8 proxy: no free proxies found, running direct")
-        return []
+        _proxy_cache = []
+        return _proxy_cache
 
     working: list[str] = []
     print(f"    ℹ Lemon8 proxy: testing {len(candidates)} proxies (concurrent)...")
@@ -133,11 +142,12 @@ def _load_proxies() -> list[str]:
                 host = result.split("@")[-1] if "@" in result else result
                 print(f"      ✓ {host}")
 
+    _proxy_cache = working
     if working:
         print(f"    ℹ Lemon8 proxy: {len(working)} working proxy(ies)")
     else:
         print("    ⚠ Lemon8 proxy: no working proxies, running direct")
-    return working
+    return _proxy_cache
 
 
 def _make_session() -> requests.Session:
