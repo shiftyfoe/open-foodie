@@ -74,27 +74,33 @@ _PROXY_SOURCES = [
 ]
 
 
-def _fetch_free_proxies() -> list[str]:
-    """Fetch fresh free HTTP proxies from public sources."""
-    all_proxies: list[str] = []
-    for url in _PROXY_SOURCES:
-        try:
-            resp = requests.get(url, timeout=10)
-            if resp.status_code == 200:
-                lines = [
-                    line.strip()
-                    for line in resp.text.splitlines()
-                    if line.strip() and not line.startswith("#")
-                ]
-                for line in lines:
+def _fetch_source(url: str) -> list[str]:
+    """Fetch proxies from a single source URL."""
+    try:
+        resp = requests.get(url, timeout=10)
+        if resp.status_code == 200:
+            proxies = []
+            for line in resp.text.splitlines():
+                line = line.strip()
+                if line and not line.startswith("#"):
                     if not line.startswith("http"):
                         line = f"http://{line}"
-                    all_proxies.append(line)
-        except Exception:
-            continue
+                    proxies.append(line)
+            return proxies
+    except Exception:
+        pass
+    return []
+
+
+def _fetch_free_proxies() -> list[str]:
+    """Fetch fresh free HTTP proxies from all sources concurrently."""
+    all_proxies: list[str] = []
+    with ThreadPoolExecutor(max_workers=15) as pool:
+        futures = [pool.submit(_fetch_source, url) for url in _PROXY_SOURCES]
+        for future in as_completed(futures):
+            all_proxies.extend(future.result())
 
     if all_proxies:
-        # Deduplicate
         all_proxies = list(dict.fromkeys(all_proxies))
         random.shuffle(all_proxies)
         all_proxies = all_proxies[:1000]
@@ -102,16 +108,34 @@ def _fetch_free_proxies() -> list[str]:
     return all_proxies
 
 
+# Lemon8 test URL (first page of food feed, lightweight)
+_TEST_URL = (
+    "https://www.lemon8-app.com/feed/food"
+    "?method=stream-loadmore"
+    "&_data=routes%2Ffeed.%24category_name"
+    "&region=sg&_version=1"
+)
+
+
 def _test_proxy(proxy: str) -> str | None:
-    """Quick check if a proxy works. Returns proxy URL if OK, None otherwise."""
+    """Test proxy against Lemon8 directly. Returns proxy URL if it gets items."""
     try:
+        webid = "".join(random.choice("0123456789") for _ in range(19)) + "1"
         resp = requests.get(
-            "https://httpbin.org/ip",
+            _TEST_URL,
+            headers={
+                "cookie": f"tt_webid={webid};",
+                "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+                "accept": "application/json",
+            },
             proxies={"http": proxy, "https": proxy},
-            timeout=6,
+            timeout=5,
         )
         if resp.status_code == 200:
-            return proxy
+            data = resp.json()
+            items = data.get("$FeedDateLoadmore+food", {}).get("items", [])
+            if items:
+                return proxy
     except Exception:
         pass
     return None
@@ -142,11 +166,11 @@ def _load_proxies() -> list[str]:
         return _proxy_cache
 
     working: list[str] = []
-    print(f"    ℹ Lemon8 proxy: testing {len(candidates)} proxies (concurrent)...")
-    with ThreadPoolExecutor(max_workers=20) as pool:
+    print(f"    ℹ Lemon8 proxy: testing {len(candidates)} proxies against Lemon8...")
+    with ThreadPoolExecutor(max_workers=50) as pool:
         futures = {pool.submit(_test_proxy, p): p for p in candidates}
         for future in as_completed(futures):
-            if len(working) >= 10:
+            if len(working) >= 5:
                 break
             result = future.result()
             if result:
