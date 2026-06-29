@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-06-28T10:39:21.886267+00:00",
-  "total_new": 0,
+  "timestamp": "2026-06-29T13:59:51.062903+00:00",
+  "total_new": 268,
   "errors": [],
   "sources": {
     "Telegram": {
@@ -16,7 +16,7 @@
       "error": null
     },
     "Lemon8": {
-      "new_posts": 0,
+      "new_posts": 268,
       "error": null
     }
   }
