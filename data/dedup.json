@@ -191,6 +191,25 @@
       ]
     },
     {
+      "name": "Goodbitessg",
+      "normalized_name": "goodbitessg",
+      "mention_count": 1,
+      "sources": [
+        "lemon8"
+      ],
+      "latest_date": "2025-07-14T09:20:23+00:00",
+      "source_posts": [
+        {
+          "name": "Goodbitessg",
+          "source": "lemon8",
+          "source_url": "https://www.lemon8-app.com/@damaltianyee/7526865001571828232",
+          "source_title": "damaltianyee",
+          "date": "2025-07-14T09:20:23+00:00",
+          "excerpt": "週末來 @Goodbitessg 吃爆！  隱藏在 Bishan 的人氣 café，空間寬敞舒適，份量誠意十足！無論是家庭聚餐還是朋友聚會，這裡都超適合，一口接一口停不下來～  From burgers to lava cake, everything here is photo-worthy and generously served.     🍽️ 主餐篇 | Mains  📍Homemade"
+        }
+      ]
+    },
+    {
       "name": "Gwangjang Gaon",
       "normalized_name": "gwangjang gaon",
       "mention_count": 1,
@@ -548,6 +567,25 @@
           "source_title": "Koyoi by Kanpai: CBD after-work spot with S$4 drinks, izakaya and zi char bites",
           "date": "2025-12-26T00:00:00+08:00",
           "excerpt": "Koyoi by Kanpai: CBD after-work spot with S$4 drinks, izakaya and zi char bites\nTag: New Openings\nCategory: Food News\nBy Angeline Ang"
+        }
+      ]
+    },
+    {
+      "name": "Batam Grand Mall",
+      "normalized_name": "batam grand mall",
+      "mention_count": 1,
+      "sources": [
+        "lemon8"
+      ],
+      "latest_date": "2025-12-27T01:13:07+00:00",
+      "source_posts": [
+        {
+          "name": "Batam Grand Mall",
+          "source": "lemon8",
+          "source_url": "https://www.lemon8-app.com/@mockingbirdstudio/7588339575370564112",
+          "source_title": "Mocking Bird",
+          "date": "2025-12-27T01:13:07+00:00",
+          "excerpt": "Flying Tiger Copenhagen @Batam Grand Mall #batam\n\nFlying Tiger Copenhagen @Batam Grand Mall  #batam    #explore"
         }
       ]
     },
@@ -1350,6 +1388,44 @@
       ]
     },
     {
+      "name": "The great Park Bench Deli comeback",
+      "normalized_name": "great park bench deli comeback",
+      "mention_count": 1,
+      "sources": [
+        "hungrygowhere"
+      ],
+      "latest_date": "2026-05-15T00:00:00+08:00",
+      "source_posts": [
+        {
+          "name": "The great Park Bench Deli comeback",
+          "source": "hungrygowhere",
+          "source_url": "https://hungrygowhere.com/food-news/park-bench-deli-ocean-financial-centre/",
+          "source_title": "The great Park Bench Deli comeback: Legendary sandwich maestro returns as food truck",
+          "date": "2026-05-15T00:00:00+08:00",
+          "excerpt": "The great Park Bench Deli comeback: Legendary sandwich maestro returns as food truck\nTag: New Openings\nCategory: Food News\nBy Evan Mua"
+        }
+      ]
+    },
+    {
+      "name": "Pan Pacific Orchard",
+      "normalized_name": "pan pacific orchard",
+      "mention_count": 1,
+      "sources": [
+        "lemon8"
+      ],
+      "latest_date": "2026-06-25T05:53:14+00:00",
+      "source_posts": [
+        {
+          "name": "Pan Pacific Orchard",
+          "source": "lemon8",
+          "source_url": "https://www.lemon8-app.com/@theonenamedhazel/7655207093457732103",
+          "source_title": "Hazel",
+          "date": "2026-06-25T05:53:14+00:00",
+          "excerpt": "3D2N Staycay @ Pan Pacific Orchard\n\nRecently went for a 3D2N staycay at  Pan Pacific Orchard, Singapore      There’re things that i rly enjoyed & some that could be better, here’s my review ~    ✅ Sta"
+        }
+      ]
+    },
+    {
       "name": "Punggol Coast Mall",
       "normalized_name": "punggol coast mall",
       "mention_count": 1,
@@ -1389,9 +1465,9 @@
     }
   ],
   "metadata": {
-    "total_posts_processed": 1731,
-    "total_restaurants_found": 73,
+    "total_posts_processed": 2009,
+    "total_restaurants_found": 77,
     "method": "local-regex",
-    "processed_at": "2026-06-29T15:08:59.933535+00:00"
+    "processed_at": "2026-06-30T12:01:35.798727+00:00"
   }
 }

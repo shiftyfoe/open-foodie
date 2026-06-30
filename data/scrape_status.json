@@ -1,22 +1,22 @@
 {
-  "timestamp": "2026-06-29T15:08:57.565319+00:00",
-  "total_new": 271,
+  "timestamp": "2026-06-30T12:01:32.976567+00:00",
+  "total_new": 278,
   "errors": [],
   "sources": {
-    "Telegram": {
-      "new_posts": 0,
-      "error": null
-    },
     "Burpple": {
       "new_posts": 0,
       "error": null
     },
-    "HungryGoWhere": {
+    "Telegram": {
       "new_posts": 0,
       "error": null
     },
+    "HungryGoWhere": {
+      "new_posts": 2,
+      "error": null
+    },
     "Lemon8": {
-      "new_posts": 271,
+      "new_posts": 276,
       "error": null
     }
   }
