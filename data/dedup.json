@@ -248,6 +248,25 @@
       ]
     },
     {
+      "name": "Silks Place Tainan",
+      "normalized_name": "silks place tainan",
+      "mention_count": 1,
+      "sources": [
+        "lemon8"
+      ],
+      "latest_date": "2025-09-17T23:44:47+00:00",
+      "source_posts": [
+        {
+          "name": "Silks Place Tainan",
+          "source": "lemon8",
+          "source_url": "https://www.lemon8-app.com/@chaptersofescapism/7551208294728352263",
+          "source_title": "TravelChapters",
+          "date": "2025-09-17T23:44:47+00:00",
+          "excerpt": "Glass House – A stylish bar @ Silks Place Tainan \n\n📍Address: Silks Place Tainan     #travelrecommendation   #TravelGuide   #tainan   #travelblogger   #sgtravel"
+        }
+      ]
+    },
+    {
       "name": "Somerset",
       "normalized_name": "somerset",
       "mention_count": 1,
@@ -263,6 +282,25 @@
           "source_title": "grace",
           "date": "2025-09-25T03:51:14+00:00",
           "excerpt": "Rise Bakehouse @ Somerset 😍🍋\n\nSuper good vibes overall, love their drinks (especially the strawberry matcha latte…🩵)  Desserts are super cute too! Was extremely excited to try their cakes because ever"
+        }
+      ]
+    },
+    {
+      "name": "Square 2",
+      "normalized_name": "square 2",
+      "mention_count": 1,
+      "sources": [
+        "lemon8"
+      ],
+      "latest_date": "2025-09-25T06:33:25+00:00",
+      "source_posts": [
+        {
+          "name": "Square 2",
+          "source": "lemon8",
+          "source_url": "https://www.lemon8-app.com/@alicia.chan83/7553911195619574273",
+          "source_title": "Alicia Chan",
+          "date": "2025-09-25T06:33:25+00:00",
+          "excerpt": "YAY! Another hawker food paradise @Square 2\n\n#MyPOV   #ThingsToDo   #foodreview   #coffeetime    #hawkerfood"
         }
       ]
     },
@@ -301,6 +339,25 @@
           "source_title": "Jaime 🎀",
           "date": "2025-09-27T11:17:21+00:00",
           "excerpt": "🔴 Micro Red House @ Joo Chiat 🥐\n\nFinally explored Joo Chiat and checked out Micro Bakery. Here’s my take 👇    ⸻    🏠 Ambience:  \t•\tThe exterior is SO cute and outstanding — very IG-worthy.  \t•\tInside "
+        }
+      ]
+    },
+    {
+      "name": "Orchard Heart and Soul",
+      "normalized_name": "orchard heart and soul",
+      "mention_count": 1,
+      "sources": [
+        "lemon8"
+      ],
+      "latest_date": "2025-10-05T06:20:09+00:00",
+      "source_posts": [
+        {
+          "name": "Orchard Heart and Soul",
+          "source": "lemon8",
+          "source_url": "https://www.lemon8-app.com/@ednarng/7557618629093753360",
+          "source_title": "Ednar Huang",
+          "date": "2025-10-05T06:20:09+00:00",
+          "excerpt": "Excursion library@Orchard Heart and Soul\n\nTravel back in time. Admission is Free. Go Experience the AI and enjoy!   #heartandsoul   #sg60   #orchardgateway   #library orchard   #girlsdayout   SG60 Hea"
         }
       ]
     },
@@ -1465,9 +1522,9 @@
     }
   ],
   "metadata": {
-    "total_posts_processed": 2009,
-    "total_restaurants_found": 77,
+    "total_posts_processed": 2308,
+    "total_restaurants_found": 80,
     "method": "local-regex",
-    "processed_at": "2026-06-30T12:01:35.798727+00:00"
+    "processed_at": "2026-07-01T12:26:03.062556+00:00"
   }
 }

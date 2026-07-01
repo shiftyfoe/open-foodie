@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-06-30T12:01:32.976567+00:00",
-  "total_new": 278,
+  "timestamp": "2026-07-01T12:25:59.454114+00:00",
+  "total_new": 299,
   "errors": [],
   "sources": {
     "Burpple": {
@@ -8,15 +8,15 @@
       "error": null
     },
     "Telegram": {
-      "new_posts": 0,
+      "new_posts": 20,
       "error": null
     },
     "HungryGoWhere": {
-      "new_posts": 2,
+      "new_posts": 0,
       "error": null
     },
     "Lemon8": {
-      "new_posts": 276,
+      "new_posts": 279,
       "error": null
     }
   }
