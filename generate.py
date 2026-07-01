@@ -2,6 +2,8 @@
 """Generate docs/index.html from data/posts.json, grouped by month/year."""
 
 import json
+import re
+import unicodedata
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -603,21 +605,57 @@ JS = """
 _HGW_SKIP_TAGS = {
     "Travel", "How to Make", "Johor Bahru", "Pizza Hut", "GrabMart",
     "Valentine's Day", "Chinese New Year", "Ramadan",
+    "People",  # interview/celebrity pieces, not direct restaurant recs
 }
+
+# Locations that indicate clearly-overseas posts (low false-positive risk)
+_OVERSEAS = re.compile(
+    r"\b(phuket|thailand|melbourne|australia|sydney|seongsu|taipei|taiwan"
+    r"|hangzhou|osaka|kyoto|penang|johor|london|paris|jb)\b"
+    r"|#traveling\b|#holiday\b",
+    re.IGNORECASE,
+)
+
+# Positive signals that a post is about Singapore food
+_SG_SIGNAL = re.compile(
+    r"singapore|\bsg\b|sg's|#sgfood|#sgfoodie|#sgcafe"
+    r"|orchard|tampines|jurong|bedok|yishun|bishan|clementi"
+    r"|vivocity|bugis|chinatown|tanjong\s+pagar|tiong\s+bahru"
+    r"|novena|woodlands|punggol|sengkang|pasir\s+ris|hougang"
+    r"|ang\s+mo\s+kio|\bamk\b|kallang|lavender|queenstown|buona\s+vista"
+    r"|holland\s+village|dempsey|upper\s+thomson|bukit\s+timah|newton"
+    r"|city\s+hall|raffles|marina\s+bay|sentosa|east\s+coast"
+    r"|joo\s+chiat|katong|geylang|serangoon|toa\s+payoh"
+    r"|\bhdb\b|hawker\s+cent|food\s+court|northpoint|tampines\s+mall",
+    re.IGNORECASE,
+)
 
 
 def _is_relevant(post: dict) -> bool:
     """Filter out non-restaurant-recommendation content."""
-    title = post.get("source_title", "")
+    source = post.get("source", "")
+    title = post.get("source_title", "") or ""
+    text = post.get("text", "") or ""
+
     if title.startswith("[Closed]"):
         return False
-    if post.get("source") == "hungrygowhere":
-        text = post.get("text", "")
+
+    if source == "hungrygowhere":
         for line in text.splitlines():
             if line.startswith("Tag:"):
                 tag = line.removeprefix("Tag:").strip()
                 if tag in _HGW_SKIP_TAGS:
                     return False
+
+    if source == "lemon8":
+        # Lemon8 scrapes very broadly; only show posts with food tags
+        if not post.get("tags"):
+            return False
+        # Normalize Unicode (e.g. bold 𝗝𝗕 → JB) before location matching
+        combined = unicodedata.normalize("NFKC", f"{title} {text}")
+        if _OVERSEAS.search(combined) and not _SG_SIGNAL.search(combined):
+            return False
+
     return True
 
 
